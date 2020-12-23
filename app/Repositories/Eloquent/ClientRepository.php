@@ -36,7 +36,6 @@ class ClientRepository extends EloquentRepository implements ClientRepositoryInt
     public function add(Request $request)
     {
         // TODO: Change validateRequest to validateModel / validate
-        if ($request->method() != 'PUT') return false;
         $client = new Client($request->all());
         $client = $this->setNotNullableToDefault($client, $this->notNullable, $this->defaultValues);
         if (!$this->validateModel($client)) return false;

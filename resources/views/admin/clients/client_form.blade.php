@@ -1,6 +1,7 @@
-<form class="row mt-3" method="POST" action="">
+<form class="row mt-3" method="POST" action="clients/add">
     @csrf
     @method('PUT')
+    {{-- TODO: Generate from DB --}}
     <div class="col-6 col-sm-4 col-md-3 form-group">
         <label for="first_name">Imię</label>
         <input name="first_name" class="form-control form-control-sm" type="text" placeholder="Imię">

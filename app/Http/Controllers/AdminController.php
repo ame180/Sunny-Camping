@@ -3,7 +3,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Client;
 use App\Repositories\ClientRepositoryInterface;
 use Illuminate\Http\Request;
 
@@ -27,7 +26,6 @@ class AdminController extends Controller
 
     public function clients(Request $request)
     {
-        $this->clientRepository->add($request);
         $clients = $this->clientRepository->all();
         return view('admin.clients', ['page' => 'clients', 'nav_items' => self::$nav_items, 'clients' => $clients]);
     }

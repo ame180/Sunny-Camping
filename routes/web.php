@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
@@ -15,15 +16,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-//Route::redirect('/index', '/');
-//Route::redirect('/index.php', '/');
-
 Route::get('/{year?}', [HomeController::class, 'home'])->where('year', '[0-9]+')->name('home');
 
 Route::prefix('/admin')->group(function () {
+    Route::prefix('/clients')->group(function () {
+        Route::put('/add', [ClientController::class, 'add']);
+    });
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-    Route::match(['get', 'post', 'put', 'delete', 'patch'], '/clients', [AdminController::class, 'clients']);
+    Route::get('/clients', [AdminController::class, 'clients'])->name('admin.clients');
     Route::get('/bills', [AdminController::class, 'bills']);
     Route::redirect('/', 'admin/dashboard');
 });
