@@ -3,7 +3,7 @@
 
 namespace App\Repositories\Eloquent;
 
-
+use Illuminate\Database\Eloquent\Model;
 use App\Models\Client;
 use App\Repositories\ClientRepositoryInterface;
 use DateTime;
@@ -30,19 +30,19 @@ class ClientRepository extends BaseRepository implements ClientRepositoryInterfa
     public function add(Request $request)
     {
         // TODO: Change validateRequest to validateModel / validate
-        if (!$this->validateRequest($request)) return;
+        if ($request->method() != 'PUT') return false;
         $client = new Client($request->all());
         $client = $this->setNotNullableToDefault($client, $this->notNullable, $this->defaultValues);
+        if (!$this->validateModel($client)) return false;
         $client->save();
     }
 
-    public function validateRequest(Request $request)
+    public function validateModel(Model $model)
     {
-        if ($request->method() != 'PUT') return false;
-        if (empty($request->first_name) && empty($request->second_name)) return false;
-        if (!isset($request->arrival_date) || !isset($request->departure_date)) return false;
-        if ($request->adults == 0 && $request->children == 0) return false;
-        if (!in_array($request->discount, $this->discounts)) return false;
+        if (empty($model->first_name) && empty($model->second_name)) return false;
+        if (!isset($model->arrival_date) || !isset($model->departure_date)) return false;
+        if ($model->adults == 0 && $model->children == 0) return false;
+        if (!in_array($model->discount, $this->discounts)) return false;
         return true;
     }
 
