@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Repository;
+namespace App\Repositories;
 
 use App\Models\Client;
 use Illuminate\Http\Request;

@@ -4,7 +4,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
-use App\Repository\ClientRepositoryInterface;
+use App\Repositories\ClientRepositoryInterface;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller

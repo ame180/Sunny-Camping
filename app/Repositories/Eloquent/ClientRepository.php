@@ -1,11 +1,11 @@
 <?php
 
 
-namespace App\Repository\Eloquent;
+namespace App\Repositories\Eloquent;
 
 
 use App\Models\Client;
-use App\Repository\ClientRepositoryInterface;
+use App\Repositories\ClientRepositoryInterface;
 use DateTime;
 use Illuminate\Http\Request;
 
@@ -32,7 +32,7 @@ class ClientRepository extends BaseRepository implements ClientRepositoryInterfa
         // TODO: Change validateRequest to validateModel / validate
         if (!$this->validateRequest($request)) return;
         $client = new Client($request->all());
-        $client = $this->setNotNullableToDefault($client);
+        $client = $this->setNotNullableToDefault($client, $this->notNullable, $this->defaultValues);
         $client->save();
     }
 
