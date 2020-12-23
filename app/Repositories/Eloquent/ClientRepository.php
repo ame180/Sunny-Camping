@@ -16,6 +16,7 @@ class ClientRepository extends EloquentRepository implements ClientRepositoryInt
     protected $discounts = [0, 5, 10];
     // TODO: Get $discounts from DB
 
+    protected $model;
     protected $notNullable = ['arrival_date', 'departure_date', 'adults', 'children', 'electricity', 'small_places',
         'big_places', 'discount'];
     protected $defaultValues = [
@@ -26,6 +27,11 @@ class ClientRepository extends EloquentRepository implements ClientRepositoryInt
         'big_places' => 0,
         'discount' => 0
     ];
+
+    public function __construct()
+    {
+        $this->model = new Client;
+    }
 
     public function add(Request $request)
     {
@@ -46,9 +52,9 @@ class ClientRepository extends EloquentRepository implements ClientRepositoryInt
         return true;
     }
 
-    public function all()
+    public function all($columns = ['*'])
     {
-        $clients = Client::all();
+        $clients = parent::all($columns);
         foreach ($clients as $client) {
             $client->price = $this->getStayPrice($client);
         }
