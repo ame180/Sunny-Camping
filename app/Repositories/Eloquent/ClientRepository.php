@@ -9,7 +9,7 @@ use App\Repositories\ClientRepositoryInterface;
 use DateTime;
 use Illuminate\Http\Request;
 
-class ClientRepository extends BaseRepository implements ClientRepositoryInterface
+class ClientRepository extends EloquentRepository implements ClientRepositoryInterface
 {
     protected $prices = ['adult' => 18, 'child' => 14, 'electricity' => 10, 'small_place' => 4, 'big_place' => 6];
     // TODO: Get $prices from DB
