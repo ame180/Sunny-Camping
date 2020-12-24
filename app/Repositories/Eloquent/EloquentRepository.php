@@ -7,6 +7,7 @@ namespace App\Repositories\Eloquent;
 use App\Repositories\EloquentRepositoryInterface;
 use App\Repositories\NullDefaultSupportTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
 class EloquentRepository
 {
@@ -25,5 +26,10 @@ class EloquentRepository
     public function find($id)
     {
         return $this->model->find($id);
+    }
+
+    public function delete($id)
+    {
+        $this->model->destroy($id);
     }
 }

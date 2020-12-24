@@ -18,6 +18,7 @@
             <th scope="col">Miejsca</th>
             <th scope="col">Rabat</th>
             <th scope="col">Cena</th>
+            <th scope="col">Opcje</th>
         </tr>
         </thead>
         <tbody>
@@ -62,6 +63,15 @@
                 <td>{{$client->small_places." + ".$client->big_places}}</td>
                 <td>{{$client->discount."%"}}</td>
                 <td>{{$client->price}}</td>
+                <td class="p-0">
+                    <form class="m-0" method="POST" action="clients/delete/{{$client->id}}">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger delete-user rounded-0 h-100 w-100">
+                            <i class="far fa-trash-alt"></i>
+                        </button>
+                    </form>
+                </td>
             </tr>
         @endforeach
         </tbody>

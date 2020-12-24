@@ -20,4 +20,10 @@ class ClientController extends Controller
         $this->clientRepository->add($request);
         return redirect()->route('admin.clients');
     }
+
+    public function delete(Request $request, $id)
+    {
+        $this->clientRepository->delete($id);
+        return redirect()->route('admin.clients');
+    }
 }
