@@ -17,7 +17,7 @@ class ClientController extends Controller
 
     public function add(Request $request)
     {
-        $this->clientRepository->add($request);
+        $this->clientRepository->add($request->all());
         return redirect()->route('admin.clients');
     }
 

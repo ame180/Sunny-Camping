@@ -12,9 +12,7 @@ use Illuminate\Http\Request;
 class ClientRepository extends EloquentRepository implements ClientRepositoryInterface
 {
     protected $prices = ['adult' => 18, 'child' => 14, 'electricity' => 10, 'small_place' => 4, 'big_place' => 6];
-    // TODO: Get $prices from DB
     protected $discounts = [0, 5, 10];
-    // TODO: Get $discounts from DB
 
     protected $model;
     protected $notNullable = ['arrival_date', 'departure_date', 'adults', 'children', 'electricity', 'small_places',
@@ -33,10 +31,9 @@ class ClientRepository extends EloquentRepository implements ClientRepositoryInt
         $this->model = new Client;
     }
 
-    public function add(Request $request)
+    public function add($attributes)
     {
-        // TODO: Change validateRequest to validateModel / validate
-        $client = new Client($request->all());
+        $client = new Client($attributes);
         $client = $this->setNotNullableToDefault($client, $this->notNullable, $this->defaultValues);
         if (!$this->validateModel($client)) return false;
         $client->save();
