@@ -35,9 +35,7 @@ class ClientRepository extends EloquentRepository implements ClientRepositoryInt
     {
         $client = new Client($attributes);
         $client = $this->setNotNullableToDefault($client, $this->notNullable, $this->defaultValues);
-        if (!$this->validateModel($client)) return false;
-        $client->save();
-        return true;
+        return $this->saveIfValid($client);
     }
 
     public function validateModel(Model $model)
@@ -56,6 +54,20 @@ class ClientRepository extends EloquentRepository implements ClientRepositoryInt
             $client->price = $this->getStayPrice($client);
         }
         return $clients;
+    }
+
+    public function update($id, $attributes)
+    {
+        $client = $this->find($id);
+        $client->fill($attributes);
+        return $this->saveIfValid($client);
+    }
+
+    private function saveIfValid($client)
+    {
+        if (!$this->validateModel($client)) return false;
+        $client->save();
+        return true;
     }
 
     public function getStayPrice(Client $client)

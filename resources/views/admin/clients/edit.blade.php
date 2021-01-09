@@ -3,7 +3,7 @@
 @section('input')
     <form class="row mt-4" method="POST" action="../update/{{$client->id}}">
         @csrf
-        @method('PUT')
+        @method('PATCH')
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="first_name">Imię</label>
             <input name="first_name" class="form-control form-control-sm" type="text" placeholder="Imię"
