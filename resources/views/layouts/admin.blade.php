@@ -10,7 +10,7 @@
 <body>
 @section('navbar')
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-        <a class="navbar-brand" href="dashboard">Admin</a>
+        <a class="navbar-brand" href="{{env('APP_URL')}}/admin/dashboard">Admin</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -24,7 +24,7 @@
             </ul>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="../">Strona główna</a>
+                    <a class="nav-link" href="{{env('APP_URL')}}">Strona główna</a>
                 </li>
             </ul>
         </div>
