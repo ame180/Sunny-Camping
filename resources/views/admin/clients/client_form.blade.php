@@ -39,6 +39,10 @@
         <input name="big_places" class="form-control form-control-sm" type="number" placeholder="0">
     </div>
     <div class="col-6 col-sm-4 col-md-3 form-group">
+        <label for="comment">Komentarz</label>
+        <input name="comment" class="form-control form-control-sm" type="text" placeholder="Komentarz">
+    </div>
+    <div class="col-6 col-sm-4 col-md-3 form-group">
         <label for="discount">Rabat</label>
         <select name="discount" class="custom-select custom-select-sm">
             <option value="0" selected>0%</option>
