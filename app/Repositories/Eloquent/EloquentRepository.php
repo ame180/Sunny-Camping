@@ -9,7 +9,7 @@ use App\Repositories\NullDefaultSupportTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
-class EloquentRepository
+abstract class EloquentRepository
 {
     use NullDefaultSupportTrait;
 
@@ -32,4 +32,28 @@ class EloquentRepository
     {
         $this->model->destroy($id);
     }
+
+    public function add($attributes)
+    {
+        $model = $this->model;
+        $model->fill($attributes);
+        $client = $this->setNotNullableToDefault($model, $this->notNullable, $this->defaultValues);
+        return $this->saveIfValid($client);
+    }
+
+    public function update($id, $attributes)
+    {
+        $client = $this->find($id);
+        $client->fill($attributes);
+        return $this->saveIfValid($client);
+    }
+
+    protected function saveIfValid(Model $model)
+    {
+        if (!$this->validateModel($model)) return false;
+        $model->save();
+        return true;
+    }
+
+    public abstract function validateModel(Model $model);
 }
