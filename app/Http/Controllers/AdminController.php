@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    private static $nav_items = ['dashboard' => 'Podsumowanie', 'clients' => 'Klienci', 'bills' => 'Rachunki'];
+    public static $nav_items = ['dashboard' => 'Podsumowanie', 'clients' => 'Klienci', 'bills' => 'Rachunki'];
 
     /**
      * @var ClientRepositoryInterface

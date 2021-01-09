@@ -37,6 +37,7 @@ class ClientRepository extends EloquentRepository implements ClientRepositoryInt
         $client = $this->setNotNullableToDefault($client, $this->notNullable, $this->defaultValues);
         if (!$this->validateModel($client)) return false;
         $client->save();
+        return true;
     }
 
     public function validateModel(Model $model)

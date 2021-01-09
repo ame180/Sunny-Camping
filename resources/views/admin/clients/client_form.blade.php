@@ -1,4 +1,4 @@
-<form class="row mt-3" method="POST" action="clients/add">
+<form class="row mt-4" method="POST" action="">
     @csrf
     @method('PUT')
     {{-- TODO: Generate from DB --}}

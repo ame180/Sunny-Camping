@@ -1,11 +1,13 @@
 @extends('layouts.admin')
 
-@section('input')
-    @include('admin.clients.client_form')
+@section('options')
+    <div class="text-center">
+        <a class="btn btn-lg btn-primary mt-4 w-50" href="clients/add">Dodaj klienta</a>
+    </div>
 @endsection
 
 @section('table')
-    <table class="table table-responsive-md table-bordered text-center">
+    <table class="table table-responsive-md table-bordered text-center mt-3">
         <thead>
         <tr>
             <th scope="col">#</th>
@@ -22,35 +24,6 @@
         </tr>
         </thead>
         <tbody>
-        {{--
-        <tr>
-            <th scope="row"></th>
-            <td class="form-inline">
-                <input class="form-control-sm w-50" type="text" placeholder="Imię">
-                <input class="form-control-sm w-50" type="text" placeholder="Nazwisko">
-            </td>
-            <td>
-                <input class="form-control-sm" type="date" placeholder="{{date('Y-m-d')}}">
-            </td>
-            <td>
-                <input class="form-control-sm" type="date" placeholder="{{date('Y-m-d')}}">
-            </td>
-            <td>
-                <input class="form-control-sm" type="number" placeholder="0">
-            </td>
-            <td class="form-inline">
-                <input class="form-control-sm w-50" type="number" placeholder="0">
-                <input class="form-control-sm w-50" type="number" placeholder="0">
-            </td>
-            <td>
-                <input class="form-control-sm" type="number" placeholder="0">
-            </td>
-            <td class="form-inline">
-                <input class="form-control-sm w-50" type="number" placeholder="0">
-                <input class="form-control-sm w-50" type="number" placeholder="0">
-            </td>
-        </tr>
-        --}}
         @foreach($clients as $client)
             <tr>
                 <th scope="row">{{$client->id}}</th>
@@ -76,12 +49,11 @@
         @endforeach
         </tbody>
     </table>
-
 @endsection
 
 @section('main')
     <div class="container">
-        @yield('input')
+        @yield('options')
         @yield('table')
     </div>
 @endsection
