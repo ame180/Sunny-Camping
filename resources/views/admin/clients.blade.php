@@ -7,7 +7,7 @@
 @endsection
 
 @section('table')
-    <table class="table table-responsive-md table-bordered text-center mt-3">
+    <table class="table table-responsive-lg table-bordered text-center mt-3">
         <thead>
         <tr>
             <th scope="col">#</th>
