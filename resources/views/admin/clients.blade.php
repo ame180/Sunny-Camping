@@ -39,13 +39,21 @@
                 <td>{{$client->price}}</td>
                 <td>{{$client->comment}}</td>
                 <td class="p-0">
-                    <form class="m-0" method="POST" action="clients/delete/{{$client->id}}">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger delete-user rounded-0 h-100 w-100">
-                            <i class="far fa-trash-alt"></i>
-                        </button>
-                    </form>
+                    <div class="row no-gutters h-100">
+                        <div class="col-12 col-xl-6 p-0">
+                            <a type="submit" class="btn btn-primary rounded-0 w-100 h-100"
+                               href="clients/edit/{{$client->id}}">
+                                <i class="far fa-sticky-note"></i>
+                            </a>
+                        </div>
+                        <form class="col-12 col-xl-6 p-0 m-0" method="POST" action="clients/delete/{{$client->id}}">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger delete-user rounded-0 w-100">
+                                <i class="far fa-trash-alt"></i>
+                            </button>
+                        </form>
+                    </div>
                 </td>
             </tr>
         @endforeach
