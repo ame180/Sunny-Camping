@@ -4,10 +4,8 @@
 namespace App\Repositories\Eloquent;
 
 
-use App\Repositories\EloquentRepositoryInterface;
 use App\Repositories\NullDefaultSupportTrait;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
 
 abstract class EloquentRepository
 {
@@ -15,8 +13,8 @@ abstract class EloquentRepository
 
     /** @var Model */
     protected $model;
-    protected $notNullable;
-    protected $defaultValues;
+    protected $notNullable = [];
+    protected $defaultValues = [];
 
     public function all($columns = ['*'])
     {
@@ -37,8 +35,7 @@ abstract class EloquentRepository
     {
         $model = $this->model;
         $model->fill($attributes);
-        $client = $this->setNotNullableToDefault($model, $this->notNullable, $this->defaultValues);
-        return $this->saveIfValid($client);
+        return $this->saveIfValid($model);
     }
 
     public function update($id, $attributes)
@@ -50,10 +47,14 @@ abstract class EloquentRepository
 
     protected function saveIfValid(Model $model)
     {
+        $model = $this->setNotNullableToDefault($model, $this->notNullable, $this->defaultValues);
         if (!$this->validateModel($model)) return false;
         $model->save();
         return true;
     }
 
-    public abstract function validateModel(Model $model);
+    public function validateModel(Model $model)
+    {
+        return true;
+    }
 }
