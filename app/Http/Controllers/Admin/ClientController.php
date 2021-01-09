@@ -23,7 +23,14 @@ class ClientController extends Controller
         return view('admin.clients.add', ['page' => 'clients', 'nav_items' => AdminController::$nav_items]);
     }
 
-    public function delete(Request $request, $id)
+    public function edit(Request $request, $id)
+    {
+        $client = $this->clientRepository->find($id);
+        return view('admin.clients.edit', ['page' => 'clients', 'nav_items' => AdminController::$nav_items,
+            'client' => $client]);
+    }
+
+    public function delete($id)
     {
         $this->clientRepository->delete($id);
         return redirect()->route('admin.clients');
