@@ -26,7 +26,7 @@
         </thead>
         <tbody>
         @foreach($clients as $client)
-            <tr class="no-padding">
+            <tr>
                 <th scope="row">{{$client->id}}</th>
                 <td>{{$client->first_name." ".$client->last_name}}</td>
                 <td>{{$client->arrival_date}}</td>
@@ -38,19 +38,19 @@
                 <td>{{$client->discount."%"}}</td>
                 <td>{{$client->price}}</td>
                 <td>{{$client->comment}}</td>
-                <td>
-                    <div class="row no-gutters">
-                        <div class="col-12 col-xl-6">
-                            <a type="submit" class="btn btn-primary rounded-0 w-100 h-100 p-2 p-xl-3"
+                <td class="button-column">
+                    <div class="button-container">
+                        <div class="button-wrapper">
+                            <a class="btn btn-primary rounded-0"
                                href="clients/edit/{{$client->id}}">
                                 <i class="far fa-sticky-note"></i>
                             </a>
                         </div>
-                        <form class="col-12 col-xl-6 m-0" method="POST"
+                        <form class="button-wrapper" method="POST"
                               action="clients/delete/{{$client->id}}">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger delete-user rounded-0 w-100 p-2 p-xl-3">
+                            <button type="submit" class="btn btn-danger rounded-0">
                                 <i class="far fa-trash-alt"></i>
                             </button>
                         </form>

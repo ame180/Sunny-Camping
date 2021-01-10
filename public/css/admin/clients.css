@@ -1,4 +1,27 @@
-.no-padding td, .no-padding th {
-    vertical-align: middle;
-    padding: 0;
+.button-column {
+    position: relative;
+}
+
+.button-container {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.button-wrapper {
+    height: 50%;
+    margin: 0;
+}
+
+.button-wrapper a, .button-wrapper button {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
