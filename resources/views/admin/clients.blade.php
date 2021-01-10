@@ -26,7 +26,7 @@
         </thead>
         <tbody>
         @foreach($clients as $client)
-            <tr>
+            <tr class="no-padding">
                 <th scope="row">{{$client->id}}</th>
                 <td>{{$client->first_name." ".$client->last_name}}</td>
                 <td>{{$client->arrival_date}}</td>
@@ -38,18 +38,19 @@
                 <td>{{$client->discount."%"}}</td>
                 <td>{{$client->price}}</td>
                 <td>{{$client->comment}}</td>
-                <td class="p-0">
-                    <div class="row no-gutters h-100">
-                        <div class="col-12 col-xl-6 p-0">
-                            <a type="submit" class="btn btn-primary rounded-0 w-100 h-100"
+                <td>
+                    <div class="row no-gutters">
+                        <div class="col-12 col-xl-6">
+                            <a type="submit" class="btn btn-primary rounded-0 w-100 h-100 p-2 p-xl-3"
                                href="clients/edit/{{$client->id}}">
                                 <i class="far fa-sticky-note"></i>
                             </a>
                         </div>
-                        <form class="col-12 col-xl-6 p-0 m-0" method="POST" action="clients/delete/{{$client->id}}">
+                        <form class="col-12 col-xl-6 m-0" method="POST"
+                              action="clients/delete/{{$client->id}}">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger delete-user rounded-0 w-100">
+                            <button type="submit" class="btn btn-danger delete-user rounded-0 w-100 p-2 p-xl-3">
                                 <i class="far fa-trash-alt"></i>
                             </button>
                         </form>
@@ -59,6 +60,10 @@
         @endforeach
         </tbody>
     </table>
+@endsection
+
+@section('head')
+    <link rel="stylesheet" href="{{asset('css/admin/clients.css')}}"/>
 @endsection
 
 @section('main')
