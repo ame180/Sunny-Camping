@@ -2,26 +2,54 @@
     position: relative;
 }
 
-.button-container {
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
+@media (max-width: 1200px) {
+    .button-container {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+
+    .button-wrapper {
+        height: 50%;
+        margin: 0;
+    }
+
+    .button-wrapper a, .button-wrapper button {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 }
 
-.button-wrapper {
-    height: 50%;
-    margin: 0;
-}
+@media (min-width: 1200px) {
+    .button-container {
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
 
-.button-wrapper a, .button-wrapper button {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    .button-wrapper {
+        width: 50%;
+        margin: 0;
+    }
+
+    .button-wrapper a, .button-wrapper button {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 }
