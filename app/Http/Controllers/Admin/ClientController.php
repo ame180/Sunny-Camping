@@ -11,10 +11,9 @@ use App\Repositories\ValuesRepositoryInterface;
 
 class ClientController extends Controller
 {
-    public function __construct(ClientRepositoryInterface $clientsRepository, ValuesRepositoryInterface $valuesRepository)
+    public function __construct(ClientRepositoryInterface $clientsRepository)
     {
         $this->clientRepository = $clientsRepository;
-        $this->valuesRepository = $valuesRepository;
     }
 
     public function add(Request $request)
@@ -22,14 +21,14 @@ class ClientController extends Controller
         if ($this->clientRepository->add($request->all()))
             return redirect()->route('admin.clients');
         return view('admin.clients.add', ['page' => 'clients', 'nav_items' =>
-            $this->valuesRepository->getByType('admin_nav_item')]);
+            config('constants.admin_nav_items')]);
     }
 
     public function edit($id)
     {
         $client = $this->clientRepository->find($id);
         return view('admin.clients.edit', ['page' => 'clients', 'nav_items' =>
-            $this->valuesRepository->getByType('admin_nav_item'), 'client' => $client]);
+            config('constants.admin_nav_items'), 'client' => $client]);
     }
 
     public function update(Request $request, $id)

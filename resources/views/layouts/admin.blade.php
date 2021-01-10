@@ -18,7 +18,7 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                @foreach($nav_items as $nav_item)
+                @foreach($nav_items as $key => $value)
                     @include('admin.templates.nav_item')
                 @endforeach
             </ul>
