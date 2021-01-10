@@ -21,14 +21,15 @@ class ClientController extends Controller
         if ($this->clientRepository->add($request->all()))
             return redirect()->route('admin.clients');
         return view('admin.clients.add', ['page' => 'clients', 'nav_items' =>
-            config('constants.admin_nav_items')]);
+            config('constants.admin_nav_items'), 'inputs' => config('constants.client_inputs')]);
     }
 
     public function edit($id)
     {
         $client = $this->clientRepository->find($id);
         return view('admin.clients.edit', ['page' => 'clients', 'nav_items' =>
-            config('constants.admin_nav_items'), 'client' => $client]);
+            config('constants.admin_nav_items'), 'inputs' => config('constants.client_inputs'),
+            'client' => $client]);
     }
 
     public function update(Request $request, $id)
