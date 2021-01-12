@@ -4,19 +4,17 @@
 namespace App\Repositories\Eloquent;
 
 
-use App\Repositories\EloquentRepositoryInterface;
 use App\Repositories\NullDefaultSupportTrait;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
 
-class EloquentRepository
+abstract class EloquentRepository
 {
     use NullDefaultSupportTrait;
 
     /** @var Model */
     protected $model;
-    protected $notNullable;
-    protected $defaultValues;
+    protected $notNullable = [];
+    protected $defaultValues = [];
 
     public function all($columns = ['*'])
     {
@@ -31,5 +29,32 @@ class EloquentRepository
     public function delete($id)
     {
         $this->model->destroy($id);
+    }
+
+    public function add($attributes)
+    {
+        $model = $this->model;
+        $model->fill($attributes);
+        return $this->saveIfValid($model);
+    }
+
+    public function update($id, $attributes)
+    {
+        $client = $this->find($id);
+        $client->fill($attributes);
+        return $this->saveIfValid($client);
+    }
+
+    protected function saveIfValid(Model $model)
+    {
+        $model = $this->setNotNullableToDefault($model, $this->notNullable, $this->defaultValues);
+        if (!$this->validateModel($model)) return false;
+        $model->save();
+        return true;
+    }
+
+    public function validateModel(Model $model)
+    {
+        return true;
     }
 }

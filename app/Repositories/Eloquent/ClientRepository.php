@@ -7,14 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Client;
 use App\Repositories\ClientRepositoryInterface;
 use DateTime;
-use Illuminate\Http\Request;
 
 class ClientRepository extends EloquentRepository implements ClientRepositoryInterface
 {
     protected $prices = ['adult' => 18, 'child' => 14, 'electricity' => 10, 'small_place' => 4, 'big_place' => 6];
-    // TODO: Get $prices from DB
     protected $discounts = [0, 5, 10];
-    // TODO: Get $discounts from DB
 
     protected $model;
     protected $notNullable = ['arrival_date', 'departure_date', 'adults', 'children', 'electricity', 'small_places',
@@ -33,19 +30,11 @@ class ClientRepository extends EloquentRepository implements ClientRepositoryInt
         $this->model = new Client;
     }
 
-    public function add(Request $request)
-    {
-        // TODO: Change validateRequest to validateModel / validate
-        $client = new Client($request->all());
-        $client = $this->setNotNullableToDefault($client, $this->notNullable, $this->defaultValues);
-        if (!$this->validateModel($client)) return false;
-        $client->save();
-    }
-
     public function validateModel(Model $model)
     {
         if (empty($model->first_name) && empty($model->second_name)) return false;
         if (!isset($model->arrival_date) || !isset($model->departure_date)) return false;
+        if (strtotime($model->arrival_date) >= strtotime($model->departure_date)) return false;
         if ($model->adults == 0 && $model->children == 0) return false;
         if (!in_array($model->discount, $this->discounts)) return false;
         return true;

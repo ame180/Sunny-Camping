@@ -5,15 +5,10 @@ namespace App\Http\Controllers;
 
 use App\Repositories\ClientRepositoryInterface;
 use Illuminate\Http\Request;
+use App\Repositories\ValuesRepositoryInterface;
 
 class AdminController extends Controller
 {
-    private static $nav_items = ['dashboard' => 'Podsumowanie', 'clients' => 'Klienci', 'bills' => 'Rachunki'];
-
-    /**
-     * @var ClientRepositoryInterface
-     */
-
     public function __construct(ClientRepositoryInterface $clientsRepository)
     {
         $this->clientRepository = $clientsRepository;
@@ -21,17 +16,20 @@ class AdminController extends Controller
 
     public function dashboard()
     {
-        return view('admin.dashboard', ['page' => 'dashboard', 'nav_items' => self::$nav_items]);
+        return view('admin.dashboard', ['page' => 'dashboard', 'nav_items' =>
+            config('constants.admin_nav_items')]);
     }
 
     public function clients(Request $request)
     {
         $clients = $this->clientRepository->all();
-        return view('admin.clients', ['page' => 'clients', 'nav_items' => self::$nav_items, 'clients' => $clients]);
+        return view('admin.clients', ['page' => 'clients', 'nav_items' =>
+            config('constants.admin_nav_items'), 'clients' => $clients]);
     }
 
     public function bills()
     {
-        return view('admin.dashboard', ['page' => 'bills', 'nav_items' => self::$nav_items]);
+        return view('admin.bills', ['page' => 'bills', 'nav_items' =>
+            config('constants.admin_nav_items')]);
     }
 }

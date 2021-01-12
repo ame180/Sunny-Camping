@@ -1,3 +1,3 @@
 <li class="nav-item {{ $key == $page ? 'active' : ''}}">
-    <a class="nav-link" href="{{$key}}">{{$item_name}}</a>
+    <a class="nav-link" href="{{env('APP_URL')}}/admin/{{$key}}">{{$value}}</a>
 </li>

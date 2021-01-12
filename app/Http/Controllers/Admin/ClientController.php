@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Repositories\ClientRepositoryInterface;
 use Illuminate\Http\Request;
+use App\Repositories\ValuesRepositoryInterface;
 
 class ClientController extends Controller
 {
@@ -17,11 +18,28 @@ class ClientController extends Controller
 
     public function add(Request $request)
     {
-        $this->clientRepository->add($request);
-        return redirect()->route('admin.clients');
+        if ($this->clientRepository->add($request->all()))
+            return redirect()->route('admin.clients');
+        return view('admin.clients.add', ['page' => 'clients', 'nav_items' =>
+            config('constants.admin_nav_items'), 'inputs' => config('constants.client_inputs')]);
     }
 
-    public function delete(Request $request, $id)
+    public function edit($id)
+    {
+        $client = $this->clientRepository->find($id);
+        return view('admin.clients.edit', ['page' => 'clients', 'nav_items' =>
+            config('constants.admin_nav_items'), 'inputs' => config('constants.client_inputs'),
+            'client' => $client]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        if ($this->clientRepository->update($id, $request->all()))
+            return redirect()->route('admin.clients');
+        return redirect()->route('admin.clients.edit', ['id' => $id]);
+    }
+
+    public function delete($id)
     {
         $this->clientRepository->delete($id);
         return redirect()->route('admin.clients');

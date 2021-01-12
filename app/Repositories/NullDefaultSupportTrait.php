@@ -12,7 +12,6 @@ trait NullDefaultSupportTrait
             if (isset($model->$attribute)) continue;
             if (!in_array($attribute, $notNullable)) continue;
             if (!in_array($attribute, $defaultValues)) unset($model->$attribute);
-            // TODO: Throw an exception above instead
             $model->$attribute = $defaultValues[$attribute];
         }
         return $model;
