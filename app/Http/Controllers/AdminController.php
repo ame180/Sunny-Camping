@@ -29,7 +29,7 @@ class AdminController extends Controller
 
     public function bills()
     {
-        return view('admin.dashboard', ['page' => 'bills', 'nav_items' =>
+        return view('admin.bills', ['page' => 'bills', 'nav_items' =>
             config('constants.admin_nav_items')]);
     }
 }

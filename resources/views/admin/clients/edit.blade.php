@@ -28,7 +28,5 @@
 @endsection
 
 @section('main')
-    <div class="container">
-        @yield('input')
-    </div>
+    @yield('input')
 @endsection

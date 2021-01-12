@@ -1,11 +1,13 @@
 <html>
 <head>
-    <title>@yield('title', 'Słoneczny Camping - Wicie')</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}"/>
-    <link rel="stylesheet" href="{{asset('css/all.css')}}"/>
-    @yield('head')
+    @section('head')
+        <title>@yield('title', 'Słoneczny Camping - Wicie')</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}"/>
+        <link rel="stylesheet" href="{{asset('css/all.css')}}"/>
+        @stack('head')
+    @show
 </head>
 <body>
 @section('navbar')
@@ -30,8 +32,9 @@
         </div>
     </nav>
 @show
-@yield('main')
-@yield('footer')
+<div class="container">
+    @yield('main')
+</div>
 @section('scripts')
     <script src="{{asset('js/jquery-3.5.1.min.js')}}"></script>
     <script src="{{asset('js/bootstrap.min.js')}}"></script>
