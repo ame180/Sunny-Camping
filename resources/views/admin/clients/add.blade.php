@@ -16,7 +16,8 @@
                     </select>
                 @else
                     <input name="{{$input['name']}}" class="form-control form-control-sm" type="{{$input['type']}}"
-                           placeholder="{{isset($input['placeholder']) ? $input['placeholder'] : ''}}">
+                           placeholder="{{isset($input['placeholder']) ? $input['placeholder'] : ''}}"
+                        {{isset($input['required']) ? 'required' : ''}}>
                 @endif
             </div>
         @endforeach
