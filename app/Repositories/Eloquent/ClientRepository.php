@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Client;
 use App\Repositories\ClientRepositoryInterface;
 use DateTime;
-use Illuminate\Http\Request;
 
 class ClientRepository extends EloquentRepository implements ClientRepositoryInterface
 {
@@ -35,6 +34,7 @@ class ClientRepository extends EloquentRepository implements ClientRepositoryInt
     {
         if (empty($model->first_name) && empty($model->second_name)) return false;
         if (!isset($model->arrival_date) || !isset($model->departure_date)) return false;
+        if (strtotime($model->arrival_date) >= strtotime($model->departure_date)) return false;
         if ($model->adults == 0 && $model->children == 0) return false;
         if (!in_array($model->discount, $this->discounts)) return false;
         return true;
