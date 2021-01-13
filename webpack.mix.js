@@ -12,13 +12,15 @@ const mix = require('laravel-mix');
  */
 
 mix.js([
-    'resources/js/jquery.js',
     'resources/js/app.js',
     'resources/js/all.js',
     'resources/js/bootstrap.min.js',
 ], 'public/js/app.js')
     .js('resources/js/parallax.min.js', 'public/js/parallax.min.js')
     .js('resources/js/script.js', 'public/js/script.js')
-    .postCss('resources/css/app.css', 'public/css', [
-        //
-    ]);
+    .styles([
+        'resources/css/bootstrap.min.css',
+        'resources/css/all.css',
+        'resources/css/admin/clients.css',
+    ], 'public/css/app.css')
+    .styles('resources/css/style.css', 'public/css/style.css');

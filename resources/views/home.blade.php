@@ -6,7 +6,6 @@
 @endsection
 
 @section('navbar')
-    {{-- This is a Blade comment. Blade comments are OP --}}
     <div class="parallax_nav parallax-window" data-parallax="scroll" data-image-src="{{asset('images/bgsc.jpg')}}">
         <a class="navbar_logo navbar-brand" href="#"><img alt="Nadmorski Sonet"
                                                           src="{{asset('images/sloneczny_camping.png')}}"></a>
@@ -173,7 +172,7 @@
             <span>Created by</span><a target="_blank" href="http://www.vnsoft.pl"><img class="vn_img"
                                                                                        src="{{asset('images/vn.png')}}"></a>
             <span>Design by</span><a target="_blank" href="http://www.jacynodesign.pl"><img class="jd_img"
-                                                                                            src="{{'images/jd.png'}}"></a>
+                                                                                            src="{{asset('images/jd.png')}}"></a>
         </div>
         <div class="pull-left">
             <span>Copyright <i class="fa fa-copyright" aria-hidden="true"></i> {{$year ?? 2020}}</span><a

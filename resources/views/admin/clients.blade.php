@@ -32,10 +32,6 @@
     </table>
 @endsection
 
-@push('head')
-    <link rel="stylesheet" href="{{asset('css/admin/clients.css')}}"/>
-@endpush
-
 @section('main')
     @yield('options')
     @yield('table')
