@@ -13,6 +13,10 @@ $(document).ready(function () {
             alert("Musisz wpisać co najmniej jedną osobę!");
             return false;
         }
+        if (new Date(values['arrival_date']) >= new Date(values['departure_date'])) {
+            alert("Data odjazdu musi być później od daty przyjazdu!");
+            return false;
+        }
         if (values['adults'] < 0 || values['children'] < 0 || values['electricity'] < 0 || values['big_places'] < 0 ||
             values['small_places'] < 0) {
             alert("Liczby nie mogą być ujemne!")
