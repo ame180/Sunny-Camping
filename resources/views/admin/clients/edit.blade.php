@@ -1,7 +1,8 @@
 @extends('layouts.admin')
 
 @section('input')
-    <form class="row mt-4" method="POST" action="../update/{{$client->id}}">
+    <form id="client-form" class="row mt-4" method="POST"
+          action="../update/{{$client->id}}">
         @csrf
         @method('PATCH')
         @foreach($inputs as $input)
@@ -29,4 +30,7 @@
 
 @section('main')
     @yield('input')
+    @push('scripts')
+        <script src="{{asset('js/admin/client_input.js')}}"></script>
+    @endpush
 @endsection
