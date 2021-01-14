@@ -44,4 +44,8 @@ class ClientController extends Controller
         $this->clientRepository->delete($id);
         return redirect()->route('admin.clients');
     }
+
+    public function getAllJson() {
+        $this->clientRepository->getAllJson();
+    }
 }
