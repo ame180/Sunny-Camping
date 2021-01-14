@@ -1,12 +1,13 @@
-const clientsTable = new Vue({
+window.clientsTable = new Vue({
     el: '#clients-table',
     data: {
-        clients: [
-            {id: 1},
-            {id: 2},
-            {id: 3},
-            {id: 4},
-            {id: 5},
-        ]
+        clients: null
+    },
+    mounted() {
+        axios
+            .get(baseUrl + '/admin/clients/getAllJson')
+            .then(response => {
+                this.clients = response.data;
+            });
     }
 });

@@ -23,6 +23,7 @@ Route::prefix('/admin')->group(function () {
         Route::match(['get', 'put'], '/add', [ClientController::class, 'add']);
         Route::delete('/delete/{id}', [ClientController::class, 'delete']);
         Route::get('/edit/{id}', [ClientController::class, 'edit'])->name('admin.clients.edit');
+        Route::get('getAllJson', [ClientController::class, 'getAllJson']);
         Route::patch('/update/{id}', [ClientController::class, 'update']);
     });
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');

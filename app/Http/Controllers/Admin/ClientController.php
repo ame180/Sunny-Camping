@@ -45,7 +45,8 @@ class ClientController extends Controller
         return redirect()->route('admin.clients');
     }
 
-    public function getAllJson() {
-        $this->clientRepository->getAllJson();
+    public function getAllJson()
+    {
+        return $this->clientRepository->all()->toJson();
     }
 }
