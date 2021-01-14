@@ -1,6 +1,8 @@
 window._ = require('lodash');
 window.$ = window.jQuery = require('jquery');
 window.Vue = require('vue');
+window.VueApexCharts = require('vue-apexcharts');
+
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
  * to our Laravel back-end. This library automatically handles sending the

@@ -21,9 +21,11 @@
     },
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.15.2",
+        "apexcharts": "^3.23.1",
         "bootstrap": "^4.5.3",
         "jquery": "^3.5.1",
         "popper.js": "^1.16.1",
-        "vue": "^2.6.12"
+        "vue": "^2.6.12",
+        "vue-apexcharts": "^1.6.0"
     }
 }
