@@ -30,7 +30,4 @@
 
 @section('main')
     @yield('input')
-    @push('scripts')
-        <script src="{{asset('js/admin/client_input.js')}}"></script>
-    @endpush
 @endsection

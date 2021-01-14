@@ -42075,6 +42075,45 @@ module.exports = function(module) {
 
 /***/ }),
 
+/***/ "./resources/js/admin/client_input.js":
+/*!********************************************!*\
+  !*** ./resources/js/admin/client_input.js ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(document).ready(function () {
+  $("#client-form").submit(function () {
+    var fields = $("#client-form").serializeArray();
+    var values = [];
+    $.each(fields, function () {
+      values[this.name] = this.value;
+    });
+
+    if (values['first_name'] == "" && values['last_name'] == "") {
+      alert("Imię lub Nazwisko musi być wpisane!");
+      return false;
+    }
+
+    if (values['adults'] == "" && values['children'] == "") {
+      alert("Musisz wpisać co najmniej jedną osobę!");
+      return false;
+    }
+
+    if (new Date(values['arrival_date']) >= new Date(values['departure_date'])) {
+      alert("Data odjazdu musi być później od daty przyjazdu!");
+      return false;
+    }
+
+    if (values['adults'] < 0 || values['children'] < 0 || values['electricity'] < 0 || values['big_places'] < 0 || values['small_places'] < 0) {
+      alert("Liczby nie mogą być ujemne!");
+      return false;
+    }
+  });
+});
+
+/***/ }),
+
 /***/ "./resources/js/app.js":
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
@@ -42093,6 +42132,8 @@ __webpack_require__.r(__webpack_exports__);
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
+__webpack_require__(/*! ./admin/client_input */ "./resources/js/admin/client_input.js");
+
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":
@@ -42103,6 +42144,7 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 /***/ (function(module, exports, __webpack_require__) {
 
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+window.$ = window.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
  * to our Laravel back-end. This library automatically handles sending the
