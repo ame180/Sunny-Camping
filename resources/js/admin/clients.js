@@ -4,10 +4,7 @@ window.clientsTable = new Vue({
         clients: null
     },
     mounted() {
-        axios
-            .get(baseUrl + '/admin/clients/getAllJson')
-            .then(response => {
-                this.clients = response.data;
-            });
+        axios.get(baseUrl + '/admin/clients/getAllJson')
+            .then(response => this.clients = response.data);
     }
 });
