@@ -76,7 +76,7 @@
                         <i class="far fa-sticky-note"></i>
                     </a>
                 </div>
-                <form v-on:submit.prevent="deleteClient(props.rowData.id, $event)" method="POST" action=""
+                <form @submit.prevent="deleteClient(props.rowData.id)" method="POST" action=""
                       class="col m-0">
                     <button class="btn btn-danger">
                         <i class="far fa-trash-alt"></i>
@@ -87,6 +87,7 @@
         <vuetable-pagination
             ref="pagination"
             :css="css.pagination"
+            :onEachSide="2"
             @vuetable-pagination:change-page="onChangePage">
         </vuetable-pagination>
     </div>
@@ -94,13 +95,29 @@
 
 <script>
     import Vuetable from 'vuetable-2'
-    import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
+    import VuetablePagination from './VuetablePagination'
 
     export default {
         components: {
             Vuetable,
             VuetablePagination
         },
+        methods:
+            {
+                deleteClient: function (id) {
+                    axios.delete(baseUrl + '/admin/clients/delete/' + id);
+                    this.$refs.vuetable.tableData.forEach((client, index) => {
+                        if (id === client.id) this.$refs.vuetable.tableData.splice(index, 1);
+                    });
+                    this.$refs.vuetable.reload();
+                },
+                onPaginationData(paginationData) {
+                    this.$refs.pagination.setPaginationData(paginationData)
+                },
+                onChangePage(page) {
+                    this.$refs.vuetable.changePage(page)
+                }
+            },
         data() {
             return {
                 css: {
@@ -108,42 +125,23 @@
                         tableClass: 'table table-responsive-lg table-bordered table-striped table-hover text-center mt-3',
                     },
                     pagination: {
-                        wrapperClass: 'text-center',
-                        activeClass: 'active large',
+                        wrapperClass: 'pagination',
+                        activeClass: 'active',
                         disabledClass: 'disabled',
-                        pageClass: 'item',
-                        linkClass: 'icon item',
-                        paginationClass: 'ui bottom attached segment grid',
-                        paginationInfoClass: 'left floated left aligned six wide column',
-                        dropdownClass: 'ui search dropdown',
+                        pageClass: 'page-item',
+                        linkClass: 'page-link',
+                        paginationClass: 'pagination',
+                        paginationInfoClass: 'float-left',
+                        dropdownClass: 'form-control',
                         icons: {
-                            first: 'fas fa-angle-double-left',
-                            prev: 'fas fa-angle-left',
-                            next: 'fas fa-angle-right',
-                            last: 'fas fa-angle-double-right',
+                            first: 'fa fa-angle-double-left',
+                            prev: 'fa fa-angle-left',
+                            next: 'fa fa-angle-right',
+                            last: 'fa fa-angle-double-right',
                         }
-                    },
-                }
+                    }
+                },
             }
-        },
-        methods: {
-            deleteClient: function (id, event) {
-                event.preventDefault();
-                //axios.delete(baseUrl + '/admin/clients/delete/' + id);
-                this.$refs.vuetable.tableData.forEach((client, index) => {
-                    if (id === client.id) this.$refs.vuetable.tableData.splice(index, 1);
-                });
-                console.log(this.$refs.vuetable.tableData.totalPage);
-            },
-            onPaginationData(paginationData) {
-                this.$refs.pagination.setPaginationData(paginationData)
-            },
-            // when the user click something that causes the page to change,
-            // call "changePage" method in Vuetable, so that that page will be
-            // requested from the API endpoint.
-            onChangePage(page) {
-                this.$refs.vuetable.changePage(page)
-            }
-        },
+        }
     }
 </script>
