@@ -3,7 +3,7 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 */
-/* 
+/*
     Created on : 2017-03-08, 10:24:46
     Author     : Rzeju
 */
@@ -200,7 +200,7 @@ footer span {
     line-height: 53px;
 }
 .sc_img {
-    -webkit-filter: grayscale(100%); 
+    -webkit-filter: grayscale(100%);
     filter: grayscale(100%);
     margin: 12px 15px 15px 7px;
     opacity: 0.8;
@@ -212,7 +212,7 @@ footer span {
     opacity: 1;
 }
 .vn_img {
-    -webkit-filter: grayscale(100%); 
+    -webkit-filter: grayscale(100%);
     filter: grayscale(100%);
     margin: 15px 15px 15px 7px;
     transition: 0.4s;
