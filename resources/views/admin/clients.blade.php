@@ -25,8 +25,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="client in clients">
-            @include('admin.templates.clients_table_row')
+        <tr v-for="client in clients" :key="client.id" :client="client" is="clients-table-row">
         </tr>
         </tbody>
     </table>

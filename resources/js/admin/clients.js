@@ -1,3 +1,7 @@
+import clientsTableRow from '../../components/clientsTableRow';
+
+Vue.component('clients-table-row', clientsTableRow);
+
 window.clientsTable = new Vue({
     el: '#clients-table',
     data: {
