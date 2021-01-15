@@ -7,7 +7,14 @@
 @endsection
 
 @section('table')
-    <table id="clients-table" class="table table-responsive-lg table-bordered text-center mt-3">
+    <div id="clients-table" class="mt-3">
+        <clients-table>
+        </clients-table>
+    </div>
+@endsection
+
+@section('temp')
+    <table class="table table-responsive-lg table-bordered text-center mt-3">
         <thead>
         <tr>
             <th scope="col">#</th>

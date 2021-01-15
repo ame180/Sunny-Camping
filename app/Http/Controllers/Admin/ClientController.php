@@ -42,7 +42,6 @@ class ClientController extends Controller
     public function delete($id)
     {
         $this->clientRepository->delete($id);
-        return redirect()->route('admin.clients');
     }
 
     public function getAllJson()
