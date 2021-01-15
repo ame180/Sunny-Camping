@@ -9,7 +9,7 @@ interface ClientRepositoryInterface
 {
     public function all($columns);
 
-    public function paginate();
+    public function paginate($query = []);
 
     public function add($attributes);
 

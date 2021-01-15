@@ -46,6 +46,6 @@ class ClientController extends Controller
 
     public function getAllJson(Request $request)
     {
-        return $this->clientRepository->paginate()->toJson();
+        return $this->clientRepository->paginate($request->toArray())->toJson();
     }
 }
