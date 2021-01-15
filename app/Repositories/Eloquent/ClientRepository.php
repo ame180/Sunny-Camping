@@ -49,6 +49,15 @@ class ClientRepository extends EloquentRepository implements ClientRepositoryInt
         return $clients;
     }
 
+    public function paginate($query = [])
+    {
+        $paginator = parent::paginate($query);
+        foreach ($paginator->items() as $client) {
+            $client->price = $this->getStayPrice($client);
+        }
+        return $paginator;
+    }
+
     public function getStayPrice(Client $client)
     {
         $arrival = new DateTime($client->arrival_date);
