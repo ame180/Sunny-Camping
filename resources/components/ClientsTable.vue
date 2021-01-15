@@ -51,7 +51,7 @@
                 title: 'Opcje',
               }
               ]"
-              data-path=""
+              data-path="data"
               pagination-path=""
               :css="css.table"
     >

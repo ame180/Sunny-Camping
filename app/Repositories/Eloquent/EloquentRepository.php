@@ -45,6 +45,11 @@ abstract class EloquentRepository
         return $this->saveIfValid($client);
     }
 
+    public function paginate()
+    {
+        return $this->model->paginate();
+    }
+
     protected function saveIfValid(Model $model)
     {
         $model = $this->setNotNullableToDefault($model, $this->notNullable, $this->defaultValues);
