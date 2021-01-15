@@ -17,11 +17,9 @@
                 <i class="far fa-sticky-note"></i>
             </a>
         </div>
-        <form class="button-wrapper" method="POST"
-              :action="'clients/delete/' + client.id">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="btn btn-danger rounded-0">
+        <form v-on:submit.prevent="deleteClient(client.id, $event)" class="button-wrapper"
+              method="POST" action="">
+            <button class="btn btn-danger rounded-0">
                 <i class="far fa-trash-alt"></i>
             </button>
         </form>
