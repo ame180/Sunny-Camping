@@ -1,6 +1,6 @@
 <template>
     <nav>
-        <ul class="pagination">
+        <ul class="pagination justify-content-center d-flex">
             <li :class="['page-item', {'disabled': isOnFirstPage}]">
                 <a class="page-link h-100 d-flex align-items-center" href="" @click.prevent="loadPage(firstPage)">
                     <i class="fas fa-angle-double-left"></i>
