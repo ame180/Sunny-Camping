@@ -1,4 +1,4 @@
-$(document).ready(function () {
+export default $(document).ready(function () {
     $("#client-form").submit(function () {
         let fields = $("#client-form").serializeArray();
         let values = [];
