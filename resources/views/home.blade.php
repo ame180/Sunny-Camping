@@ -175,7 +175,7 @@
                                                                                             src="{{asset('images/jd.png')}}"></a>
         </div>
         <div class="pull-left">
-            <span>Copyright <i class="fa fa-copyright" aria-hidden="true"></i> {{$year ?? 2020}}</span><a
+            <span>Copyright <i class="fa fa-copyright" aria-hidden="true"></i> 2021</span><a
                 target="_blank"
                 href="http://www.nadmorskisonet.pl"><img
                     class="sc_img" src="{{asset('images/sloneczny_camping.png')}}"></a>

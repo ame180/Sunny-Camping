@@ -7,8 +7,8 @@ namespace App\Http\Controllers;
 class HomeController extends Controller
 {
 
-    public function home($year = 2020)
+    public function home()
     {
-        return view('home', ['year' => $year]);
+        return view('home');
     }
 }
