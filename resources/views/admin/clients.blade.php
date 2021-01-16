@@ -2,7 +2,7 @@
 
 @section('options')
     <div class="text-center">
-        <a class="btn btn-lg btn-primary mt-4 w-50" href="clients/add">Dodaj klienta</a>
+        <a class="btn btn-lg btn-primary mt-4 w-50" href="clients/add-client">Dodaj klienta</a>
     </div>
 @endsection
 

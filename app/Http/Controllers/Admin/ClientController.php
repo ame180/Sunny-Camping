@@ -16,12 +16,18 @@ class ClientController extends Controller
         $this->clientRepository = $clientsRepository;
     }
 
-    public function add(Request $request)
+    public function addClient()
     {
-        if ($this->clientRepository->add($request->all()))
-            return redirect()->route('admin.clients');
         return view('admin.clients.add', ['page' => 'clients', 'nav_items' =>
             config('constants.admin_nav_items'), 'inputs' => config('constants.client_inputs')]);
+    }
+
+    public function add(Request $request)
+    {
+        if ($this->clientRepository->add($request->all())) {
+            return true;
+        }
+        return response('', 406);
     }
 
     public function edit($id)

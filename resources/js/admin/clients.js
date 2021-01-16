@@ -9,8 +9,7 @@ new Vue({
 new Vue({
     el: '#client-form',
     methods: {
-        submitClientForm() {
-            console.log(this);
+        submitClientForm(mode) {
             if (!this.first_name && !this.last_name) {
                 alert("Imię lub Nazwisko musi być wpisane!");
                 return false;
@@ -28,6 +27,44 @@ new Vue({
                 alert("Liczby nie mogą być ujemne!")
                 return false;
             }
+            var request;
+            if (mode == 'PUT') {
+                request = axios.put(baseUrl + '/admin/clients/add', {
+                    id: this.id,
+                    first_name: this.first_name,
+                    last_name: this.last_name,
+                    arrival_date: this.arrival_date,
+                    departure_date: this.departure_date,
+                    sector: this.sector,
+                    adults: this.adults,
+                    children: this.children,
+                    electricity: this.electricity,
+                    small_places: this.small_places,
+                    big_places: this.big_places,
+                    comment: this.comment,
+                    discount: this.discount
+                });
+            } else {
+                request = axios.patch(baseUrl + '/admin/clients/update/' + this.id, {
+                    first_name: this.first_name,
+                    last_name: this.last_name,
+                    arrival_date: this.arrival_date,
+                    departure_date: this.departure_date,
+                    sector: this.sector,
+                    adults: this.adults,
+                    children: this.children,
+                    electricity: this.electricity,
+                    small_places: this.small_places,
+                    big_places: this.big_places,
+                    comment: this.comment,
+                    discount: this.discount
+                });
+            }
+            request.then(() => {
+                window.location = baseUrl + '/admin/clients';
+            }, () => {
+                alert("Coś poszło nie tak! Upewnij się że wpisane dane są poprawne!");
+            });
         }
     },
     data: {
