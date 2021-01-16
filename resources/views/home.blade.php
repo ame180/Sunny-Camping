@@ -2,13 +2,13 @@
 
 @section('head')
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="{{asset('css/style.css')}}"/>
+    <link rel="stylesheet" href="{{mix('css/style.css')}}"/>
 @endsection
 
 @section('navbar')
-    <div class="parallax_nav parallax-window" data-parallax="scroll" data-image-src="{{asset('images/bgsc.jpg')}}">
+    <div class="parallax_nav parallax-window" data-parallax="scroll" data-image-src="{{mix('images/bgsc.JPG')}}">
         <a class="navbar_logo navbar-brand" href="#"><img alt="Nadmorski Sonet"
-                                                          src="{{asset('images/sloneczny_camping.png')}}"></a>
+                                                          src="{{mix('images/sloneczny_camping.png')}}"></a>
         <nav class="navbar navbar-default header_nav">
             <div class="container">
                 <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu">
@@ -51,7 +51,7 @@
 
 @section('campsite')
     <div id="pole" class="camping_section parallax-window" data-parallax="scroll"
-         data-image-src="{{asset('images/pole.jpg')}}">
+         data-image-src="{{mix('images/pole.jpg')}}">
         <div class="rooms_content container">
             <h1>Pole namiotowe</h1>
             <span>Mamy ich miliardy</span>
@@ -170,15 +170,15 @@
     <div class="container">
         <div class="pull-right">
             <span>Created by</span><a target="_blank" href="http://www.vnsoft.pl"><img class="vn_img"
-                                                                                       src="{{asset('images/vn.png')}}"></a>
+                                                                                       src="{{mix('images/vn.png')}}"></a>
             <span>Design by</span><a target="_blank" href="http://www.jacynodesign.pl"><img class="jd_img"
-                                                                                            src="{{asset('images/jd.png')}}"></a>
+                                                                                            src="{{mix('images/jd.png')}}"></a>
         </div>
         <div class="pull-left">
             <span>Copyright <i class="fa fa-copyright" aria-hidden="true"></i> 2021</span><a
                 target="_blank"
                 href="http://www.nadmorskisonet.pl"><img
-                    class="sc_img" src="{{asset('images/sloneczny_camping.png')}}"></a>
+                    class="sc_img" src="{{mix('images/sloneczny_camping.png')}}"></a>
         </div>
     </div>
 @endsection
@@ -186,7 +186,7 @@
 @push('scripts')
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="https://use.fontawesome.com/55e5114f06.js"></script>
-    <script src="{{asset('js/parallax.min.js')}}"></script>
-    <script src="{{asset('js/script.js')}}"></script>
+    <script src="{{mix('js/parallax.min.js')}}"></script>
+    <script src="{{mix('js/script.js')}}"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 @endpush
