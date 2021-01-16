@@ -50,7 +50,7 @@ class ClientController extends Controller
         $this->clientRepository->delete($id);
     }
 
-    public function getAllJson(Request $request)
+    public function paginatedJson(Request $request)
     {
         return $this->clientRepository->paginate($request->toArray())->toJson();
     }

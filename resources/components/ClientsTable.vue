@@ -1,7 +1,7 @@
 <template>
     <div>
         <vuetable ref="vuetable"
-                  :api-url="'clients/getAllJson'"
+                  :api-url="'clients/paginated-json'"
                   :fields="[
               {
                 name: 'id-slot',

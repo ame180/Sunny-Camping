@@ -25,7 +25,7 @@ Route::prefix('/admin')->group(function () {
         Route::put('/add', [ClientController::class, 'add']);
         Route::patch('/update/{id}', [ClientController::class, 'update']);
         Route::delete('/delete/{id}', [ClientController::class, 'delete']);
-        Route::get('getAllJson', [ClientController::class, 'getAllJson']);
+        Route::get('paginated-json', [ClientController::class, 'paginatedJson']);
     });
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/clients', [AdminController::class, 'clients'])->name('admin.clients');
