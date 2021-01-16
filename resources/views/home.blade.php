@@ -6,7 +6,7 @@
 @endsection
 
 @section('navbar')
-    <div class="parallax_nav parallax-window" data-parallax="scroll" data-image-src="{{mix('images/bgsc.JPG')}}">
+    <div class="parallax_nav parallax-window" data-parallax="scroll" data-image-src="{{mix('images/bgsc.jpg')}}">
         <a class="navbar_logo navbar-brand" href="#"><img alt="Nadmorski Sonet"
                                                           src="{{mix('images/sloneczny_camping.png')}}"></a>
         <nav class="navbar navbar-default header_nav">
