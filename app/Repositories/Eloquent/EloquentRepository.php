@@ -41,9 +41,9 @@ abstract class EloquentRepository
 
     public function update($id, $attributes)
     {
-        $client = $this->find($id);
-        $client->fill($attributes);
-        return $this->saveIfValid($client);
+        $model = $this->find($id);
+        $model->fill($attributes);
+        return $this->saveIfValid($model);
     }
 
     public function paginate($query = [])
