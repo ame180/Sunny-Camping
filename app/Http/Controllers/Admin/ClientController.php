@@ -18,8 +18,8 @@ class ClientController extends Controller
 
     public function addClient()
     {
-        return view('admin.clients.add', ['page' => 'clients', 'nav_items' =>
-            config('constants.admin_nav_items'), 'inputs' => config('constants.client_inputs')]);
+        return view('admin.clients.client_input_form', ['page' => 'clients', 'nav_items' =>
+            config('constants.admin_nav_items'), 'mode' => 'PUT']);
     }
 
     public function add(Request $request)
@@ -32,17 +32,16 @@ class ClientController extends Controller
 
     public function edit($id)
     {
-        $client = $this->clientRepository->find($id);
-        return view('admin.clients.edit', ['page' => 'clients', 'nav_items' =>
-            config('constants.admin_nav_items'), 'inputs' => config('constants.client_inputs'),
-            'client' => $client]);
+        return view('admin.clients.client_input_form', ['page' => 'clients', 'nav_items' =>
+            config('constants.admin_nav_items'), 'mode' => 'PATCH', 'id' => $id]);
     }
 
     public function update(Request $request, $id)
     {
-        if ($this->clientRepository->update($id, $request->all()))
-            return redirect()->route('admin.clients');
-        return redirect()->route('admin.clients.edit', ['id' => $id]);
+        if ($this->clientRepository->update($id, $request->all())) {
+            return true;
+        }
+        return response('', 406);
     }
 
     public function delete($id)
@@ -53,5 +52,10 @@ class ClientController extends Controller
     public function paginatedJson(Request $request)
     {
         return $this->clientRepository->paginate($request->toArray())->toJson();
+    }
+
+    public function findJson($id)
+    {
+        return $this->clientRepository->find($id)->toJson();
     }
 }
