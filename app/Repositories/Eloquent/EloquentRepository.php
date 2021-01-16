@@ -54,7 +54,6 @@ abstract class EloquentRepository
             return $this->model->orderBy($sort)->paginate($perPage);
         }
         return $this->model->paginate($perPage);
-        return $result;
     }
 
     protected function saveIfValid(Model $model)
