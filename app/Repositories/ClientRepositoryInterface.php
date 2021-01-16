@@ -7,7 +7,11 @@ use Illuminate\Http\Request;
 
 interface ClientRepositoryInterface
 {
-    public function all($columns);
+    /**
+     * @param $columns
+     * @return mixed
+     */
+    public function all(array $columns = ['*']);
 
     public function paginate($query = []);
 
