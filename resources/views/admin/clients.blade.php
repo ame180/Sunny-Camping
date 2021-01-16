@@ -2,11 +2,18 @@
 
 @section('options')
     <div class="text-center">
-        <a class="btn btn-lg btn-primary mt-4 w-50" href="clients/add">Dodaj klienta</a>
+        <a class="btn btn-lg btn-primary mt-4 w-50" href="clients/add-client">Dodaj klienta</a>
     </div>
 @endsection
 
 @section('table')
+    <div id="clients-table" class="mt-3">
+        <clients-table>
+        </clients-table>
+    </div>
+@endsection
+
+@section('temp')
     <table class="table table-responsive-lg table-bordered text-center mt-3">
         <thead>
         <tr>
@@ -25,9 +32,8 @@
         </tr>
         </thead>
         <tbody>
-        @foreach($clients as $client)
-            @include('admin.templates.clients_table_row')
-        @endforeach
+        <tr v-for="client in clients" :key="client.id" :client="client" is="clients-table-row">
+        </tr>
         </tbody>
     </table>
 @endsection

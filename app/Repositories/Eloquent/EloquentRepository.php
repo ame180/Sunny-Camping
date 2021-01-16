@@ -6,6 +6,7 @@ namespace App\Repositories\Eloquent;
 
 use App\Repositories\NullDefaultSupportTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Schema;
 
 abstract class EloquentRepository
 {
@@ -43,6 +44,17 @@ abstract class EloquentRepository
         $client = $this->find($id);
         $client->fill($attributes);
         return $this->saveIfValid($client);
+    }
+
+    public function paginate($query = [])
+    {
+        $sort = $query['sort'] ?? null;
+        $perPage = $query['per_page'] ?? null;
+        if (isset($sort) && Schema::hasColumn($this->model->getTable(), $sort)) {
+            return $this->model->orderBy($sort)->paginate($perPage);
+        }
+        return $this->model->paginate($perPage);
+        return $result;
     }
 
     protected function saveIfValid(Model $model)

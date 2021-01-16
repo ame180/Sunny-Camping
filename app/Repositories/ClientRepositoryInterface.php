@@ -3,6 +3,8 @@
 
 namespace App\Repositories;
 
+use Illuminate\Http\Request;
+
 interface ClientRepositoryInterface
 {
     /**
@@ -10,6 +12,10 @@ interface ClientRepositoryInterface
      * @return mixed
      */
     public function all(array $columns = ['*']);
+
+    public function paginate($query = []);
+
+    public function find($id);
 
     public function add($attributes);
 

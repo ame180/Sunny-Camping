@@ -13,6 +13,8 @@ window.VueApexCharts = require('vue-apexcharts');
 
 window.axios = require('axios');
 
+window.baseUrl = 'http://localhost/sunny-camping';
+
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /**

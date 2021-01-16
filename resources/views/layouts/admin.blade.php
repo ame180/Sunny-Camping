@@ -31,7 +31,7 @@
         </div>
     </nav>
 @show
-<div class="container">
+<div id="app" class="container">
     @yield('main')
 </div>
 @section('scripts')
