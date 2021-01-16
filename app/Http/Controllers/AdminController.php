@@ -4,18 +4,17 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\ClientRepositoryInterface;
-use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
     /**
      * @var ClientRepositoryInterface
      */
-    private $clientRepository;
+    private $clientsRepository;
 
     public function __construct(ClientRepositoryInterface $clientsRepository)
     {
-        $this->clientRepository = $clientsRepository;
+        $this->clientsRepository = $clientsRepository;
     }
 
     public function dashboard()
@@ -24,9 +23,9 @@ class AdminController extends Controller
             config('constants.admin_nav_items')]);
     }
 
-    public function clients(Request $request)
+    public function clients()
     {
-        $clients = $this->clientRepository->all();
+        $clients = $this->clientsRepository->all();
         return view('admin.clients', ['page' => 'clients', 'nav_items' =>
             config('constants.admin_nav_items'), 'clients' => $clients]);
     }

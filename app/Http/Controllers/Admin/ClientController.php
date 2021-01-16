@@ -7,13 +7,17 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Repositories\ClientRepositoryInterface;
 use Illuminate\Http\Request;
-use App\Repositories\ValuesRepositoryInterface;
 
 class ClientController extends Controller
 {
+    /**
+     * @var ClientRepositoryInterface
+     */
+    private $clientsRepository;
+
     public function __construct(ClientRepositoryInterface $clientsRepository)
     {
-        $this->clientRepository = $clientsRepository;
+        $this->clientsRepository = $clientsRepository;
     }
 
     public function addClient()
@@ -24,7 +28,7 @@ class ClientController extends Controller
 
     public function add(Request $request)
     {
-        if ($this->clientRepository->add($request->all())) {
+        if ($this->clientsRepository->add($request->all())) {
             return true;
         }
         return response('', 406);
@@ -38,7 +42,7 @@ class ClientController extends Controller
 
     public function update(Request $request, $id)
     {
-        if ($this->clientRepository->update($id, $request->all())) {
+        if ($this->clientsRepository->update($id, $request->all())) {
             return true;
         }
         return response('', 406);
@@ -46,16 +50,16 @@ class ClientController extends Controller
 
     public function delete($id)
     {
-        $this->clientRepository->delete($id);
+        $this->clientsRepository->delete($id);
     }
 
     public function paginatedJson(Request $request)
     {
-        return $this->clientRepository->paginate($request->toArray())->toJson();
+        return $this->clientsRepository->paginate($request->toArray())->toJson();
     }
 
     public function findJson($id)
     {
-        return $this->clientRepository->find($id)->toJson();
+        return $this->clientsRepository->find($id)->toJson();
     }
 }
