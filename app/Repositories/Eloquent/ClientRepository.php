@@ -32,7 +32,7 @@ class ClientRepository extends EloquentRepository implements ClientRepositoryInt
 
     public function validateModel(Model $model)
     {
-        if (empty($model->first_name) && empty($model->second_name)) return false;
+        if (empty($model->first_name) && empty($model->last_name)) return false;
         if (!isset($model->arrival_date) || !isset($model->departure_date)) return false;
         if (strtotime($model->arrival_date) >= strtotime($model->departure_date)) return false;
         if ($model->adults == 0 && $model->children == 0) return false;
