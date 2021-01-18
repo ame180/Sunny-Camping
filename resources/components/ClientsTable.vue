@@ -76,7 +76,7 @@
                         <i class="far fa-sticky-note"></i>
                     </a>
                 </div>
-                <form @submit.prevent="deleteClient(props.rowData.id)" method="POST" action=""
+                <form @submit.prevent="showDeleteDialog(props.rowData.id)" method="POST" action=""
                       class="col m-0">
                     <button class="btn btn-danger">
                         <i class="far fa-trash-alt"></i>
@@ -90,6 +90,7 @@
             :onEachSide="2"
             @vuetable-pagination:change-page="onChangePage">
         </vuetable-pagination>
+        <v-dialog></v-dialog>
     </div>
 </template>
 
@@ -104,6 +105,27 @@
         },
         methods:
             {
+                showDeleteDialog(id) {
+                    this.$modal.show('dialog', {
+                        title: 'Uwaga!',
+                        text: 'Czy na pewno chcesz usunąć wpis #' + id + "?",
+                        buttons: [
+                            {
+                                title: 'Nie',
+                                handler: () => {
+                                    this.$modal.hide('dialog')
+                                }
+                            },
+                            {
+                                title: 'Tak',
+                                handler: () => {
+                                    this.deleteClient(id);
+                                    this.$modal.hide('dialog')
+                                }
+                            }
+                        ]
+                    })
+                },
                 deleteClient: function (id) {
                     axios.delete(baseUrl + '/admin/clients/delete/' + id);
                     this.$refs.vuetable.tableData.forEach((client, index) => {
