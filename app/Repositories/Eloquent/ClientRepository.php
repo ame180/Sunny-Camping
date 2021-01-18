@@ -37,6 +37,8 @@ class ClientRepository extends EloquentRepository implements ClientRepositoryInt
         if (strtotime($model->arrival_date) >= strtotime($model->departure_date)) return false;
         if ($model->adults == 0 && $model->children == 0) return false;
         if (!in_array($model->discount, $this->discounts)) return false;
+        if ($model->adults < 0 || $model->children < 0 || $model->electricity < 0 || $model->small_places < 0
+            || $model->big_places < 0) return false;
         return true;
     }
 
