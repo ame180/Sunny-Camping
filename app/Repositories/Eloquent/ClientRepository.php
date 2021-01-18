@@ -15,13 +15,13 @@ class ClientRepository extends EloquentRepository implements ClientRepositoryInt
 
     protected $model;
     protected $notNullable = ['arrivalDate', 'departureDate', 'adults', 'children', 'electricity', 'smallPlaces',
-        'BigPlaces', 'discount'];
+        'bigPlaces', 'discount'];
     protected $defaultValues = [
         'adults' => 0,
         'children' => 0,
         'electricity' => 0,
-        'small_places' => 0,
-        'big_places' => 0,
+        'smallPlaces' => 0,
+        'bigPlaces' => 0,
         'discount' => 0
     ];
 
