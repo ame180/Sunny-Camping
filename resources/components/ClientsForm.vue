@@ -1,5 +1,5 @@
 <template>
-    <form id="client-form" class="row mt-4" @submit.prevent="submitClientForm(mode)" method="POST" action="">
+    <form id="client-form" class="row mt-4" @submit.prevent="submitClientForm()" method="POST" action="">
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="first_name">Imię</label>
             <input v-model="client.first_name" name="first_name" type="text" placeholder="Imię"
@@ -96,7 +96,7 @@
             }
         },
         methods: {
-            submitClientForm(mode) {
+            submitClientForm() {
                 if (!this.client.first_name && !this.client.last_name) {
                     alert("Imię lub Nazwisko musi być wpisane!");
                     return false;
