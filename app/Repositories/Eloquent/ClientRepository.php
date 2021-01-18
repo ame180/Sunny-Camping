@@ -11,7 +11,7 @@ use DateTime;
 class ClientRepository extends EloquentRepository implements ClientRepositoryInterface
 {
     protected $prices = ['adult' => 18, 'child' => 14, 'electricity' => 10, 'smallPlaces' => 4, 'bigPlaces' => 6];
-    protected $discounts = [0, 5, 10];
+    protected $discounts;
 
     protected $model;
     protected $notNullable = ['arrivalDate', 'departureDate', 'adults', 'children', 'electricity', 'smallPlaces',
@@ -28,6 +28,7 @@ class ClientRepository extends EloquentRepository implements ClientRepositoryInt
     public function __construct()
     {
         $this->model = new Client;
+        $this->discounts = config('constants.discounts');
     }
 
     public function validateModel(Model $model)
