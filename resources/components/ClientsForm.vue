@@ -96,13 +96,10 @@
             }
         },
         methods: {
-            isEmpty(input) {
-                if (!input) return true;
-                if (!input.trim()) return true;
-                return false;
-            },
             submitClientForm() {
-                if (this.isEmpty(this.client.first_name) && this.isEmpty(this.client.last_name)) {
+                if (this.client.first_name) this.client.first_name = this.client.first_name.trim();
+                if (this.client.last_name) this.client.last_name = this.client.last_name.trim();
+                if (!this.client.first_name && !this.client.last_name) {
                     alert("Imię lub Nazwisko musi być wpisane!");
                     return false;
                 }
