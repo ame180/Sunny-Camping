@@ -2,7 +2,6 @@ import Vue from 'vue';
 
 window.Vue = Vue;
 window._ = require('lodash');
-window.$ = window.jQuery = require('jquery');
 window.VueApexCharts = require('vue-apexcharts');
 
 /**

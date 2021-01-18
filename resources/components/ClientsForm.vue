@@ -1,22 +1,26 @@
 <template>
-    <form id="client-form" class="row mt-4" @submit.prevent="submitClientForm(mode)" method="POST" action="">
+    <form id="client-form" class="row mt-4" @submit.prevent="submitClientForm()" method="POST" action="">
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="first_name">Imię</label>
-            <input v-model="client.first_name" name="first_name" type="text" placeholder="Imię"
+            <input v-model="client.firstName" @blur="client.firstName = trim(client.firstName)"
+                   name="first_name"
+                   type="text" placeholder="Imię"
                    class="form-control form-control-sm">
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="last_name">Imię</label>
-            <input v-model="client.last_name" name="last_name" type="text" placeholder="Naziwsko"
+            <input v-model="client.lastName" @blur="client.lastName = trim(client.lastName)" name="last_name"
+                   type="text" placeholder="Naziwsko"
                    class="form-control form-control-sm">
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="arrival_date">Data przyjazdu</label>
-            <input v-model="client.arrival_date" name="arrival_date" type="date" class="form-control form-control-sm">
+            <input v-model="client.arrivalDate" @change="updateDiscount()" name="arrival_date" type="date"
+                   class="form-control form-control-sm">
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="departure_date">Data odjazdu</label>
-            <input v-model="client.departure_date" name="departure_date" type="date"
+            <input v-model="client.departureDate" @change="updateDiscount()" name="departure_date" type="date"
                    class="form-control form-control-sm"
                    required>
         </div>
@@ -37,12 +41,12 @@
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="small_places">Małe miejsca</label>
-            <input v-model="client.small_places" name="small_places" type="number" placeholder="0"
+            <input v-model="client.smallPlaces" name="small_places" type="number" placeholder="0"
                    class="form-control form-control-sm">
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="big_places">Duże miejsca</label>
-            <input v-model="client.big_places" name="big_places" type="number" placeholder="0"
+            <input v-model="client.bigPlaces" name="big_places" type="number" placeholder="0"
                    class="form-control form-control-sm">
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
@@ -72,16 +76,16 @@
         data() {
             return {
                 client: {
-                    first_name: null,
-                    last_name: null,
-                    arrival_date: null,
-                    departure_date: null,
+                    firstName: null,
+                    lastName: null,
+                    arrivalDate: null,
+                    departureDate: null,
                     sector: null,
                     adults: null,
                     children: null,
                     electricity: null,
-                    small_places: null,
-                    big_places: null,
+                    smallPlaces: null,
+                    bigPlaces: null,
                     comment: null,
                     discount: 0
                 }
@@ -92,12 +96,27 @@
                 axios.get(baseUrl + '/admin/clients/find-json/' + this.id)
                     .then((response) => {
                         this.client = response.data;
+
                     })
             }
         },
         methods: {
-            submitClientForm(mode) {
-                if (!this.client.first_name && !this.client.last_name) {
+            trim(input) {
+                if (input) return input.trim();
+                return null;
+            },
+            updateDiscount() {
+                if (!this.client.arrivalDate || !this.client.departureDate) return false;
+                let days = (new Date(this.client.departureDate) - new Date(this.client.arrivalDate)) / (1000 * 60 * 60 * 24);
+                console.log(days);
+                if (days >= 7 && days < 14) this.client.discount = 5;
+                else if (days >= 14) this.client.discount = 10;
+                else this.client.discount = 0;
+            },
+            submitClientForm() {
+                if (this.client.firstName) this.client.firstName = this.client.firstName.trim();
+                if (this.client.lastName) this.client.lastName = this.client.lastName.trim();
+                if (!this.client.firstName && !this.client.lastName) {
                     alert("Imię lub Nazwisko musi być wpisane!");
                     return false;
                 }
@@ -105,16 +124,16 @@
                     alert("Musisz wpisać co najmniej jedną osobę!");
                     return false;
                 }
-                if (new Date(this.client.arrival_date) >= new Date(this.client.departure_date)) {
+                if (new Date(this.client.arrivalDate) >= new Date(this.client.departureDate)) {
                     alert("Data odjazdu musi być później od daty przyjazdu!");
                     return false;
                 }
-                if (this.client.adults < 0 || this.client.children < 0 || this.client.electricity < 0 || this.client.big_places < 0 ||
-                    this.client.small_places < 0) {
+                if (this.client.adults < 0 || this.client.children < 0 || this.client.electricity < 0 || this.client.bigPlaces < 0 ||
+                    this.client.smallPlaces < 0) {
                     alert("Liczby nie mogą być ujemne!")
                     return false;
                 }
-                var request;
+                let request;
                 if (this.mode == 'PUT') {
                     request = axios.put(baseUrl + '/admin/clients/add', this.client);
                 } else {
