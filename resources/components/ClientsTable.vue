@@ -2,56 +2,7 @@
     <div>
         <vuetable ref="vuetable"
                   :api-url="'clients/paginated-json'"
-                  :fields="[
-              {
-                name: 'id-slot',
-                title: '#'
-              },
-              {
-                name: 'full-name-slot',
-                title: 'Imię i Nazwisko'
-              },
-              {
-                name: 'arrival_date',
-                title: 'Data Przyjazdu'
-              },
-              {
-                name: 'departure_date',
-                title: 'Data Odjazdu'
-              },
-              {
-                name: 'sector',
-                title: 'Sektor'
-              },
-              {
-                name: 'people-slot',
-                title: 'Osoby'
-              },
-              {
-                name: 'electricity',
-                title: 'Prąd'
-              },
-              {
-                name: 'places-slot',
-                title: 'Miejsca'
-              },
-              {
-                name: 'discount',
-                title: 'Rabat'
-              },
-              {
-                name: 'price',
-                title: 'Cena'
-              },
-              {
-                name: 'comment',
-                title: 'Komentarz'
-              },
-              {
-                name: 'options-slot',
-                title: 'Opcje',
-              }
-              ]"
+                  :fields="fields"
                   data-path="data"
                   pagination-path=""
                   :css="css.table"
@@ -61,13 +12,13 @@
                 <b>{{ props.rowData.id }}</b>
             </div>
             <div slot="full-name-slot" slot-scope="props">
-                {{ props.rowData.first_name }} {{ props.rowData.last_name }}
+                {{ props.rowData.firstName }} {{ props.rowData.lastName }}
             </div>
             <div slot="people-slot" slot-scope="props">
                 {{ props.rowData.adults }} + {{ props.rowData.children }}
             </div>
             <div slot="places-slot" slot-scope="props">
-                {{ props.rowData.small_places }} + {{ props.rowData.big_places }}
+                {{ props.rowData.smallPlaces }} + {{ props.rowData.bigPlaces }}
             </div>
             <div slot="options-slot" slot-scope="props" class="row no-gutters">
                 <div class="col">
@@ -142,6 +93,56 @@
             },
         data() {
             return {
+                fields: [
+                    {
+                        name: 'id-slot',
+                        title: '#'
+                    },
+                    {
+                        name: 'full-name-slot',
+                        title: 'Imię i Nazwisko'
+                    },
+                    {
+                        name: 'arrivalDate',
+                        title: 'Data Przyjazdu'
+                    },
+                    {
+                        name: 'departureDate',
+                        title: 'Data Odjazdu'
+                    },
+                    {
+                        name: 'sector',
+                        title: 'Sektor'
+                    },
+                    {
+                        name: 'people-slot',
+                        title: 'Osoby'
+                    },
+                    {
+                        name: 'electricity',
+                        title: 'Prąd'
+                    },
+                    {
+                        name: 'places-slot',
+                        title: 'Miejsca'
+                    },
+                    {
+                        name: 'discount',
+                        title: 'Rabat'
+                    },
+                    {
+                        name: 'price',
+                        title: 'Cena'
+                    },
+                    {
+                        name: 'comment',
+                        title: 'Komentarz'
+                    },
+                    {
+                        name: 'options-slot',
+                        title: 'Opcje',
+                    }
+                ],
                 css: {
                     table: {
                         tableClass: 'table table-responsive-lg table-bordered table-striped table-hover text-center mt-3',
