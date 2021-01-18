@@ -2,21 +2,25 @@
     <form id="client-form" class="row mt-4" @submit.prevent="submitClientForm()" method="POST" action="">
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="first_name">Imię</label>
-            <input v-model="client.first_name" name="first_name" type="text" placeholder="Imię"
+            <input v-model="client.first_name" @blur="client.first_name = trim(client.first_name)"
+                   name="first_name"
+                   type="text" placeholder="Imię"
                    class="form-control form-control-sm">
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="last_name">Imię</label>
-            <input v-model="client.last_name" name="last_name" type="text" placeholder="Naziwsko"
+            <input v-model="client.last_name" @blur="client.last_name = trim(client.last_name)" name="last_name"
+                   type="text" placeholder="Naziwsko"
                    class="form-control form-control-sm">
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="arrival_date">Data przyjazdu</label>
-            <input v-model="client.arrival_date" name="arrival_date" type="date" class="form-control form-control-sm">
+            <input v-model="client.arrival_date" @change="updateDiscount()" name="arrival_date" type="date"
+                   class="form-control form-control-sm">
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="departure_date">Data odjazdu</label>
-            <input v-model="client.departure_date" name="departure_date" type="date"
+            <input v-model="client.departure_date" @change="updateDiscount()" name="departure_date" type="date"
                    class="form-control form-control-sm"
                    required>
         </div>
@@ -96,6 +100,18 @@
             }
         },
         methods: {
+            trim(input) {
+                if (input) return input.trim();
+                return null;
+            },
+            updateDiscount() {
+                if (!this.client.arrival_date || !this.client.departure_date) return false;
+                let days = (new Date(this.client.departure_date) - new Date(this.client.arrival_date)) / (1000 * 60 * 60 * 24);
+                console.log(days);
+                if (days >= 7 && days < 14) this.client.discount = 5;
+                else if (days >= 14) this.client.discount = 10;
+                else this.client.discount = 0;
+            },
             submitClientForm() {
                 if (this.client.first_name) this.client.first_name = this.client.first_name.trim();
                 if (this.client.last_name) this.client.last_name = this.client.last_name.trim();
@@ -116,7 +132,7 @@
                     alert("Liczby nie mogą być ujemne!")
                     return false;
                 }
-                var request;
+                let request;
                 if (this.mode == 'PUT') {
                     request = axios.put(baseUrl + '/admin/clients/add', this.client);
                 } else {
