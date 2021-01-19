@@ -34,7 +34,7 @@
                     </button>
                 </form>
                 <div class="col-12 p-1">
-                    <a @click="showSettleModal(props.rowData.id)"
+                    <a @click="showSettleModal(props.rowData)"
                        class="btn btn-warning text-light">
                         <i class="fas fa-fw fa-dollar-sign"></i>
                     </a>
@@ -48,8 +48,9 @@
             @vuetable-pagination:change-page="onChangePage">
         </vuetable-pagination>
         <v-dialog></v-dialog>
-        <modal name="settle-modal">
-            Hello there!
+        <modal name="settle-modal"
+
+        >
         </modal>
     </div>
 </template>
@@ -57,6 +58,7 @@
 <script>
     import Vuetable from 'vuetable-2'
     import VuetablePagination from './VuetablePagination'
+    import SettleModal from "./SettleModal";
 
     export default {
         components: {
@@ -65,8 +67,19 @@
         },
         methods:
             {
-                showSettleModal(id) {
-                    this.$modal.show('settle-modal');
+                showSettleModal(data) {
+                    this.$modal.show(SettleModal,
+                        {
+                            data: data
+                        },
+                        {
+                            adaptive: true,
+                            reset: true,
+                            focusTrap: true,
+                            height: "auto",
+                            width: 400
+                        });
+                    console.log(data);
                 },
                 showDeleteDialog(id) {
                     this.$modal.show('dialog', {
