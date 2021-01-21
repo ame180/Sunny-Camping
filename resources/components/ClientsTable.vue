@@ -48,10 +48,6 @@
             @vuetable-pagination:change-page="onChangePage">
         </vuetable-pagination>
         <v-dialog></v-dialog>
-        <modal name="settle-modal"
-
-        >
-        </modal>
     </div>
 </template>
 
@@ -73,6 +69,7 @@
                             data: data
                         },
                         {
+                            name: 'settle-modal',
                             adaptive: true,
                             reset: true,
                             focusTrap: true,

@@ -5,10 +5,11 @@
         </div>
         <div class="row no-gutters">
             <div class="col p-1">
-                <a class="btn btn-outline-secondary w-100 h-100">Anuluj</a>
+                <a @click="$modal.hide('settle-modal')" class="btn btn-outline-secondary w-100 h-100">Anuluj</a>
             </div>
             <div class="col p-1">
-                <a class="btn btn-outline-secondary w-100 h-100">Rozlicz</a>
+                <a @click="submitSettlement(); $modal.hide('settle-modal');"
+                   class="btn btn-outline-secondary w-100 h-100">Rozlicz</a>
             </div>
         </div>
     </div>
@@ -16,6 +17,11 @@
 
 <script>
     export default {
-        props: ['data']
+        props: ['data'],
+        methods: {
+            submitSettlement() {
+
+            }
+        }
     }
 </script>
