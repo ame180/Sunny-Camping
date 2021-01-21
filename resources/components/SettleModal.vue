@@ -1,7 +1,13 @@
 <template>
     <div>
         <div class="p-2">
-            <h1 class="text-center">{{data.firstName + " " + data.lastName}}</h1>
+            <h1 class="text-center">Rozliczenie</h1>
+            <b>
+                #{{data.id}}<br>
+                {{data.firstName}} {{data.lastName}}<br>
+                Dni: {{(new Date(data.departureDate) - new Date(data.arrivalDate)) / (1000 * 60 * 60 * 24)}}<br>
+                Suma: {{data.price}} zł
+            </b>
         </div>
         <div class="row no-gutters">
             <div class="col p-1">
