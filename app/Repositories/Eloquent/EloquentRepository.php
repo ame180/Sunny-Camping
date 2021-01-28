@@ -34,7 +34,7 @@ abstract class EloquentRepository
 
     public function add($attributes)
     {
-        $model = $this->model;
+        $model = $this->model->replicate();
         $model->fill($attributes);
         return $this->saveIfValid($model);
     }

@@ -100,11 +100,10 @@
                     })
                 },
                 deleteClient: function (id) {
-                    axios.delete(baseUrl + '/admin/clients/delete/' + id);
-                    this.$refs.vuetable.tableData.forEach((client, index) => {
-                        if (id === client.id) this.$refs.vuetable.tableData.splice(index, 1);
+                    axios.delete(baseUrl + '/admin/clients/delete/' + id)
+                    .then(() => {
+                        this.$refs.vuetable.reload()
                     });
-                    this.$refs.vuetable.reload();
                 },
                 onPaginationData(paginationData) {
                     this.$refs.pagination.setPaginationData(paginationData)
