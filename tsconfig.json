@@ -2,9 +2,10 @@
     "compilerOptions": {
         "module": "commonjs",
         "target": "es5",
+        "strict": true,
         "sourceMap": true
     },
-    "include": ["resources/**/*"],
+    "include": ["resources/**/*", "declarations.d.ts"],
     "exclude": [
         "node_modules"
     ]
