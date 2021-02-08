@@ -1,5 +1,6 @@
-import ClientsTable from "../../components/ClientsTable";
-import ClientsForm from "../../components/ClientsForm";
+import Vue from "vue";
+import ClientsTable from "../../components/ClientsTable.vue";
+import ClientsForm from "../../components/ClientsForm.vue";
 import VModal from 'vue-js-modal/dist/index.nocss.js';
 
 Vue.component('clients-table', ClientsTable);
