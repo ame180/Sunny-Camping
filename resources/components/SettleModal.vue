@@ -7,8 +7,15 @@
                 Dni: {{ days }}<br>
                 Cena za dzień: {{ pricePerDay }} zł<br>
                 <span v-if="data.discount != 0">Rabat: {{ data.discount }}%<br></span>
+                <div v-if="true">
+                    Zapłacono: {{ data.paid ? data.paid : 0 }} zł<br>
+                    Pozostało: {{ data.price - data.paid }} zł
+                </div>
                 Suma<span v-if="data.discount != 0"> (po rabacie)</span>: {{ data.price }} zł
             </b>
+            <div class="input-group">
+
+            </div>
         </div>
         <div class="row no-gutters">
             <div class="col p-1">
@@ -38,7 +45,7 @@ export default {
             return (new Date(this.data.departureDate) - new Date(this.data.arrivalDate)) / (1000 * 60 * 60 * 24);
         },
         pricePerDay: function() {
-            return this.data.price / this.days;
+            return Math.round(this.data.price / this.days * 100) / 100;
         }
     }
 }
