@@ -13,9 +13,11 @@ interface ClientRepositoryInterface
 
     public function paginate($query = []);
 
-    public function find($id);
+    public function find(int $id);
 
     public function add($attributes);
 
     public function delete($id);
+
+    public function settle(int $id, int $amount);
 }

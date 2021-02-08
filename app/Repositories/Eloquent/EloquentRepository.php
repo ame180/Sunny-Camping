@@ -22,7 +22,7 @@ abstract class EloquentRepository
         return $this->model->all($columns);
     }
 
-    public function find($id)
+    public function find(int $id)
     {
         return $this->model->find($id);
     }
