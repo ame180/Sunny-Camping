@@ -38,8 +38,8 @@
     </nav>
 </template>
 
-<script>
-    import VuetablePaginationMixin from "vuetable-2/src/components/VuetablePaginationMixin";
+<script lang="ts">
+    import VuetablePaginationMixin from "vuetable-2/src/components/VuetablePaginationMixin.vue";
 
     export default {
         mixins: [VuetablePaginationMixin],

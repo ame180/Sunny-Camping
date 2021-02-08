@@ -1,4 +1,4 @@
 import 'bootstrap';
 import '@fortawesome/fontawesome-free/js/all';
-import './bootstrap';
+import './bootstrap'
 import './admin/clients';
