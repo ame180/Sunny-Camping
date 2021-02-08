@@ -66,7 +66,8 @@ export default {
             showSettleModal(data) {
                 this.$modal.show(SettleModal,
                     {
-                        data: data
+                        data: data,
+                        refreshTable: this.$refs.vuetable.refresh
                     },
                     {
                         name: 'settle-modal',

@@ -6,15 +6,16 @@
                 #{{ data.id }} {{ data.firstName }} {{ data.lastName }}<br>
                 Dni: {{ days }}<br>
                 Cena za dzień: {{ pricePerDay }} zł<br>
-                <span v-if="data.discount != 0">Rabat: {{ data.discount }}%<br></span>
-                <div v-if="true">
+                <div v-if="data.paid != 0">
                     Zapłacono: {{ data.paid ? data.paid : 0 }} zł<br>
                     Pozostało: {{ data.price - data.paid }} zł
                 </div>
+                <span v-if="data.discount != 0">Rabat: {{ data.discount }}%<br></span>
                 Suma<span v-if="data.discount != 0"> (po rabacie)</span>: {{ data.price }} zł
             </b>
-            <div class="input-group">
-
+            <div class="form-group mt-2">
+                <label for="settlement">Wpłacono:</label>
+                <input class="form-control" name="settlement" v-model="settlement" type="number" placeholder="0">
             </div>
         </div>
         <div class="row no-gutters">
@@ -31,13 +32,23 @@
 
 <script>
 export default {
-    props: ['data'],
-    created() {
-
+    props: {
+        data: Object,
+        refreshTable: Function
+    },
+    data() {
+        return {
+            settlement: this.data.paid
+        }
     },
     methods: {
         submitSettlement() {
-
+            if (!this.settlement) return;
+            axios.patch(baseUrl + '/admin/clients/settle/' + this.id, {
+                settlement: this.settlement
+            }).then(() => {
+                this.refreshTable();
+            })
         }
     },
     computed: {
