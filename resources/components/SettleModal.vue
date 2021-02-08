@@ -26,13 +26,19 @@
 export default {
     props: ['data'],
     created() {
-        console.log('hello');
-        this.days = (new Date(this.data.departureDate) - new Date(this.data.arrivalDate)) / (1000 * 60 * 60 * 24);
-        this.pricePerDay = this.data.price / this.days;
+
     },
     methods: {
         submitSettlement() {
 
+        }
+    },
+    computed: {
+        days: function() {
+            return (new Date(this.data.departureDate) - new Date(this.data.arrivalDate)) / (1000 * 60 * 60 * 24);
+        },
+        pricePerDay: function() {
+            return this.data.price / this.days;
         }
     }
 }
