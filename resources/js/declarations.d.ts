@@ -4,3 +4,4 @@ declare module "*.vue" {
 }
 
 declare module "vue-js-modal/dist/index.nocss.js";
+declare module "vuetable-2";
