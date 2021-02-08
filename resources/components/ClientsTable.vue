@@ -21,18 +21,24 @@
                 {{ props.rowData.smallPlaces }} + {{ props.rowData.bigPlaces }}
             </div>
             <div slot="options-slot" slot-scope="props" class="row no-gutters">
-                <div class="col">
+                <div class="col-12 p-1">
                     <a class="btn btn-primary"
                        :href="'clients/edit/' + props.rowData.id">
-                        <i class="far fa-sticky-note"></i>
+                        <i class="far fa-fw fa-sticky-note"></i>
                     </a>
                 </div>
                 <form @submit.prevent="showDeleteDialog(props.rowData.id)" method="POST" action=""
-                      class="col m-0">
+                      class="col-12 p-1 m-0">
                     <button class="btn btn-danger">
-                        <i class="far fa-trash-alt"></i>
+                        <i class="far fa-fw fa-trash-alt"></i>
                     </button>
                 </form>
+                <div class="col-12 p-1">
+                    <a @click="showSettleModal(props.rowData)"
+                       class="btn btn-warning text-light">
+                        <i class="fas fa-fw fa-dollar-sign"></i>
+                    </a>
+                </div>
             </div>
         </vuetable>
         <vuetable-pagination
@@ -48,6 +54,7 @@
 <script>
     import Vuetable from 'vuetable-2'
     import VuetablePagination from './VuetablePagination'
+    import SettleModal from "./SettleModal";
 
     export default {
         components: {
@@ -56,6 +63,21 @@
         },
         methods:
             {
+                showSettleModal(data) {
+                    this.$modal.show(SettleModal,
+                        {
+                            data: data
+                        },
+                        {
+                            name: 'settle-modal',
+                            adaptive: true,
+                            reset: true,
+                            focusTrap: true,
+                            height: "auto",
+                            width: 400
+                        });
+                    console.log(data);
+                },
                 showDeleteDialog(id) {
                     this.$modal.show('dialog', {
                         title: 'Uwaga!',
@@ -144,7 +166,7 @@
                 ],
                 css: {
                     table: {
-                        tableClass: 'table table-responsive-lg table-bordered table-striped table-hover text-center mt-3',
+                        tableClass: 'table table-responsive table-bordered table-striped table-hover text-center mt-3',
                     },
                     pagination: {
                         wrapperClass: 'pagination',
