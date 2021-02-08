@@ -62,4 +62,10 @@ class ClientController extends Controller
     {
         return $this->clientsRepository->find($id)->toJson();
     }
+
+    public function settle(int $id, Request $request) {
+        if (!$request->has('settlement')) return response('', 406);;
+        if (!$this->clientsRepository->settle($id, $request->get('settlement'))) return response('', 406);
+        return true;
+    }
 }
