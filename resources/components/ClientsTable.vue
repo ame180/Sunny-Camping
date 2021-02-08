@@ -52,140 +52,139 @@
 </template>
 
 <script>
-    import Vuetable from 'vuetable-2'
-    import VuetablePagination from './VuetablePagination'
-    import SettleModal from "./SettleModal";
+import Vuetable from 'vuetable-2'
+import VuetablePagination from './VuetablePagination'
+import SettleModal from "./SettleModal";
 
-    export default {
-        components: {
-            Vuetable,
-            VuetablePagination
-        },
-        methods:
-            {
-                showSettleModal(data) {
-                    this.$modal.show(SettleModal,
+export default {
+    components: {
+        Vuetable,
+        VuetablePagination
+    },
+    methods:
+        {
+            showSettleModal(data) {
+                this.$modal.show(SettleModal,
+                    {
+                        data: data
+                    },
+                    {
+                        name: 'settle-modal',
+                        adaptive: true,
+                        reset: true,
+                        focusTrap: true,
+                        height: "auto",
+                        width: 400
+                    });
+            },
+            showDeleteDialog(id) {
+                this.$modal.show('dialog', {
+                    title: 'Uwaga!',
+                    text: 'Czy na pewno chcesz usunąć wpis #' + id + "?",
+                    buttons: [
                         {
-                            data: data
+                            title: 'Nie',
+                            handler: () => {
+                                this.$modal.hide('dialog')
+                            }
                         },
                         {
-                            name: 'settle-modal',
-                            adaptive: true,
-                            reset: true,
-                            focusTrap: true,
-                            height: "auto",
-                            width: 400
-                        });
-                    console.log(data);
-                },
-                showDeleteDialog(id) {
-                    this.$modal.show('dialog', {
-                        title: 'Uwaga!',
-                        text: 'Czy na pewno chcesz usunąć wpis #' + id + "?",
-                        buttons: [
-                            {
-                                title: 'Nie',
-                                handler: () => {
-                                    this.$modal.hide('dialog')
-                                }
-                            },
-                            {
-                                title: 'Tak',
-                                handler: () => {
-                                    this.deleteClient(id);
-                                    this.$modal.hide('dialog')
-                                }
+                            title: 'Tak',
+                            handler: () => {
+                                this.deleteClient(id);
+                                this.$modal.hide('dialog')
                             }
-                        ]
-                    })
-                },
-                deleteClient: function (id) {
-                    axios.delete(baseUrl + '/admin/clients/delete/' + id)
+                        }
+                    ]
+                })
+            },
+            deleteClient: function (id) {
+                axios.delete(baseUrl + '/admin/clients/delete/' + id)
                     .then(() => {
                         this.$refs.vuetable.reload()
                     });
+            },
+            onPaginationData(paginationData) {
+                this.$refs.pagination.setPaginationData(paginationData)
+            },
+            onChangePage(page) {
+                this.$refs.vuetable.changePage(page)
+            }
+        },
+    data() {
+        return {
+            fields: [
+                {
+                    name: 'id-slot',
+                    title: '#'
                 },
-                onPaginationData(paginationData) {
-                    this.$refs.pagination.setPaginationData(paginationData)
+                {
+                    name: 'full-name-slot',
+                    title: 'Imię i Nazwisko'
                 },
-                onChangePage(page) {
-                    this.$refs.vuetable.changePage(page)
+                {
+                    name: 'arrivalDate',
+                    title: 'Data Przyjazdu'
+                },
+                {
+                    name: 'departureDate',
+                    title: 'Data Odjazdu'
+                },
+                {
+                    name: 'sector',
+                    title: 'Sektor'
+                },
+                {
+                    name: 'people-slot',
+                    title: 'Osoby'
+                },
+                {
+                    name: 'electricity',
+                    title: 'Prąd'
+                },
+                {
+                    name: 'places-slot',
+                    title: 'Miejsca'
+                },
+                {
+                    name: 'discount',
+                    title: 'Rabat'
+                },
+                {
+                    name: 'price',
+                    title: 'Cena'
+                },
+                {
+                    name: 'comment',
+                    title: 'Komentarz'
+                },
+                {
+                    name: 'options-slot',
+                    title: 'Opcje',
+                }
+            ],
+            css: {
+                table: {
+                    tableClass: 'table table-responsive table-bordered table-striped table-hover text-center mt-3',
+                },
+                pagination: {
+                    wrapperClass: 'pagination',
+                    activeClass: 'active',
+                    disabledClass: 'disabled',
+                    pageClass: 'page-item',
+                    linkClass: 'page-link',
+                    paginationClass: 'pagination',
+                    paginationInfoClass: 'float-left',
+                    dropdownClass: 'form-control',
+                    icons: {
+                        first: 'fa fa-angle-double-left',
+                        prev: 'fa fa-angle-left',
+                        next: 'fa fa-angle-right',
+                        last: 'fa fa-angle-double-right',
+                    }
                 }
             },
-        data() {
-            return {
-                fields: [
-                    {
-                        name: 'id-slot',
-                        title: '#'
-                    },
-                    {
-                        name: 'full-name-slot',
-                        title: 'Imię i Nazwisko'
-                    },
-                    {
-                        name: 'arrivalDate',
-                        title: 'Data Przyjazdu'
-                    },
-                    {
-                        name: 'departureDate',
-                        title: 'Data Odjazdu'
-                    },
-                    {
-                        name: 'sector',
-                        title: 'Sektor'
-                    },
-                    {
-                        name: 'people-slot',
-                        title: 'Osoby'
-                    },
-                    {
-                        name: 'electricity',
-                        title: 'Prąd'
-                    },
-                    {
-                        name: 'places-slot',
-                        title: 'Miejsca'
-                    },
-                    {
-                        name: 'discount',
-                        title: 'Rabat'
-                    },
-                    {
-                        name: 'price',
-                        title: 'Cena'
-                    },
-                    {
-                        name: 'comment',
-                        title: 'Komentarz'
-                    },
-                    {
-                        name: 'options-slot',
-                        title: 'Opcje',
-                    }
-                ],
-                css: {
-                    table: {
-                        tableClass: 'table table-responsive table-bordered table-striped table-hover text-center mt-3',
-                    },
-                    pagination: {
-                        wrapperClass: 'pagination',
-                        activeClass: 'active',
-                        disabledClass: 'disabled',
-                        pageClass: 'page-item',
-                        linkClass: 'page-link',
-                        paginationClass: 'pagination',
-                        paginationInfoClass: 'float-left',
-                        dropdownClass: 'form-control',
-                        icons: {
-                            first: 'fa fa-angle-double-left',
-                            prev: 'fa fa-angle-left',
-                            next: 'fa fa-angle-right',
-                            last: 'fa fa-angle-double-right',
-                        }
-                    }
-                },
-            }
         }
     }
+}
 </script>

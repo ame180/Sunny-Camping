@@ -3,11 +3,11 @@
         <div class="p-2">
             <h1 class="text-center">Rozliczenie</h1>
             <b>
-                #{{data.id}} {{data.firstName}} {{data.lastName}}<br>
+                #{{ data.id }} {{ data.firstName }} {{ data.lastName }}<br>
                 Dni: {{ days }}<br>
                 Cena za dzień: {{ pricePerDay }} zł<br>
-                <span v-if="data.discount != 0">Rabat: {{data.discount}}%<br></span>
-                Suma<span v-if="data.discount != 0"> (po rabacie)</span>: {{data.price}} zł
+                <span v-if="data.discount != 0">Rabat: {{ data.discount }}%<br></span>
+                Suma<span v-if="data.discount != 0"> (po rabacie)</span>: {{ data.price }} zł
             </b>
         </div>
         <div class="row no-gutters">
@@ -23,17 +23,17 @@
 </template>
 
 <script>
-    export default {
-        props: ['data'],
-        created() {
-            console.log('hello');
-            this.days = (new Date(this.data.departureDate) - new Date(this.data.arrivalDate)) / (1000 * 60 * 60 * 24);
-            this.pricePerDay = this.data.price / this.days;
-        },
-        methods: {
-            submitSettlement() {
+export default {
+    props: ['data'],
+    created() {
+        console.log('hello');
+        this.days = (new Date(this.data.departureDate) - new Date(this.data.arrivalDate)) / (1000 * 60 * 60 * 24);
+        this.pricePerDay = this.data.price / this.days;
+    },
+    methods: {
+        submitSettlement() {
 
-            }
         }
     }
+}
 </script>

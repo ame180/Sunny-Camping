@@ -71,80 +71,80 @@
 </template>
 
 <script>
-    export default {
-        props: ['mode', 'id'],
-        data() {
-            return {
-                client: {
-                    firstName: null,
-                    lastName: null,
-                    arrivalDate: null,
-                    departureDate: null,
-                    sector: null,
-                    adults: null,
-                    children: null,
-                    electricity: null,
-                    smallPlaces: null,
-                    bigPlaces: null,
-                    comment: null,
-                    discount: 0
-                }
+export default {
+    props: ['mode', 'id'],
+    data() {
+        return {
+            client: {
+                firstName: null,
+                lastName: null,
+                arrivalDate: null,
+                departureDate: null,
+                sector: null,
+                adults: null,
+                children: null,
+                electricity: null,
+                smallPlaces: null,
+                bigPlaces: null,
+                comment: null,
+                discount: 0
             }
-        },
-        mounted() {
-            if (this.mode == 'PATCH' && this.id != null) {
-                axios.get(baseUrl + '/admin/clients/find-json/' + this.id)
-                    .then((response) => {
-                        this.client = response.data;
+        }
+    },
+    mounted() {
+        if (this.mode == 'PATCH' && this.id != null) {
+            axios.get(baseUrl + '/admin/clients/find-json/' + this.id)
+                .then((response) => {
+                    this.client = response.data;
 
-                    })
-            }
+                })
+        }
+    },
+    methods: {
+        trim(input) {
+            if (input) return input.trim();
+            return null;
         },
-        methods: {
-            trim(input) {
-                if (input) return input.trim();
-                return null;
-            },
-            updateDiscount() {
-                if (!this.client.arrivalDate || !this.client.departureDate) return false;
-                let days = (new Date(this.client.departureDate) - new Date(this.client.arrivalDate)) / (1000 * 60 * 60 * 24);
-                console.log(days);
-                if (days >= 7 && days < 14) this.client.discount = 5;
-                else if (days >= 14) this.client.discount = 10;
-                else this.client.discount = 0;
-            },
-            submitClientForm() {
-                if (this.client.firstName) this.client.firstName = this.client.firstName.trim();
-                if (this.client.lastName) this.client.lastName = this.client.lastName.trim();
-                if (!this.client.firstName && !this.client.lastName) {
-                    alert("Imię lub Nazwisko musi być wpisane!");
-                    return false;
-                }
-                if (!this.client.adults && !this.client.children) {
-                    alert("Musisz wpisać co najmniej jedną osobę!");
-                    return false;
-                }
-                if (new Date(this.client.arrivalDate) >= new Date(this.client.departureDate)) {
-                    alert("Data odjazdu musi być później od daty przyjazdu!");
-                    return false;
-                }
-                if (this.client.adults < 0 || this.client.children < 0 || this.client.electricity < 0 || this.client.bigPlaces < 0 ||
-                    this.client.smallPlaces < 0) {
-                    alert("Liczby nie mogą być ujemne!")
-                    return false;
-                }
-                let request;
-                if (this.mode == 'PUT') {
-                    request = axios.put(baseUrl + '/admin/clients/add', this.client);
-                } else {
-                    request = axios.patch(baseUrl + '/admin/clients/update/' + this.id, this.client);
-                }
-                request.then(() => {
-                    window.location.href = baseUrl + '/admin/clients';
-                }, () => {
-                    alert("Coś poszło nie tak! Upewnij się że wpisane dane są poprawne!");
-                });
-            }
+        updateDiscount() {
+            if (!this.client.arrivalDate || !this.client.departureDate) return false;
+            let days = (new Date(this.client.departureDate) - new Date(this.client.arrivalDate)) / (1000 * 60 * 60 * 24);
+            console.log(days);
+            if (days >= 7 && days < 14) this.client.discount = 5;
+            else if (days >= 14) this.client.discount = 10;
+            else this.client.discount = 0;
         },
-    }
+        submitClientForm() {
+            if (this.client.firstName) this.client.firstName = this.client.firstName.trim();
+            if (this.client.lastName) this.client.lastName = this.client.lastName.trim();
+            if (!this.client.firstName && !this.client.lastName) {
+                alert("Imię lub Nazwisko musi być wpisane!");
+                return false;
+            }
+            if (!this.client.adults && !this.client.children) {
+                alert("Musisz wpisać co najmniej jedną osobę!");
+                return false;
+            }
+            if (new Date(this.client.arrivalDate) >= new Date(this.client.departureDate)) {
+                alert("Data odjazdu musi być później od daty przyjazdu!");
+                return false;
+            }
+            if (this.client.adults < 0 || this.client.children < 0 || this.client.electricity < 0 || this.client.bigPlaces < 0 ||
+                this.client.smallPlaces < 0) {
+                alert("Liczby nie mogą być ujemne!")
+                return false;
+            }
+            let request;
+            if (this.mode == 'PUT') {
+                request = axios.put(baseUrl + '/admin/clients/add', this.client);
+            } else {
+                request = axios.patch(baseUrl + '/admin/clients/update/' + this.id, this.client);
+            }
+            request.then(() => {
+                window.location.href = baseUrl + '/admin/clients';
+            }, () => {
+                alert("Coś poszło nie tak! Upewnij się że wpisane dane są poprawne!");
+            });
+        }
+    },
+}
 </script>
