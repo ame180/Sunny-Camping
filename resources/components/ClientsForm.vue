@@ -62,6 +62,11 @@
                 <option value="10">10%</option>
             </select>
         </div>
+        <div v-if="mode === 'PATCH' && client.paid > 0" class="col-6 col-sm-4 col-md-3 form-group">
+            <label for="paid">Zapłacono</label>
+            <input v-model="client.paid" name="paid" type="number" placeholder="0"
+                   class="form-control form-control-sm">
+        </div>
         <div class="col-12 text-center">
             <button type="submit" class="btn btn-success w-50">
                 Zatwierdź
@@ -87,6 +92,7 @@ export default {
                 smallPlaces: null,
                 bigPlaces: null,
                 comment: null,
+                paid: null,
                 discount: 0
             }
         }

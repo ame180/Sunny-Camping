@@ -15,20 +15,31 @@ class ClientRepository extends EloquentRepository implements ClientRepositoryInt
 
     protected $model;
     protected $notNullable = ['arrivalDate', 'departureDate', 'adults', 'children', 'electricity', 'smallPlaces',
-        'bigPlaces', 'discount'];
+        'bigPlaces', 'discount', 'paid', 'status'];
     protected $defaultValues = [
         'adults' => 0,
         'children' => 0,
         'electricity' => 0,
         'smallPlaces' => 0,
         'bigPlaces' => 0,
-        'discount' => 0
+        'discount' => 0,
+        'paid' => 0,
+        'status' => 'unsettled'
     ];
 
     public function __construct()
     {
         $this->model = new Client;
         $this->discounts = config('constants.discounts');
+    }
+
+    public function update(int $id, array $attributes): bool
+    {
+        $client = $this->find($id);
+        $client->fill($attributes);
+        if (!isset($client->paid) || $client->paid <= $this->getStayPrice($client)) $client->status = "unsettled";
+        else $client->status = "settled";
+        return $this->saveIfValid($client);
     }
 
     public function validateModel(Model $model)

@@ -17,7 +17,9 @@ interface ClientRepositoryInterface
 
     public function add($attributes);
 
+    public function update(int $id, array $attributes): bool;
+
     public function delete($id);
 
-    public function settle(int $id, int $amount);
+    public function settle(int $id, int $amount): bool;
 }

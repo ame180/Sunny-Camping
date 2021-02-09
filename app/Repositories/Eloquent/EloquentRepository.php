@@ -39,7 +39,7 @@ abstract class EloquentRepository
         return $this->saveIfValid($model);
     }
 
-    public function update($id, $attributes)
+    public function update(int $id, array $attributes)
     {
         $model = $this->find($id);
         $model->fill($attributes);
