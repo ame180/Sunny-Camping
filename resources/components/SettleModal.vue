@@ -8,7 +8,7 @@
                 Cena za dzień: {{ pricePerDay }} zł<br>
                 <div v-if="data.paid != 0">
                     Zapłacono: {{ data.paid ? data.paid : 0 }} zł<br>
-                    Pozostało: {{ data.price - data.paid }} zł
+                    <span v-if="data.price - data.paid > 0">Pozostało: {{ data.price - data.paid }} zł</span>
                 </div>
                 <span v-if="data.discount != 0">Rabat: {{ data.discount }}%<br></span>
                 Suma<span v-if="data.discount != 0"> (po rabacie)</span>: {{ data.price }} zł
@@ -38,13 +38,13 @@ export default {
     },
     data() {
         return {
-            settlement: this.data.paid
+            settlement: null
         }
     },
     methods: {
         submitSettlement() {
             if (!this.settlement) return;
-            axios.patch(baseUrl + '/admin/clients/settle/' + this.id, {
+            axios.patch(baseUrl + '/admin/clients/settle/' + this.data.id, {
                 settlement: this.settlement
             }).then(() => {
                 this.refreshTable();

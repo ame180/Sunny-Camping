@@ -52,11 +52,6 @@ class ClientRepository extends EloquentRepository implements ClientRepositoryInt
         return $clients;
     }
 
-    public function find(int $id) {
-        $client = parent::find($id);
-        $client->price = getStayPrice($client);
-    }
-
     public function paginate($query = [])
     {
         $paginator = parent::paginate($query);
@@ -80,8 +75,9 @@ class ClientRepository extends EloquentRepository implements ClientRepositoryInt
     public function settle(int $id, int $amount): bool {
         if ($amount <= 0) return false;
         $client = $this->find($id);
+        if (!isset($client)) return false;
         $client->paid += $amount;
-        if ($client->paid >= $client->price) $client->status = "settled";
+        if ($client->paid >= $this->getStayPrice($client)) $client->status = "settled";
         else $client->status = "unsettled";
         $client->save();
         return true;
