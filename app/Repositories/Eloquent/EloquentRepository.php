@@ -6,47 +6,50 @@ namespace App\Repositories\Eloquent;
 
 use App\Repositories\NullDefaultSupportTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Schema;
 
 abstract class EloquentRepository
 {
     use NullDefaultSupportTrait;
 
-    /** @var Model */
-    protected $model;
-    protected $notNullable = [];
-    protected $defaultValues = [];
+    protected Model $model;
+    protected array $notNullable = [];
+    protected array $defaultValues = [];
 
-    public function all($columns = ['*'])
+    public function all(array $columns = ['*']): Collection
     {
         return $this->model->all($columns);
     }
 
-    public function find(int $id)
+    /** @noinspection PhpUndefinedMethodInspection */
+    public function find(int $id): Model
     {
         return $this->model->find($id);
     }
 
-    public function delete($id)
+    public function delete(int $id): void
     {
         $this->model->destroy($id);
     }
 
-    public function add($attributes)
+    public function add(array $attributes): bool
     {
         $model = $this->model->replicate();
         $model->fill($attributes);
         return $this->saveIfValid($model);
     }
 
-    public function update(int $id, array $attributes)
+    public function update(int $id, array $attributes): bool
     {
         $model = $this->find($id);
         $model->fill($attributes);
         return $this->saveIfValid($model);
     }
 
-    public function paginate($query = [])
+    /** @noinspection PhpUndefinedMethodInspection */
+    public function paginate(array $query = []): LengthAwarePaginator
     {
         $sort = $query['sort'] ?? null;
         $perPage = $query['per_page'] ?? null;
@@ -56,7 +59,7 @@ abstract class EloquentRepository
         return $this->model->paginate($perPage);
     }
 
-    protected function saveIfValid(Model $model)
+    protected function saveIfValid(Model $model): bool
     {
         $model = $this->setNotNullableToDefault($model, $this->notNullable, $this->defaultValues);
         if (!$this->validateModel($model)) return false;
@@ -64,7 +67,8 @@ abstract class EloquentRepository
         return true;
     }
 
-    public function validateModel(Model $model)
+    /** @noinspection PhpUnusedParameterInspection */
+    public function validateModel(Model $model): bool
     {
         return true;
     }
