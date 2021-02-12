@@ -31,7 +31,7 @@ class ClientController extends Controller
         if ($this->clientsRepository->add($request->all())) {
             return true;
         }
-        return response('', 406);
+        return response('', 400);
     }
 
     public function edit($id)
@@ -45,7 +45,7 @@ class ClientController extends Controller
         if ($this->clientsRepository->update($id, $request->all())) {
             return true;
         }
-        return response('', 406);
+        return response('', 400);
     }
 
     public function delete($id)
@@ -61,5 +61,11 @@ class ClientController extends Controller
     public function findJson($id)
     {
         return $this->clientsRepository->find($id)->toJson();
+    }
+
+    public function settle(int $id, Request $request) {
+        if (!$request->has('settlement')) return response('', 400);;
+        if (!$this->clientsRepository->settle($id, $request->get('settlement'))) return response('', 400);
+        return true;
     }
 }
