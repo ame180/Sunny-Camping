@@ -31,10 +31,10 @@ class ClientRepository extends EloquentRepository implements ClientRepositoryInt
         $this->discounts = config('constants.discounts');
     }
 
-    public function validateModel(Model $model)
+    public function validateModel(Model $model): bool
     {
         if (empty($model->firstName) && empty($model->lastName)) return false;
-        if (!isset($model->arrivalDate) || !isset($model->departureDate)) return false;
+        if (empty($model->arrivalDate) || empty($model->departureDate)) return false;
         if (strtotime($model->arrivalDate) >= strtotime($model->departureDate)) return false;
         if ($model->adults == 0 && $model->children == 0) return false;
         if (!in_array($model->discount, $this->discounts)) return false;
@@ -61,7 +61,7 @@ class ClientRepository extends EloquentRepository implements ClientRepositoryInt
         return $paginator;
     }
 
-    public function getStayPrice(Client $client)
+    public function getStayPrice(Client $client): int
     {
         $arrival = new DateTime($client->arrivalDate);
         $departure = new DateTime($client->departureDate);
