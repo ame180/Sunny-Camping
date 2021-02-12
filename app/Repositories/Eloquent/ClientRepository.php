@@ -66,9 +66,9 @@ class ClientRepository extends EloquentRepository implements ClientRepositoryInt
         $arrival = new DateTime($client->arrivalDate);
         $departure = new DateTime($client->departureDate);
         $days = $departure->diff($arrival)->format("%a");
-        $price = $days * ($this->prices['adult'] * $client->adults + $this->prices['child'] * $client->children
+        $price = (1 - $client->discount / 100) * $days * ($this->prices['adult'] * $client->adults + $this->prices['child'] * $client->children
                 + $this->prices['smallPlaces'] * $client->smallPlaces + $this->prices['bigPlaces'] * $client->bigPlaces
-                + $client->electricity) * (1 - $client->discount / 100);
+                + $this->prices['electricity'] * $client->electricity);
         return (int)$price;
     }
 }

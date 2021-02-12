@@ -11,10 +11,12 @@ class ClientTest extends TestCase
 {
     private ClientRepositoryInterface $clientRepository;
 
-    public function setUp(): void {
+    public function setUp(): void
+    {
         parent::setUp();
         $this->clientRepository = App::make(ClientRepositoryInterface::class);
     }
+
     /** @test */
     public function validateModel_ValidClients_TrueReturned(): void
     {
@@ -48,5 +50,21 @@ class ClientTest extends TestCase
             var_dump($client);
             $this->assertFalse($this->clientRepository->validateModel($client));
         }
+    }
+
+    /** @test */
+    public function getStayPrice(): void
+    {
+        $client = Client::factory()->make([
+            "arrival_date" => "2021-01-01",
+            "departure_date" => "2021-01-03",
+            "adults" => 3,
+            "children" => 2,
+            "electricity" => 1,
+            "small_places" => 3,
+            "big_places" => 2,
+            "discount" => 5
+        ]);
+        $this->assertEquals(220, $this->clientRepository->getStayPrice($client));
     }
 }
