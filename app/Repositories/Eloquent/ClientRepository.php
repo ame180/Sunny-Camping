@@ -57,18 +57,18 @@ class ClientRepository extends EloquentRepository implements ClientRepositoryInt
 
     public function all(array $columns = ['*']): Collection
     {
-        $clients = parent::all($columns);
-        foreach ($clients as $client) {
-            $client->price = $this->getStayPrice($client);
+        $models = parent::all($columns);
+        foreach ($models as $model) {
+            $model->price = $this->getStayPrice($model);
         }
-        return $clients;
+        return $models;
     }
 
     public function paginate(array $query = []): LengthAwarePaginator
     {
         $paginator = parent::paginate($query);
-        foreach ($paginator->items() as $client) {
-            $client->price = $this->getStayPrice($client);
+        foreach ($paginator->items() as $model) {
+            $model->price = $this->getStayPrice($model);
         }
         return $paginator;
     }
@@ -78,9 +78,9 @@ class ClientRepository extends EloquentRepository implements ClientRepositoryInt
         $arrival = new DateTime($model->arrivalDate);
         $departure = new DateTime($model->departureDate);
         $days = $departure->diff($arrival)->format("%a");
-        $price = (1 - $client->discount / 100) * $days * ($this->prices['adult'] * $client->adults + $this->prices['child'] * $client->children
-                + $this->prices['smallPlaces'] * $client->smallPlaces + $this->prices['bigPlaces'] * $client->bigPlaces
-                + $this->prices['electricity'] * $client->electricity);
+        $price = (1 - $model->discount / 100) * $days * ($this->prices['adult'] * $model->adults + $this->prices['child'] * $model->children
+                + $this->prices['smallPlaces'] * $model->smallPlaces + $this->prices['bigPlaces'] * $model->bigPlaces
+                + $this->prices['electricity'] * $model->electricity);
         return (int)$price;
     }
 
