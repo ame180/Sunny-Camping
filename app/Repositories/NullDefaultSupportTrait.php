@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 trait NullDefaultSupportTrait
 {
-    protected function setNotNullableToDefault(Model $model, array $notNullable = [], array $defaultValues = [])
+    protected function setNotNullableToDefault(Model $model, array $notNullable = [], array $defaultValues = []): Model
     {
         foreach ($model->toArray() as $attribute => $value) {
             if (isset($model->$attribute)) continue;
