@@ -28,14 +28,22 @@ class ClientTest extends TestCase
     /** @test */
     public function validateModel_InvalidClients_FalseReturned(): void
     {
-        $clients = Client::factory()->count(5)->make();
+        $clients = Client::factory()->count(6)->make();
+
         $clients[0]->firstName = "";
         $clients[0]->lastName = "";
+
         $clients[1]->arrivalDate = "";
+
         $clients[2]->departureDate = $clients[2]->arrivalDate;
+
         $clients[3]->adults = 0;
         $clients[3]->children = 0;
+
         $clients[4]->small_places = -1;
+
+        $clients[5]->departureDate = "test";
+
         foreach ($clients as $client) {
             var_dump($client);
             $this->assertFalse($this->clientRepository->validateModel($client));
