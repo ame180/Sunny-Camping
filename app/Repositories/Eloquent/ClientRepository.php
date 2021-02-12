@@ -46,7 +46,7 @@ class ClientRepository extends EloquentRepository implements ClientRepositoryInt
     public function validateModel(Model $model): bool
     {
         if (empty($model->firstName) && empty($model->lastName)) return false;
-        if (!isset($model->arrivalDate) || !isset($model->departureDate)) return false;
+        if (!strtotime($model->arrivalDate) || !strtotime($model->departureDate)) return false;
         if (strtotime($model->arrivalDate) >= strtotime($model->departureDate)) return false;
         if ($model->adults == 0 && $model->children == 0) return false;
         if (!in_array($model->discount, $this->discounts)) return false;
@@ -78,9 +78,9 @@ class ClientRepository extends EloquentRepository implements ClientRepositoryInt
         $arrival = new DateTime($model->arrivalDate);
         $departure = new DateTime($model->departureDate);
         $days = $departure->diff($arrival)->format("%a");
-        $price = $days * ($this->prices['adult'] * $model->adults + $this->prices['child'] * $model->children
-                + $this->prices['smallPlaces'] * $model->smallPlaces + $this->prices['bigPlaces'] * $model->bigPlaces
-                + $model->electricity) * (1 - $model->discount / 100);
+        $price = (1 - $client->discount / 100) * $days * ($this->prices['adult'] * $client->adults + $this->prices['child'] * $client->children
+                + $this->prices['smallPlaces'] * $client->smallPlaces + $this->prices['bigPlaces'] * $client->bigPlaces
+                + $this->prices['electricity'] * $client->electricity);
         return (int)$price;
     }
 
