@@ -15,7 +15,11 @@
             </b>
             <div class="form-group mt-2">
                 <label for="settlement">Wpłacono:</label>
-                <input class="form-control" name="settlement" v-model="settlement" type="number" placeholder="0">
+                <input class="form-control" :class="{ 'is-invalid': isInvalid }" @input="isInvalid = false" name="settlement"
+                       v-model="settlement" type="number" placeholder="0">
+                <div class="invalid-feedback">
+                    Liczba nie może być ujemna.
+                </div>
             </div>
         </div>
         <div class="row no-gutters">
@@ -23,7 +27,7 @@
                 <a @click="$modal.hide('settle-modal')" class="btn btn-outline-secondary w-100 h-100">Anuluj</a>
             </div>
             <div class="col p-1">
-                <a @click="submitSettlement(); $modal.hide('settle-modal');"
+                <a @click="submitSettlement()"
                    class="btn btn-outline-secondary w-100 h-100">Rozlicz</a>
             </div>
         </div>
@@ -38,16 +42,24 @@ export default {
     },
     data() {
         return {
-            settlement: null
+            settlement: null,
+            isInvalid: false
         }
     },
     methods: {
         submitSettlement() {
             if (!this.settlement) return;
+            if (this.settlement <= 0) {
+                this.isInvalid = true;
+                return;
+            }
             axios.patch(baseUrl + '/admin/clients/settle/' + this.data.id, {
                 settlement: this.settlement
             }).then(() => {
                 this.refreshTable();
+                this.$modal.hide('settle-modal');
+            }, () => {
+                alert("Coś poszło nie tak! Czy wpisane dane są poprawne?");
             })
         }
     },
