@@ -22,7 +22,6 @@ class ClientTest extends TestCase
     {
         $clients = Client::factory()->count(5)->make();
         foreach ($clients as $client) {
-            var_dump($client);
             $this->assertTrue($this->clientRepository->validateModel($client));
         }
     }
@@ -47,7 +46,6 @@ class ClientTest extends TestCase
         $clients[5]->departureDate = "test";
 
         foreach ($clients as $client) {
-            var_dump($client);
             $this->assertFalse($this->clientRepository->validateModel($client));
         }
     }
