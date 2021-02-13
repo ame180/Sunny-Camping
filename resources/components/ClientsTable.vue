@@ -4,6 +4,7 @@
                   :api-url="'clients/paginated-json'"
                   :fields="fields"
                   data-path="data"
+                  no-data-template="Brak klientów do wyświetlenia"
                   pagination-path=""
                   :css="css.table"
                   @vuetable:pagination-data="onPaginationData"

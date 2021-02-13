@@ -62,7 +62,7 @@
                 <option value="10">10%</option>
             </select>
         </div>
-        <div v-if="mode === 'PATCH' && client.paid > 0" class="col-6 col-sm-4 col-md-3 form-group">
+        <div v-if="mode === 'PATCH' && initialPaid > 0" class="col-6 col-sm-4 col-md-3 form-group">
             <label for="paid">Zapłacono</label>
             <input v-model="client.paid" name="paid" type="number" placeholder="0"
                    class="form-control form-control-sm">
@@ -102,7 +102,7 @@ export default {
             axios.get(baseUrl + '/admin/clients/find-json/' + this.id)
                 .then((response) => {
                     this.client = response.data;
-
+                    this.initialPaid = this.client.paid
                 })
         }
     },
