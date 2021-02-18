@@ -2,61 +2,61 @@
     <form id="client-form" class="row mt-4" @submit.prevent="submitClientForm()" method="POST" action="">
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="first_name">Imię</label>
-            <input v-model="client.firstName" @blur="client.firstName = trim(client.firstName)"
+            <input id="first_name" v-model="client.firstName" @blur="client.firstName = trim(client.firstName)"
                    name="first_name"
                    type="text" placeholder="Imię"
                    class="form-control form-control-sm">
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="last_name">Imię</label>
-            <input v-model="client.lastName" @blur="client.lastName = trim(client.lastName)" name="last_name"
+            <input id="last_name" v-model="client.lastName" @blur="client.lastName = trim(client.lastName)" name="last_name"
                    type="text" placeholder="Naziwsko"
                    class="form-control form-control-sm">
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="arrival_date">Data przyjazdu</label>
-            <input v-model="client.arrivalDate" @change="updateDiscount()" name="arrival_date" type="date"
+            <input id="arrival_date" v-model="client.arrivalDate" @change="updateDiscount()" name="arrival_date" type="date"
                    class="form-control form-control-sm">
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="departure_date">Data odjazdu</label>
-            <input v-model="client.departureDate" @change="updateDiscount()" name="departure_date" type="date"
+            <input id="departure_date" v-model="client.departureDate" @change="updateDiscount()" name="departure_date" type="date"
                    class="form-control form-control-sm"
                    required>
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="adults">Dorośli</label>
-            <input v-model="client.adults" name="adults" type="number" placeholder="0"
+            <input id="adults" v-model="client.adults" name="adults" type="number" placeholder="0"
                    class="form-control form-control-sm">
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="children">Dzieci</label>
-            <input v-model="client.children" name="children" type="number" placeholder="0"
+            <input id="children" v-model="client.children" name="children" type="number" placeholder="0"
                    class="form-control form-control-sm">
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="electricity">Prąd</label>
-            <input v-model="client.electricity" name="electricity" type="number" placeholder="0"
+            <input id="electricity" v-model="client.electricity" name="electricity" type="number" placeholder="0"
                    class="form-control form-control-sm">
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="small_places">Małe miejsca</label>
-            <input v-model="client.smallPlaces" name="small_places" type="number" placeholder="0"
+            <input id="small_places" v-model="client.smallPlaces" name="small_places" type="number" placeholder="0"
                    class="form-control form-control-sm">
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="big_places">Duże miejsca</label>
-            <input v-model="client.bigPlaces" name="big_places" type="number" placeholder="0"
+            <input id="big_places" v-model="client.bigPlaces" name="big_places" type="number" placeholder="0"
                    class="form-control form-control-sm">
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="comment">Komentarz</label>
-            <input v-model="client.comment" name="comment" type="text" placeholder="Komentarz"
+            <input id="comment" v-model="client.comment" name="comment" type="text" placeholder="Komentarz"
                    class="form-control form-control-sm">
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="discount">Rabat</label>
-            <select v-model="client.discount" name="discount" class="custom-select custom-select-sm">
+            <select id="discount" v-model="client.discount" name="discount" class="custom-select custom-select-sm">
                 <option value="0">0%</option>
                 <option value="5">5%</option>
                 <option value="10">10%</option>
@@ -64,7 +64,7 @@
         </div>
         <div v-if="mode === 'PATCH' && initialPaid > 0" class="col-6 col-sm-4 col-md-3 form-group">
             <label for="paid">Zapłacono</label>
-            <input v-model="client.paid" name="paid" type="number" placeholder="0"
+            <input id="paid" v-model="client.paid" name="paid" type="number" placeholder="0"
                    class="form-control form-control-sm">
         </div>
         <div class="col-12 text-center">
