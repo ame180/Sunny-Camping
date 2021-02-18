@@ -116,8 +116,8 @@ export default {
             if (!this.client.arrivalDate || !this.client.departureDate) return false;
             let days = (new Date(this.client.departureDate) - new Date(this.client.arrivalDate)) / (1000 * 60 * 60 * 24);
             console.log(days);
-            if (days >= 7 && days < 14) this.client.discount = 5;
-            else if (days >= 14) this.client.discount = 10;
+            if (days >= 14 && days <= 21) this.client.discount = 5;
+            else if (days > 21) this.client.discount = 10;
             else this.client.discount = 0;
         },
         submitClientForm() {
