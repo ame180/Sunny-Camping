@@ -53,7 +53,7 @@ export default {
                 this.isInvalid = true;
                 return;
             }
-            axios.patch(baseUrl + '/admin/clients/settle/' + this.data.id, {
+            axios.patch(baseUrl + '/api/client/settle/' + this.data.id, {
                 settlement: this.settlement
             }).then(() => {
                 this.refreshTable();

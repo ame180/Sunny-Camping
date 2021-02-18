@@ -94,12 +94,13 @@ export default {
                 comment: null,
                 paid: null,
                 discount: 0
-            }
+            },
+            initialPaid: null
         }
     },
     mounted() {
         if (this.mode == 'PATCH' && this.id != null) {
-            axios.get(baseUrl + '/admin/clients/find-json/' + this.id)
+            axios.get(baseUrl + '/api/client/find/' + this.id)
                 .then((response) => {
                     this.client = response.data;
                     this.initialPaid = this.client.paid
@@ -141,9 +142,9 @@ export default {
             }
             let request;
             if (this.mode == 'PUT') {
-                request = axios.put(baseUrl + '/admin/clients/add', this.client);
+                request = axios.put(baseUrl + '/api/client/add', this.client);
             } else {
-                request = axios.patch(baseUrl + '/admin/clients/update/' + this.id, this.client);
+                request = axios.patch(baseUrl + '/api/client/update/' + this.id, this.client);
             }
             request.then(() => {
                 window.location.href = baseUrl + '/admin/clients';

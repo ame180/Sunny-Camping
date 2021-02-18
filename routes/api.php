@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Admin\ClientController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::prefix('/client')->group(function () {
+    Route::put('/add', [ClientController::class, 'add']);
+    Route::patch('/update/{id}', [ClientController::class, 'update']);
+    Route::patch('/settle/{id}', [ClientController::class, 'settle']);
+    Route::delete('/delete/{id}', [ClientController::class, 'delete']);
+    Route::get('/paginated', [ClientController::class, 'paginatedJson']);
+    Route::get('/find/{id}', [ClientController::class, 'findJson']);
 });

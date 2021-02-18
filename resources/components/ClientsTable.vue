@@ -1,7 +1,7 @@
 <template>
     <div>
         <vuetable ref="vuetable"
-                  :api-url="'clients/paginated-json'"
+                  :api-url="'../api/client/paginated'"
                   :fields="fields"
                   data-path="data"
                   no-data-template="Brak klientów do wyświetlenia"
@@ -101,7 +101,7 @@ export default {
                 })
             },
             deleteClient: function (id) {
-                axios.delete(baseUrl + '/admin/clients/delete/' + id)
+                axios.delete(baseUrl + '/api/client/delete/' + id)
                     .then(() => {
                         this.$refs.vuetable.reload()
                     });
