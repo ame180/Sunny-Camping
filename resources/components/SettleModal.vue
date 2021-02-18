@@ -6,16 +6,16 @@
                 #{{ data.id }} {{ data.firstName }} {{ data.lastName }}<br>
                 Dni: {{ days }}<br>
                 Cena za dzień: {{ pricePerDay }} zł<br>
-                <div v-if="data.paid != 0">
+                <span v-if="data.paid !== 0">
                     Zapłacono: {{ data.paid ? data.paid : 0 }} zł<br>
                     <span v-if="data.price - data.paid > 0">Pozostało: {{ data.price - data.paid }} zł</span>
-                </div>
-                <span v-if="data.discount != 0">Rabat: {{ data.discount }}%<br></span>
-                Suma<span v-if="data.discount != 0"> (po rabacie)</span>: {{ data.price }} zł
+                </span><br>
+                <span v-if="data.discount !== 0">Rabat: {{ data.discount }}%<br></span>
+                Suma<span v-if="data.discount !== 0"> (po rabacie)</span>: {{ data.price }} zł
             </b>
             <div class="form-group mt-2">
                 <label for="settlement">Wpłacono:</label>
-                <input class="form-control" :class="{ 'is-invalid': isInvalid }" @input="isInvalid = false" name="settlement"
+                <input id="settlement" class="form-control" :class="{ 'is-invalid': isInvalid }" @input="isInvalid = false" name="settlement"
                        v-model="settlement" type="number" placeholder="0">
                 <div class="invalid-feedback">
                     Liczba nie może być ujemna.

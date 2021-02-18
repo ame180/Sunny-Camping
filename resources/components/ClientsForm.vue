@@ -99,7 +99,7 @@ export default {
         }
     },
     mounted() {
-        if (this.mode == 'PATCH' && this.id != null) {
+        if (this.mode === 'PATCH' && this.id != null) {
             axios.get(baseUrl + '/api/client/find/' + this.id)
                 .then((response) => {
                     this.client = response.data;
@@ -141,7 +141,7 @@ export default {
                 return false;
             }
             let request;
-            if (this.mode == 'PUT') {
+            if (this.mode === 'PUT') {
                 request = axios.put(baseUrl + '/api/client/add', this.client);
             } else {
                 request = axios.patch(baseUrl + '/api/client/update/' + this.id, this.client);
