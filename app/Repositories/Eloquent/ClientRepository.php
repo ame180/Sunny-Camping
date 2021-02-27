@@ -102,7 +102,7 @@ class ClientRepository extends EloquentRepository implements ClientRepositoryInt
     {
         $days = $this->getDays($model);
         if ($days == 0) return 0;
-        return floor($days * $this->getPricePerDay($model));
+        return floor($days * $this->getPricePerDay($model) * (100 - $model->discount) / 100);
     }
 
     public function settle(int $id, int $amount): bool {
