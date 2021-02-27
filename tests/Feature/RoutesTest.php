@@ -11,6 +11,7 @@ class RoutesTest extends TestCase
     /** @test */
     public function adminDashboard_Get_RedirectThenSuccess()
     {
+        $this->withoutMix();
         $response = $this->get('/admin/');
         dump($response->content());
         $response->assertRedirect();
@@ -23,6 +24,7 @@ class RoutesTest extends TestCase
     /** @test */
     public function clientsTable_Get_Success()
     {
+        $this->withoutMix();
         $response = $this->get('/admin/clients');
         dump($response->content());
         $response->assertOk();
@@ -31,6 +33,7 @@ class RoutesTest extends TestCase
     /** @test */
     public function billsPage_Get_Success()
     {
+        $this->withoutMix();
         $response = $this->get('/admin/bills');
         dump($response->content());
         $response->assertOk();
@@ -39,6 +42,7 @@ class RoutesTest extends TestCase
     /** @test */
     public function clientsAddForm_Get_Success()
     {
+        $this->withoutMix();
         $response = $this->get('/admin/clients/add-client');
         dump($response->content());
         $response->assertOk();
@@ -47,6 +51,7 @@ class RoutesTest extends TestCase
     /** @test */
     public function clientsEditForm_GetNonexistentClient_NotFound()
     {
+        $this->withoutMix();
         $response = $this->get('/admin/clients/edit/-1');
         dump($response->content());
         $response->assertNotFound();
