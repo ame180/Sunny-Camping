@@ -57,7 +57,7 @@ class ClientRepository extends EloquentRepository implements ClientRepositoryInt
     {
         $models = parent::all($columns);
         foreach ($models as $model) {
-            $model->price = $this->getStayPrice($model);
+            $this->fillModel($model);
         }
         return $models;
     }
@@ -66,9 +66,15 @@ class ClientRepository extends EloquentRepository implements ClientRepositoryInt
     {
         $paginator = parent::paginate($query);
         foreach ($paginator->items() as $model) {
-            $model->price = $this->getStayPrice($model);
+            $this->fillModel($model);
         }
         return $paginator;
+    }
+
+    public function fillModel(Model $model) {
+        $model->pricePerDay = $this->getPricePerDay($model);
+        $model->price = $this->getStayPrice($model);
+        $model->days = $this->getDays($model);
     }
 
     public function getClientItems(Model $model): HasMany
@@ -86,17 +92,18 @@ class ClientRepository extends EloquentRepository implements ClientRepositoryInt
     }
 
     public function getDays(Model $model): int {
-        return 0;
-    }
-
-    public function getStayPrice(Model $model): float
-    {
         if (!strtotime($model->arrivalDate) || !strtotime($model->departureDate)) {
             return 0;
         }
         $arrival = new DateTime($model->arrivalDate);
         $departure = new DateTime($model->departureDate);
-        $days = $departure->diff($arrival)->format("%a");
+        return $departure->diff($arrival)->format("%a");
+    }
+
+    public function getStayPrice(Model $model): float
+    {
+        $days = $this->getDays($model);
+        if ($days == 0) return 0;
         return floor($days * $this->getPricePerDay($model));
     }
 

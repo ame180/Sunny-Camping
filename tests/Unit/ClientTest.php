@@ -14,6 +14,7 @@ class ClientTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+        /** @noinspection PhpUndefinedMethodInspection */
         $this->clientRepository = App::make(ClientRepositoryInterface::class);
     }
 
@@ -43,6 +44,7 @@ class ClientTest extends TestCase
     /** @test */
     public function getStayPrice_ClientWithStayPriceOf240_240Returned(): void
     {
+        /** @noinspection PhpUndefinedMethodInspection */
         $client = Client::factory()
             ->hasClientItems(3, [
                 'count' => 2,
@@ -52,6 +54,17 @@ class ClientTest extends TestCase
         $client->departureDate = "2021-01-01";
         $client->departureDate = "2021-01-05";
 
-            $this->assertEquals(0, $this->clientRepository->getStayPrice($client));
+        $this->assertEquals(0, $this->clientRepository->getStayPrice($client));
+    }
+
+    /** @test */
+    public function fillModel_ValidClient_AllCustomPropertiesAccessible(): void
+    {
+        $client = Client::factory()->make();
+        $this->clientRepository->fillModel($client);
+        $arr = $client->toArray();
+        $this->assertArrayHasKey('pricePerDay', $arr);
+        $this->assertArrayHasKey('price', $arr);
+        $this->assertArrayHasKey('days', $arr);
     }
 }
