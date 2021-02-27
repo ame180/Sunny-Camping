@@ -53,9 +53,9 @@ class ClientTest extends TestCase
             ->create();
         $client->arrivalDate = "2021-01-01";
         $client->departureDate = "2021-01-05";
-        $client->discount = 0;
+        $client->discount = 10;
 
-        $this->assertEquals(240, $this->clientRepository->getStayPrice($client));
+        $this->assertEquals(216, $this->clientRepository->getStayPrice($client));
     }
 
     /** @test */
