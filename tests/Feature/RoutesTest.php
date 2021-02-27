@@ -1,0 +1,48 @@
+<?php
+
+namespace Tests\Feature;
+
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
+
+class RoutesTest extends TestCase
+{
+    /** @test */
+    public function adminDashboard_Get_RedirectThenSuccess()
+    {
+        $response = $this->get('/admin/');
+        $response->assertRedirect();
+
+        $response = $this->get('/admin/dashboard');
+        $response->assertOk();
+    }
+
+    /** @test */
+    public function clientsTable_Get_Success()
+    {
+        $response = $this->get('/admin/clients');
+        $response->assertOk();
+    }
+
+    /** @test */
+    public function billsPage_Get_Success()
+    {
+        $response = $this->get('/admin/bills');
+        $response->assertOk();
+    }
+
+    /** @test */
+    public function clientsAddForm_Get_Success()
+    {
+        $response = $this->get('/admin/clients/add-client');
+        $response->assertOk();
+    }
+
+    /** @test */
+    public function clientsEditForm_GetNonexistentClient_NotFound()
+    {
+        $response = $this->get('/admin/clients/edit/-1');
+        $response->assertNotFound();
+    }
+}

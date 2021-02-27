@@ -24,7 +24,7 @@ abstract class EloquentRepository
     }
 
     /** @noinspection PhpUndefinedMethodInspection */
-    public function find(int $id): Model
+    public function find(int $id): Model|null
     {
         return $this->model->find($id);
     }
