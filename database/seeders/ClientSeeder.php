@@ -16,7 +16,7 @@ class ClientSeeder extends Seeder
     {
         Client::factory()
             ->count(45)
-            ->hasClientItems(rand(1,3))
+            ->hasClientItems(3)
             ->create();
     }
 }
