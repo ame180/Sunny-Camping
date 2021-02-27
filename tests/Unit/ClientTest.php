@@ -25,22 +25,33 @@ class ClientTest extends TestCase
     }
 
     /** @test */
-    public function validateModel_ClientWithoutName_FalseReturned() {
+    public function validateModel_ClientWithoutName_FalseReturned()
+    {
         $client = Client::factory()->make();
         $client->name = "";
         $this->assertFalse($this->clientRepository->validateModel($client));
     }
 
     /** @test */
-    public function validateModel_ClientWithDepartureBeforeOrAtArrival_FalseReturned() {
+    public function validateModel_ClientWithDepartureBeforeOrAtArrival_FalseReturned()
+    {
         $client = Client::factory()->make();
         $client->departureDate = $client->arrivalDate;
         $this->assertFalse($this->clientRepository->validateModel($client));
     }
 
     /** @test */
-    public function getStayPrice_ClientWithStayPriceOf220_220Returned(): void
+    public function getStayPrice_ClientWithStayPriceOf240_240Returned(): void
     {
-        $this->assertEquals(0, 0);
+        $client = Client::factory()
+            ->hasClientItems(3, [
+                'count' => 2,
+                'price' => 10
+            ])
+            ->create();
+        $client->departureDate = "2021-01-01";
+        $client->departureDate = "2021-01-05";
+
+            $this->assertEquals(0, $this->clientRepository->getStayPrice($client));
     }
 }

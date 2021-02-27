@@ -19,7 +19,7 @@ class CreateClientItemsTable extends Migration
             $table->integer('category_id')->default(0);
             $table->integer('client_id');
             $table->string('name', 32);
-            $table->double('value', 8, 2);
+            $table->double('price', 8, 2);
             $table->integer('count')->default(1);
             $table->timestamps();
         });

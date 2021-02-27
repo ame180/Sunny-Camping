@@ -3,10 +3,12 @@
 
 namespace App\Repositories\Eloquent;
 
+use App\Models\ClientItem;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Client;
 use App\Repositories\ClientRepositoryInterface;
 use DateTime;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
@@ -69,15 +71,33 @@ class ClientRepository extends EloquentRepository implements ClientRepositoryInt
         return $paginator;
     }
 
-    public function getStayPrice(Model $model): int
+    public function getClientItems(Model $model): HasMany
     {
+        return $model->hasMany(ClientItem::class);
+    }
+
+    public function getPricePerDay(Model $model): float {
+        $clientItems = $this->getClientItems($model);
+        $price = 0;
+        foreach ($clientItems as $clientItem) {
+            $price += $clientItem->price * $clientItem->count;
+        }
+        return $price;
+    }
+
+    public function getDays(Model $model): int {
+        return 0;
+    }
+
+    public function getStayPrice(Model $model): float
+    {
+        if (!strtotime($model->arrivalDate) || !strtotime($model->departureDate)) {
+            return 0;
+        }
         $arrival = new DateTime($model->arrivalDate);
         $departure = new DateTime($model->departureDate);
         $days = $departure->diff($arrival)->format("%a");
-        $price = (1 - $model->discount / 100) * $days * ($this->prices['adult'] * $model->adults + $this->prices['child'] * $model->children
-                + $this->prices['smallPlaces'] * $model->smallPlaces + $this->prices['bigPlaces'] * $model->bigPlaces
-                + $this->prices['electricity'] * $model->electricity);
-        return (int)$price;
+        return floor($days * $this->getPricePerDay($model));
     }
 
     public function settle(int $id, int $amount): bool {
