@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUndefinedMethodInspection */
 
 namespace Database\Seeders;
 
@@ -14,6 +14,9 @@ class ClientSeeder extends Seeder
      */
     public function run()
     {
-        Client::factory(25)->create();
+        Client::factory()
+            ->count(45)
+            ->hasClientItems(rand(1,3))
+            ->create();
     }
 }
