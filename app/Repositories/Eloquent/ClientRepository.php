@@ -3,12 +3,10 @@
 
 namespace App\Repositories\Eloquent;
 
-use App\Models\ClientItem;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Client;
 use App\Repositories\ClientRepositoryInterface;
 use DateTime;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
@@ -77,9 +75,9 @@ class ClientRepository extends EloquentRepository implements ClientRepositoryInt
         $model->days = $this->getDays($model);
     }
 
-    public function getClientItems(Model $model): HasMany
+    public function getClientItems(Model $model): Collection
     {
-        return $model->hasMany(ClientItem::class);
+        return $model->clientItems;
     }
 
     public function getPricePerDay(Model $model): float {

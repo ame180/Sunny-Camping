@@ -50,7 +50,7 @@ class ClientTest extends TestCase
                 'count' => 2,
                 'price' => 10
             ])
-            ->make();
+            ->create();
         $client->departureDate = "2021-01-01";
         $client->departureDate = "2021-01-05";
 
