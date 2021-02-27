@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateClientItemsTable extends Migration
+class CreateCategoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,9 @@ class CreateClientItemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('client_items', function (Blueprint $table) {
+        Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->integer('service_id')->default(0);
-            $table->integer('category_id')->default(0);
-            $table->integer('client_id');
             $table->string('name', 32);
-            $table->double('value', 8, 2);
-            $table->integer('count')->default(1);
             $table->timestamps();
         });
     }
@@ -32,6 +27,6 @@ class CreateClientItemsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('client_items');
+        Schema::dropIfExists('category');
     }
 }
