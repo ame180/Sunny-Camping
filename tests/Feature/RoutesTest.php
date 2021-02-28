@@ -13,11 +13,9 @@ class RoutesTest extends TestCase
     {
         $this->withoutMix();
         $response = $this->get('/admin/');
-        dump($response->content());
         $response->assertRedirect();
 
         $response = $this->get('/admin/dashboard');
-        dump($response->content());
         $response->assertOk();
     }
 
@@ -26,7 +24,6 @@ class RoutesTest extends TestCase
     {
         $this->withoutMix();
         $response = $this->get('/admin/clients');
-        dump($response->content());
         $response->assertOk();
     }
 
@@ -35,7 +32,6 @@ class RoutesTest extends TestCase
     {
         $this->withoutMix();
         $response = $this->get('/admin/bills');
-        dump($response->content());
         $response->assertOk();
     }
 
@@ -44,7 +40,6 @@ class RoutesTest extends TestCase
     {
         $this->withoutMix();
         $response = $this->get('/admin/clients/add-client');
-        dump($response->content());
         $response->assertOk();
     }
 
@@ -53,7 +48,6 @@ class RoutesTest extends TestCase
     {
         $this->withoutMix();
         $response = $this->get('/admin/clients/edit/-1');
-        dump($response->content());
         $response->assertNotFound();
     }
 }
