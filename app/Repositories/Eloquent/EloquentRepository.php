@@ -26,6 +26,7 @@ abstract class EloquentRepository
     /** @noinspection PhpUndefinedMethodInspection */
     public function find(int $id): Model|null
     {
+        if ($id <= 0) return null;
         return $this->model->find($id);
     }
 
