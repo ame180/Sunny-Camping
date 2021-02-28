@@ -17,7 +17,7 @@ interface ClientRepositoryInterface
 
     public function paginate(array $query = []): LengthAwarePaginator;
 
-    public function find(int $id): Model;
+    public function find(int $id): Model|null;
 
     public function add(array $attributes): bool;
 
