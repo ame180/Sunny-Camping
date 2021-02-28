@@ -19,7 +19,7 @@ jobs:
         php-version: '8.0'
     - uses: actions/checkout@v2
     - name: Copy .env
-      run: php -r "copy('.env.testing', '.env');"
+      run: php -r "copy('.env.tests', '.env');"
     - name: Install Dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
     - name: Generate key
@@ -27,6 +27,7 @@ jobs:
     - name: Directory Permissions
       run: chmod -R 777 storage bootstrap/cache
     - name: Create Database
+      env:
       run: |
         mkdir -p database
         touch database/database.sqlite
