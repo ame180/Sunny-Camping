@@ -21,7 +21,7 @@ class CreateClientsTable extends Migration
             $table->string('comment')->nullable();
             $table->tinyInteger('discount')->default(0);
             $table->double('paid', 8, 2)->default(0);
-            $table->string('status', 16);
+            $table->string('status', 16)->default('unsettled');
             $table->timestamps();
         });
     }

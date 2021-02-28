@@ -15,14 +15,8 @@ class ClientRepository extends EloquentRepository implements ClientRepositoryInt
     protected array $prices = ['adult' => 18, 'child' => 14, 'electricity' => 10, 'smallPlaces' => 4, 'bigPlaces' => 6];
     protected array $discounts;
 
-    protected array $notNullable = ['arrivalDate', 'departureDate', 'adults', 'children', 'electricity', 'smallPlaces',
-        'bigPlaces', 'discount', 'paid', 'status'];
+    protected array $notNullable = ['discount', 'paid', 'status'];
     protected array $defaultValues = [
-        'adults' => 0,
-        'children' => 0,
-        'electricity' => 0,
-        'smallPlaces' => 0,
-        'bigPlaces' => 0,
         'discount' => 0,
         'paid' => 0,
         'status' => 'unsettled'
@@ -46,7 +40,8 @@ class ClientRepository extends EloquentRepository implements ClientRepositoryInt
     public function validateModel(Model $model): bool
     {
         if (empty($model->name)) return false;
-        if (strtotime($model->arrivalDate) >= strtotime($model->departureDate)) return false;
+        if (strtotime($model->arrivalDate) && strtotime($model->departureDate)
+            && strtotime($model->arrivalDate) >= strtotime($model->departureDate)) return false;
         if (!in_array($model->discount, $this->discounts)) return false;
         return true;
     }
