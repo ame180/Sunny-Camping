@@ -9,7 +9,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ClientFactory extends Factory
 {
-    use RefreshDatabase;
     /**
      * The name of the factory's corresponding model.
      *
