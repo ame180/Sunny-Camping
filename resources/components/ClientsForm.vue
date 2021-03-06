@@ -59,6 +59,8 @@ export default {
                 paid: null,
                 discount: 0
             },
+            categories: [],
+            items: [],
             initialPaid: null,
             isNameInvalid: false
         }
@@ -69,8 +71,12 @@ export default {
                 .then((response) => {
                     this.client = response.data;
                     this.initialPaid = this.client.paid
-                })
+                });
         }
+        axios.get(baseUrl + '/api/category/all-with-items')
+            .then((response) => {
+                this.categories = response.data;
+            });
     },
     methods: {
         trim(input) {
