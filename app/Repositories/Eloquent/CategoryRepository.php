@@ -5,8 +5,9 @@ namespace App\Repositories\Eloquent;
 
 
 use App\Models\Category;
-use App\Models\Client;
-use CategoryRepositoryInterface;
+use App\Repositories\CategoryRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 
 class CategoryRepository extends EloquentRepository implements CategoryRepositoryInterface
 {
@@ -15,8 +16,21 @@ class CategoryRepository extends EloquentRepository implements CategoryRepositor
         $this->model = new Category();
     }
 
-    public function allWithItems(int $serviceId): array
+    public function allByService(int $serviceId): Collection
     {
-        $this->all()->where;
+        $categories = $this->model->where('service_id', $serviceId)->get();
+        foreach ($categories as $category) {
+            $this->fillModel($category);
+        }
+        return $categories;
+    }
+
+    public function fillModel(Model $model): void {
+        $model->categoryItems = $this->getCategoryItems($model);
+    }
+
+    private function getCategoryItems(Model $model): Collection
+    {
+        return $model->categoryItems;
     }
 }

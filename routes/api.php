@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ClientController;
+use App\Http\Controllers\API\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,4 +22,8 @@ Route::prefix('/client')->group(function () {
     Route::delete('/delete/{id}', [ClientController::class, 'delete']);
     Route::get('/paginated', [ClientController::class, 'paginatedJson']);
     Route::get('/find/{id}', [ClientController::class, 'findJson']);
+});
+
+Route::prefix('/category')->group(function () {
+    Route::get('/all-by-service/{serviceId}', [CategoryController::class, 'allByService']);
 });

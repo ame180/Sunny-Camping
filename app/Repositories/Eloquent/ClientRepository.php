@@ -64,7 +64,7 @@ class ClientRepository extends EloquentRepository implements ClientRepositoryInt
         return $paginator;
     }
 
-    public function fillModel(Model $model) {
+    public function fillModel(Model $model): void {
         $model->pricePerDay = $this->getPricePerDay($model);
         $model->price = $this->getStayPrice($model);
         $model->days = $this->getDays($model);
