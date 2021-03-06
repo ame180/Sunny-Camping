@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePricesTable extends Migration
+class CreateCategoryServiceTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreatePricesTable extends Migration
      */
     public function up()
     {
-        Schema::create('prices', function (Blueprint $table) {
+        Schema::create('category_service', function (Blueprint $table) {
             $table->id();
-            $table->integer('service_id')->default(0);
-            $table->string('category_id')->default(0);
-            $table->string('name', 32);
-            $table->double('price', 8, 2);
+            $table->integer('service_id');
+            $table->integer('category_id');
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreatePricesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('prices');
+        Schema::dropIfExists('category_service');
     }
 }
