@@ -38,6 +38,18 @@
             <input id="paid" v-model="client.paid" name="paid" type="number" placeholder="0"
                    class="form-control form-control-sm">
         </div>
+        <div class="col-12">
+            <hr>
+            <div v-for="(category, index) in categories" :key="category.id" class="row">
+                <div class="col-12">
+                    <h2>{{ category.name }}</h2>
+                    <a v-for="item in category.categoryItems" :key="item.id" @click="addItem(index, item)"
+                       class="btn btn-primary mx-1">{{ item.name }}</a>
+                    <span v-for="item in category.addedItems">{{ item.name }}</span>
+                    <hr>
+                </div>
+            </div>
+        </div>
         <div class="col-12 text-center">
             <button type="submit" class="btn btn-success w-50">
                 Zatwierdź
@@ -73,15 +85,23 @@ export default {
                     this.initialPaid = this.client.paid
                 });
         }
-        axios.get(baseUrl + '/api/category/all-with-items')
+        axios.get(baseUrl + '/api/category/all-by-service/1')
             .then((response) => {
-                this.categories = response.data;
+                let categories = [];
+                response.data.forEach(function (category) {
+                    category.addedItems = [];
+                    categories.push(category);
+                }, this)
+                this.categories = categories;
             });
     },
     methods: {
         trim(input) {
             if (input) return input.trim();
             return null;
+        },
+        addItem(categoryId, item) {
+            this.categories[categoryId].addedItems.push(item);
         },
         submitClientForm() {
             if (!this.client.name) {
