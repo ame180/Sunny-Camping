@@ -45,7 +45,26 @@
                     <h2>{{ category.name }}</h2>
                     <a v-for="item in category.categoryItems" :key="item.id" @click="addItem(index, item)"
                        class="btn btn-primary mx-1">{{ item.name }}</a>
-                    <span v-for="item in category.addedItems">{{ item.name }}</span>
+                    <div class="row" v-for="item in category.addedItems">
+                        <div class="col-3 col-md-2 d-flex justify-content-center align-items-center">
+                            <b>{{ item.name }}</b>
+                        </div>
+                        <div class="col-3 col-md-2 form-group">
+                            <label>Cena</label>
+                            <input v-model="item.price" type="number"
+                                   class="form-control form-control-sm">
+                        </div>
+                        <div class="col-3 col-md-2 form-group">
+                            <label>Dni</label>
+                            <input v-model="item.days" type="number"
+                                   class="form-control form-control-sm">
+                        </div>
+                        <div class="col-3 col-md-2 form-group">
+                            <label>Ilość</label>
+                            <input v-model="item.count" type="number"
+                                   class="form-control form-control-sm">
+                        </div>
+                    </div>
                     <hr>
                 </div>
             </div>
@@ -101,7 +120,12 @@ export default {
             return null;
         },
         addItem(categoryId, item) {
-            this.categories[categoryId].addedItems.push(item);
+            if (this.client.arrivalDate && this.client.departureDate) {
+                item.days = Math.round((this.client.departureDate - this.client.arrivalDate) / (1000 * 60 * 60 * 24));
+            }
+            item.count = 1;
+            this.categories[categoryId].addedItems.push(Vue.util.extend({}, item));
+            console.log(this.categories[categoryId].addedItems);
         },
         submitClientForm() {
             if (!this.client.name) {
