@@ -1,5 +1,5 @@
 <template>
-    <form id="client-form" class="row mt-4" @submit.prevent="submitClientForm()" method="POST" action="">
+    <div id="client-form" class="row mt-4">
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="name">Imię i nazwisko</label>
             <input id="name" v-model="client.name" :class="{ 'is-invalid': isNameInvalid }" @input="isNameInvalid = false" @blur="client.name = trim(client.name)"
@@ -70,11 +70,11 @@
             </div>
         </div>
         <div class="col-12 text-center">
-            <button type="submit" class="btn btn-success w-50">
+            <button @click="submitClientForm()" class="btn btn-success w-50">
                 Zatwierdź
             </button>
         </div>
-    </form>
+    </div>
 </template>
 
 <script>
@@ -88,7 +88,8 @@ export default {
                 departureDate: null,
                 comment: null,
                 paid: null,
-                discount: 0
+                discount: 0,
+                clientItems: []
             },
             categories: [],
             items: [],
@@ -125,7 +126,6 @@ export default {
             }
             item.count = 1;
             this.categories[categoryId].addedItems.push(Vue.util.extend({}, item));
-            console.log(this.categories[categoryId].addedItems);
         },
         submitClientForm() {
             if (!this.client.name) {
@@ -137,6 +137,12 @@ export default {
                 return false;
             }
             let request;
+
+            this.client.clientItems = [];
+            this.categories.forEach(function(category) {
+                this.client.clientItems = this.client.clientItems.concat(category.addedItems);
+            }, this);
+
             if (this.mode === 'PUT') {
                 request = axios.put(baseUrl + '/api/client/add', this.client);
             } else {
