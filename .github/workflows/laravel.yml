@@ -1,6 +1,7 @@
 name: Laravel
 
 env:
+  APP_URL: http://localhost
   DB_CONNECTION: sqlite
   DB_DATABASE: database/database.sqlite
 
