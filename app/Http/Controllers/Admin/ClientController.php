@@ -5,17 +5,14 @@ namespace App\Http\Controllers\Admin;
 
 
 use App\Http\Controllers\Controller;
-use App\Repositories\ClientRepositoryInterface;
+use App\Repositories\ClientRepository;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
-    /**
-     * @var ClientRepositoryInterface
-     */
-    private $clientsRepository;
+    private ClientRepository $clientsRepository;
 
-    public function __construct(ClientRepositoryInterface $clientsRepository)
+    public function __construct(ClientRepository $clientsRepository)
     {
         $this->clientsRepository = $clientsRepository;
     }
