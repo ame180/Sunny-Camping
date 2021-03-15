@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Models;
-
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -15,6 +13,7 @@ class BaseModel extends Model
         foreach (parent::toArray() as $key => $value) {
             $array[Str::camel($key)] = $value;
         }
+
         return $array;
     }
 

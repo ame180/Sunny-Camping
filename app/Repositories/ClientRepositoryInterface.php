@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
@@ -17,7 +16,7 @@ interface ClientRepositoryInterface
 
     public function paginate(array $query = []): LengthAwarePaginator;
 
-    public function find(int $id): Model|null;
+    public function find(int $id): Model | null;
 
     public function add(array $attributes): bool;
 

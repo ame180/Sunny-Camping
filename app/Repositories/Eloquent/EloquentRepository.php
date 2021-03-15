@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Repositories\Eloquent;
-
 
 use App\Repositories\NullDefaultSupportTrait;
 use Illuminate\Database\Eloquent\Model;
@@ -24,9 +22,12 @@ abstract class EloquentRepository
     }
 
     /** @noinspection PhpUndefinedMethodInspection */
-    public function find(int $id): Model|null
+    public function find(int $id): Model | null
     {
-        if ($id <= 0) return null;
+        if ($id <= 0) {
+            return null;
+        }
+
         return $this->model->find($id);
     }
 
@@ -39,6 +40,7 @@ abstract class EloquentRepository
     {
         $model = $this->model->replicate();
         $model->fill($attributes);
+
         return $this->saveIfValid($model);
     }
 
@@ -46,6 +48,7 @@ abstract class EloquentRepository
     {
         $model = $this->find($id);
         $model->fill($attributes);
+
         return $this->saveIfValid($model);
     }
 
@@ -57,14 +60,18 @@ abstract class EloquentRepository
         if (isset($sort) && Schema::hasColumn($this->model->getTable(), $sort)) {
             return $this->model->orderBy($sort)->paginate($perPage);
         }
+
         return $this->model->paginate($perPage);
     }
 
     protected function saveIfValid(Model $model): bool
     {
         $model = $this->setNotNullableToDefault($model, $this->notNullable, $this->defaultValues);
-        if (!$this->validateModel($model)) return false;
+        if (! $this->validateModel($model)) {
+            return false;
+        }
         $model->save();
+
         return true;
     }
 
