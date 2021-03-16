@@ -1,5 +1,10 @@
 name: Laravel
 
+env:
+  APP_URL: http://localhost
+  DB_CONNECTION: sqlite
+  DB_DATABASE: database/database.sqlite
+
 on:
   push:
     branches:
@@ -19,7 +24,7 @@ jobs:
         php-version: '8.0'
     - uses: actions/checkout@v2
     - name: Copy .env
-      run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+      run: php -r "copy('.env.example', '.env');"
     - name: Install Dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
     - name: Generate key
@@ -30,8 +35,6 @@ jobs:
       run: |
         mkdir -p database
         touch database/database.sqlite
+        php artisan migrate
     - name: Execute tests (Unit and Feature tests) via PHPUnit
-      env:
-        DB_CONNECTION: sqlite
-        DB_DATABASE: database/database.sqlite
       run: vendor/bin/phpunit

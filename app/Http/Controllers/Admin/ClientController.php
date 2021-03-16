@@ -36,6 +36,9 @@ class ClientController extends Controller
 
     public function edit($id)
     {
+        if ($this->clientsRepository->find($id) == null) {
+            return response('', 404);
+        }
         return view('admin.clients.client_input_form', ['page' => 'clients', 'nav_items' =>
             config('constants.admin_nav_items'), 'mode' => 'PATCH', 'id' => $id]);
     }
