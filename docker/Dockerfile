@@ -8,7 +8,7 @@ WORKDIR /application
 # Install PHP 8.0 and all necessary extensions
 RUN apt-get update
 RUN apt-get install -y software-properties-common && add-apt-repository ppa:ondrej/php
-RUN apt-get install -y php8.0 php8.0-fpm php8.0-xml php8.0-mysql php8.0-mbstring curl git zip unzip
+RUN apt-get install -y php8.0 php8.0-fpm php8.0-xml php8.0-mysql php8.0-mbstring curl git zip unzip mysql-client
 
 # Install NodeJS
 RUN curl -L https://raw.githubusercontent.com/tj/n/master/bin/n -o n
