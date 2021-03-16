@@ -7,4 +7,5 @@ services:
       dockerfile: ./docker/Dockerfile
     volumes:
       - .:/application
+    working_dir: /application
     command: tail -F anything
