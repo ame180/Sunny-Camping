@@ -1,8 +1,10 @@
-version: '3.3'
+version: '3.8'
+
 services:
   php:
     build:
-      context: ./
+      context: .
       dockerfile: ./docker/Dockerfile
-    ports:
-      - '80:80'
+    volumes:
+      - .:/application
+    command: tail -F anything
