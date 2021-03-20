@@ -1,8 +1,8 @@
-<?php /** @noinspection PhpUndefinedMethodInspection */
+<?php
 
+/** @noinspection PhpUndefinedMethodInspection */
 
 namespace Tests\Unit;
-
 
 use App\Models\Category;
 use App\Repositories\CategoryRepositoryInterface;
@@ -23,7 +23,8 @@ class CategoryTest extends TestCase
     }
 
     /** @test */
-    public function allByService_CategoryWithItems_CategoryWithItemsReturned(): void {
+    public function allByService_CategoryWithItems_CategoryWithItemsReturned(): void
+    {
         Category::factory(['service_id' => 0])
             ->hasCategoryItems(3)
             ->create();

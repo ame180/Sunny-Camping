@@ -41,10 +41,17 @@ class ClientRepository extends BaseRepository
 
     public function validateModel(Model $model): bool
     {
-        if (empty($model->name)) return false;
+        if (empty($model->name)) {
+            return false;
+        }
         if (strtotime($model->arrivalDate) && strtotime($model->departureDate)
-            && strtotime($model->arrivalDate) >= strtotime($model->departureDate)) return false;
-        if (!in_array($model->discount, $this->discounts)) return false;
+            && strtotime($model->arrivalDate) >= strtotime($model->departureDate)) {
+            return false;
+        }
+        if (!in_array($model->discount, $this->discounts)) {
+            return false;
+        }
+
         return true;
     }
 
@@ -64,10 +71,12 @@ class ClientRepository extends BaseRepository
         foreach ($paginator->items() as $model) {
             $this->fillModel($model);
         }
+
         return $paginator;
     }
 
-    public function fillModel(Model $model): void {
+    public function fillModel(Model $model): void
+    {
         $model->pricePerDay = $this->getPricePerDay($model);
         $model->price = $this->getStayPrice($model);
         $model->days = $this->getDays($model);
@@ -78,28 +87,35 @@ class ClientRepository extends BaseRepository
         return $model->clientItems;
     }
 
-    public function getPricePerDay(Model $model): float {
+    public function getPricePerDay(Model $model): float
+    {
         $clientItems = $this->getClientItems($model);
         $price = 0;
         foreach ($clientItems as $clientItem) {
             $price += $clientItem->price * $clientItem->count;
         }
+
         return $price;
     }
 
-    public function getDays(Model $model): int {
+    public function getDays(Model $model): int
+    {
         if (!strtotime($model->arrivalDate) || !strtotime($model->departureDate)) {
             return 0;
         }
         $arrival = new DateTime($model->arrivalDate);
         $departure = new DateTime($model->departureDate);
-        return $departure->diff($arrival)->format("%a");
+
+        return $departure->diff($arrival)->format('%a');
     }
 
     public function getStayPrice(Model $model): float
     {
         $days = $this->getDays($model);
-        if ($days == 0) return 0;
+        if ($days == 0) {
+            return 0;
+        }
+
         return floor($days * $this->getPricePerDay($model) * (100 - $model->discount) / 100);
     }
 

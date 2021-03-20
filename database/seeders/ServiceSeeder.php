@@ -17,7 +17,7 @@ class ServiceSeeder extends Seeder
         DB::table('services')->insert([
             ['name' => 'Camping', 'created_at' => now(), 'updated_at' => now()],
             ['name' => 'Domki', 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'Pensjonat', 'created_at' => now(), 'updated_at' => now()]
+            ['name' => 'Pensjonat', 'created_at' => now(), 'updated_at' => now()],
         ]);
     }
 }

@@ -28,7 +28,7 @@ class ClientTest extends TestCase
     public function validateModel_ClientWithoutName_FalseReturned()
     {
         $client = Client::factory()->make();
-        $client->name = "";
+        $client->name = '';
         $this->assertFalse($this->clientRepository->validateModel($client));
     }
 
@@ -47,11 +47,11 @@ class ClientTest extends TestCase
         $client = Client::factory()
             ->hasClientItems(3, [
                 'count' => 2,
-                'price' => 10
+                'price' => 10,
             ])
             ->create();
-        $client->arrivalDate = "2021-01-01";
-        $client->departureDate = "2021-01-05";
+        $client->arrivalDate = '2021-01-01';
+        $client->departureDate = '2021-01-05';
         $client->discount = 10;
 
         $this->assertEquals(216, $this->clientRepository->getStayPrice($client));
