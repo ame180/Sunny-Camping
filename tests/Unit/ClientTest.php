@@ -3,18 +3,18 @@
 namespace Tests\Unit;
 
 use App\Models\Client;
-use App\Repositories\ClientRepositoryInterface;
+use App\Repositories\ClientRepository;
 use Illuminate\Support\Facades\App;
 use Tests\TestCase;
 
 class ClientTest extends TestCase
 {
-    private ClientRepositoryInterface $clientRepository;
+    private ClientRepository $clientRepository;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->clientRepository = App::make(ClientRepositoryInterface::class);
+        $this->clientRepository = App::make(ClientRepository::class);
     }
 
     /** @test */

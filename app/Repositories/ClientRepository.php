@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Repositories\Eloquent;
+
+namespace App\Repositories;
 
 use App\Models\Client;
-use App\Repositories\ClientRepositoryInterface;
 use DateTime;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
-class ClientRepository extends EloquentRepository implements ClientRepositoryInterface
+class ClientRepository extends BaseRepository
 {
     protected array $prices = ['adult' => 18, 'child' => 14, 'electricity' => 10, 'smallPlaces' => 4, 'bigPlaces' => 6];
     protected array $discounts;
