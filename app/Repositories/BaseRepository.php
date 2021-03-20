@@ -66,7 +66,7 @@ abstract class BaseRepository
     protected function saveIfValid(Model $model): bool
     {
         $model = $this->setNotNullableToDefault($model, $this->notNullable, $this->defaultValues);
-        if (! $this->validateModel($model)) {
+        if (!$this->validateModel($model)) {
             return false;
         }
         $model->save();

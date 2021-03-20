@@ -12,10 +12,10 @@ trait NullDefaultSupportTrait
             if (isset($model->$attribute)) {
                 continue;
             }
-            if (! in_array($attribute, $notNullable)) {
+            if (!in_array($attribute, $notNullable)) {
                 continue;
             }
-            if (! in_array($attribute, $defaultValues)) {
+            if (!in_array($attribute, $defaultValues)) {
                 unset($model->$attribute);
             }
             $model->$attribute = $defaultValues[$attribute];

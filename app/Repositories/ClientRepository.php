@@ -36,7 +36,7 @@ class ClientRepository extends BaseRepository
     {
         $model = $this->find($id);
         $model->fill($attributes);
-        if (! isset($model->paid) || $model->paid <= $this->getStayPrice($model)) {
+        if (!isset($model->paid) || $model->paid <= $this->getStayPrice($model)) {
             $model->status = 'unsettled';
         } else {
             $model->status = 'settled';
@@ -50,7 +50,7 @@ class ClientRepository extends BaseRepository
         if (empty($model->firstName) && empty($model->lastName)) {
             return false;
         }
-        if (! strtotime($model->arrivalDate) || ! strtotime($model->departureDate)) {
+        if (!strtotime($model->arrivalDate) || !strtotime($model->departureDate)) {
             return false;
         }
         if (strtotime($model->arrivalDate) >= strtotime($model->departureDate)) {
@@ -59,7 +59,7 @@ class ClientRepository extends BaseRepository
         if ($model->adults == 0 && $model->children == 0) {
             return false;
         }
-        if (! in_array($model->discount, $this->discounts)) {
+        if (!in_array($model->discount, $this->discounts)) {
             return false;
         }
         if ($model->adults < 0 || $model->children < 0 || $model->electricity < 0 || $model->smallPlaces < 0
@@ -108,7 +108,7 @@ class ClientRepository extends BaseRepository
             return false;
         }
         $model = $this->find($id);
-        if (! isset($model)) {
+        if (!isset($model)) {
             return false;
         }
         $model->paid += $amount;
