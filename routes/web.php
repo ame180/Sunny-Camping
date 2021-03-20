@@ -32,3 +32,8 @@ Route::prefix('/admin')->group(function () {
 Route::get('/welcome', function () {
     return view('welcome');
 });
+
+
+Route::group(['prefix' => 'cms'], function () {
+    Voyager::routes();
+});
