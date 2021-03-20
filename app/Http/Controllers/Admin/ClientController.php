@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Http\Controllers\Admin;
-
 
 use App\Http\Controllers\Controller;
 use App\Repositories\ClientRepository;
@@ -19,8 +17,7 @@ class ClientController extends Controller
 
     public function addClient()
     {
-        return view('admin.clients.client_input_form', ['page' => 'clients', 'nav_items' =>
-            config('constants.admin_nav_items'), 'mode' => 'PUT']);
+        return view('admin.clients.client_input_form', ['page' => 'clients', 'nav_items' => config('constants.admin_nav_items'), 'mode' => 'PUT']);
     }
 
     public function add(Request $request)
@@ -28,6 +25,7 @@ class ClientController extends Controller
         if ($this->clientsRepository->add($request->all())) {
             return true;
         }
+
         return response('', 400);
     }
 
@@ -36,8 +34,8 @@ class ClientController extends Controller
         if ($this->clientsRepository->find($id) == null) {
             return response('', 404);
         }
-        return view('admin.clients.client_input_form', ['page' => 'clients', 'nav_items' =>
-            config('constants.admin_nav_items'), 'mode' => 'PATCH', 'id' => $id]);
+
+        return view('admin.clients.client_input_form', ['page' => 'clients', 'nav_items' => config('constants.admin_nav_items'), 'mode' => 'PATCH', 'id' => $id]);
     }
 
     public function update(Request $request, $id)
@@ -45,6 +43,7 @@ class ClientController extends Controller
         if ($this->clientsRepository->update($id, $request->all())) {
             return true;
         }
+
         return response('', 400);
     }
 
@@ -63,9 +62,15 @@ class ClientController extends Controller
         return $this->clientsRepository->find($id)->toJson();
     }
 
-    public function settle(int $id, Request $request) {
-        if (!$request->has('settlement')) return response('', 400);;
-        if (!$this->clientsRepository->settle($id, $request->get('settlement'))) return response('', 400);
+    public function settle(int $id, Request $request)
+    {
+        if (!$request->has('settlement')) {
+            return response('', 400);
+        }
+        if (!$this->clientsRepository->settle($id, $request->get('settlement'))) {
+            return response('', 400);
+        }
+
         return true;
     }
 }

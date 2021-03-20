@@ -2,9 +2,9 @@
 
 return [
     'admin_nav_items' => [
-        'dashboard' => "Podsumowanie",
-        'clients' => "Klienci",
-        'bills' => "Rachunki"
+        'dashboard' => 'Podsumowanie',
+        'clients' => 'Klienci',
+        'bills' => 'Rachunki',
     ],
-    'discounts' => [0, 5, 10]
+    'discounts' => [0, 5, 10],
 ];

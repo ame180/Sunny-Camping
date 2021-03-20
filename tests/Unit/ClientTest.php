@@ -25,33 +25,37 @@ class ClientTest extends TestCase
     }
 
     /** @test */
-    public function validateModel_ClientWithNoFirstAndLastName_FalseReturned() {
+    public function validateModel_ClientWithNoFirstAndLastName_FalseReturned()
+    {
         $client = Client::factory()->make();
-        $client->firstName = "";
-        $client->lastName = "";
+        $client->firstName = '';
+        $client->lastName = '';
         $this->assertFalse($this->clientRepository->validateModel($client));
     }
 
     /** @test */
-    public function validateModel_ClientWithEmptyArrivalOrDepartureDate_FalseReturned() {
+    public function validateModel_ClientWithEmptyArrivalOrDepartureDate_FalseReturned()
+    {
         $client = Client::factory()->make();
-        $client->arrivalDate = "";
+        $client->arrivalDate = '';
         $this->assertFalse($this->clientRepository->validateModel($client));
 
         $client = Client::factory()->make();
-        $client->departureDate = "";
+        $client->departureDate = '';
         $this->assertFalse($this->clientRepository->validateModel($client));
     }
 
     /** @test */
-    public function validateModel_ClientWithDepartureBeforeOrAtArrival_FalseReturned() {
+    public function validateModel_ClientWithDepartureBeforeOrAtArrival_FalseReturned()
+    {
         $client = Client::factory()->make();
         $client->departureDate = $client->arrivalDate;
         $this->assertFalse($this->clientRepository->validateModel($client));
     }
 
     /** @test */
-    public function validateModel_ClientWithNoPeople_FalseReturned() {
+    public function validateModel_ClientWithNoPeople_FalseReturned()
+    {
         $client = Client::factory()->make();
         $client->adults = 0;
         $client->children = 0;
@@ -59,7 +63,8 @@ class ClientTest extends TestCase
     }
 
     /** @test */
-    public function validateModel_ClientWithNegativeValues_FalseReturned() {
+    public function validateModel_ClientWithNegativeValues_FalseReturned()
+    {
         $client = Client::factory()->make();
         $client->electricity = -1;
         $this->assertFalse($this->clientRepository->validateModel($client));
@@ -73,14 +78,14 @@ class ClientTest extends TestCase
     public function getStayPrice_ClientWithStayPriceOf220_220Returned(): void
     {
         $client = Client::factory()->make([
-            "arrival_date" => "2021-01-01",
-            "departure_date" => "2021-01-03",
-            "adults" => 3,
-            "children" => 2,
-            "electricity" => 1,
-            "small_places" => 3,
-            "big_places" => 2,
-            "discount" => 5
+            'arrival_date' => '2021-01-01',
+            'departure_date' => '2021-01-03',
+            'adults' => 3,
+            'children' => 2,
+            'electricity' => 1,
+            'small_places' => 3,
+            'big_places' => 2,
+            'discount' => 5,
         ]);
         $this->assertEquals(220, $this->clientRepository->getStayPrice($client));
     }
