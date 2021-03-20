@@ -24,6 +24,7 @@ class ClientFactory extends Factory
     public function definition(): array
     {
         $arrivalDate = $this->faker->dateTimeBetween('-2 months');
+
         return [
             "name" => $this->faker->name,
             "arrival_date" => $arrivalDate->format('Y-m-d'),

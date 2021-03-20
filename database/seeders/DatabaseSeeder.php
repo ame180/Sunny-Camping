@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
             ClientSeeder::class,
             CategorySeeder::class,
             ItemSeeder::class,
-            ServiceSeeder::class
+            ServiceSeeder::class,
         ]);
     }
 }
