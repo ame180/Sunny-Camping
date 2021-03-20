@@ -1,16 +1,15 @@
 <?php
 
 
-namespace App\Repositories\Eloquent;
+namespace App\Repositories;
 
 
-use App\Repositories\NullDefaultSupportTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Schema;
 
-abstract class EloquentRepository
+abstract class BaseRepository
 {
     use NullDefaultSupportTrait;
 
