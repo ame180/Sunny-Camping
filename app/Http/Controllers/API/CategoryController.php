@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Repositories\CategoryRepositoryInterface;
+use App\Repositories\CategoryRepository;
 
 class CategoryController extends Controller
 {
-    private CategoryRepositoryInterface $categoryRepository;
+    private CategoryRepository $categoryRepository;
 
-    public function __construct(CategoryRepositoryInterface $categoryRepository)
+    public function __construct(CategoryRepository $categoryRepository)
     {
         $this->categoryRepository = $categoryRepository;
     }

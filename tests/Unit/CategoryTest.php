@@ -5,7 +5,7 @@
 namespace Tests\Unit;
 
 use App\Models\Category;
-use App\Repositories\CategoryRepositoryInterface;
+use App\Repositories\CategoryRepository;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\App;
 use Tests\TestCase;
@@ -14,12 +14,12 @@ class CategoryTest extends TestCase
 {
     use DatabaseTransactions;
 
-    private CategoryRepositoryInterface $categoryRepository;
+    private CategoryRepository $categoryRepository;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->categoryRepository = App::make(CategoryRepositoryInterface::class);
+        $this->categoryRepository = App::make(CategoryRepository::class);
     }
 
     /** @test */
