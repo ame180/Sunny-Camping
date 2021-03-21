@@ -8,4 +8,9 @@ class Client extends BaseModel
 {
     use HasFactory;
     protected $guarded = [];
+
+    public function clientItems()
+    {
+        return $this->hasMany(ClientItem::class);
+    }
 }

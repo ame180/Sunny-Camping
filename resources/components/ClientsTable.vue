@@ -12,14 +12,8 @@
             <div slot="id-slot" slot-scope="props">
                 <b>{{ props.rowData.id }}</b>
             </div>
-            <div slot="full-name-slot" slot-scope="props">
-                {{ props.rowData.firstName }} {{ props.rowData.lastName }}
-            </div>
-            <div slot="people-slot" slot-scope="props">
-                {{ props.rowData.adults }} + {{ props.rowData.children }}
-            </div>
-            <div slot="places-slot" slot-scope="props">
-                {{ props.rowData.smallPlaces }} + {{ props.rowData.bigPlaces }}
+            <div slot="name-slot" slot-scope="props">
+                {{ props.rowData.name }}
             </div>
             <div slot="options-slot" slot-scope="props" class="row no-gutters">
                 <div class="col-12 p-1">
@@ -121,7 +115,7 @@ export default {
                     title: '#'
                 },
                 {
-                    name: 'full-name-slot',
+                    name: 'name-slot',
                     title: 'Imię i Nazwisko'
                 },
                 {
@@ -133,28 +127,14 @@ export default {
                     title: 'Data Odjazdu'
                 },
                 {
-                    name: 'sector',
-                    title: 'Sektor'
-                },
-                {
-                    name: 'people-slot',
-                    title: 'Osoby'
-                },
-                {
-                    name: 'electricity',
-                    title: 'Prąd'
-                },
-                {
-                    name: 'places-slot',
-                    title: 'Miejsca'
-                },
-                {
                     name: 'discount',
-                    title: 'Rabat'
+                    title: 'Rabat',
+                    formatter: (value) => value + '%'
                 },
                 {
                     name: 'price',
-                    title: 'Cena'
+                    title: 'Cena',
+                    formatter: (value) => value + ' zł'
                 },
                 {
                     name: 'comment',
