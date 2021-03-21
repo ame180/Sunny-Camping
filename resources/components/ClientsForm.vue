@@ -103,17 +103,39 @@ export default {
                 .then((response) => {
                     this.client = response.data;
                     this.initialPaid = this.client.paid
+
+                    axios.get(baseUrl + '/api/category/all-by-service/1')
+                        .then((response) => {
+                            let categories = [];
+                            response.data.forEach(function (category) {
+                                category.addedItems = [];
+                                this.client.clientItems.forEach(function (item) {
+                                    if (category.id === item.categoryId) {
+                                        category.addedItems.push(item);
+                                    }
+                                })
+                                categories.push(category);
+                            }, this)
+                            this.categories = categories;
+                        });
                 });
         }
-        axios.get(baseUrl + '/api/category/all-by-service/1')
-            .then((response) => {
-                let categories = [];
-                response.data.forEach(function (category) {
-                    category.addedItems = [];
-                    categories.push(category);
-                }, this)
-                this.categories = categories;
-            });
+        if (this.mode === 'PUT') {
+            axios.get(baseUrl + '/api/category/all-by-service/1')
+                .then((response) => {
+                    let categories = [];
+                    response.data.forEach(function (category) {
+                        category.addedItems = [];
+                        this.client.clientItems.forEach(function (item) {
+                            if (category.id === item.categoryId) {
+                                category.addedItems.push(item);
+                            }
+                        })
+                        categories.push(category);
+                    }, this)
+                    this.categories = categories;
+                });
+        }
     },
     methods: {
         trim(input) {

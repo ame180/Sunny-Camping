@@ -41,7 +41,7 @@ class ClientTest extends TestCase
     }
 
     /** @test */
-    public function getStayPrice_ClientWithStayPriceOf240_240Returned(): void
+    public function getStayPrice_ClientWithStayPriceOf216_216Returned(): void
     {
         /** @noinspection PhpUndefinedMethodInspection */
         $client = Client::factory()

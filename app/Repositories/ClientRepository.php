@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Client;
+use App\Models\ClientItem;
 use DateTime;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -29,14 +30,41 @@ class ClientRepository extends BaseRepository
     public function update(int $id, array $attributes): bool
     {
         $model = $this->find($id);
+
+        $clientItemsRaw = $attributes['clientItems'];
+        unset($attributes['clientItems']);
+
         $model->fill($attributes);
+
         if (!isset($model->paid) || $model->paid <= $this->getStayPrice($model)) {
             $model->status = 'unsettled';
         } else {
             $model->status = 'settled';
         }
 
-        return $this->saveIfValid($model);
+        if ($this->saveIfValid($model)) {
+            $clientItems = [];
+
+            foreach ($clientItemsRaw as $clientItemRaw) {
+                $clientItem = ClientItem::find($clientItemRaw['id']) ?? new ClientItem();
+                $clientItem->fill($clientItemRaw);
+                unset($clientItem->days);
+                $model->clientItems()->save($clientItem);
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public function find(int $id): Model | null
+    {
+        if ($id <= 0) {
+            return null;
+        }
+
+        return $this->model->with('clientItems')->find($id);
     }
 
     public function validateModel(Model $model): bool
@@ -53,6 +81,30 @@ class ClientRepository extends BaseRepository
         }
 
         return true;
+    }
+
+    public function add(array $attributes): bool
+    {
+        $model = $this->model->replicate();
+        $model->fill($attributes);
+
+        $clientItemsRaw = $model->client_items;
+        unset($model->client_items);
+
+        if ($this->saveIfValid($model)) {
+            $clientItems = [];
+
+            foreach ($clientItemsRaw as $clientItemRaw) {
+                $clientItem = new ClientItem();
+                $clientItem->fill($clientItemRaw);
+                $clientItem->id = null;
+                $model->clientItems()->save($clientItem);
+            }
+
+            return true;
+        }
+
+        return false;
     }
 
     public function all(array $columns = ['*']): Collection

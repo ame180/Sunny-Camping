@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Repositories;
 
 use App\Models\Category;
@@ -20,6 +19,7 @@ class CategoryRepository extends BaseRepository
         foreach ($categories as $category) {
             $this->fillModel($category);
         }
+
         return $categories;
     }
 

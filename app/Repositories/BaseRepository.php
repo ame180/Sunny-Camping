@@ -39,6 +39,9 @@ abstract class BaseRepository
     {
         $model = $this->model->replicate();
         $model->fill($attributes);
+        $this->fillModel($model);
+
+        dd($model);
 
         return $this->saveIfValid($model);
     }
@@ -79,4 +82,6 @@ abstract class BaseRepository
     {
         return true;
     }
+
+    abstract public function fillModel(Model $model): void;
 }

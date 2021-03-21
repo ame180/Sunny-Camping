@@ -59,7 +59,9 @@ class ClientController extends Controller
 
     public function findJson($id)
     {
-        return $this->clientsRepository->find($id)->toJson();
+        $client = $this->clientsRepository->find($id);
+
+        return $client->toJson();
     }
 
     public function settle(int $id, Request $request)
