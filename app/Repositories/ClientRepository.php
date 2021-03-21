@@ -31,21 +31,21 @@ class ClientRepository extends BaseRepository
     {
         $model = $this->find($id);
 
-        $clientItemsRaw = $attributes['clientItems'];
-        unset($attributes['clientItems']);
-
         $model->fill($attributes);
+        $model->arrival_date = $attributes['arrivalDate'];
+        $model->departure_date = $attributes['departureDate'];
 
-        if (!isset($model->paid) || $model->paid <= $this->getStayPrice($model)) {
+        if (!isset($model->paid) || $model->paid <= $model->price) {
             $model->status = 'unsettled';
         } else {
             $model->status = 'settled';
         }
 
         if ($this->saveIfValid($model)) {
+            $model->clientItems()->delete();
             $clientItems = [];
 
-            foreach ($clientItemsRaw as $clientItemRaw) {
+            foreach ($attributes['clientItems'] as $clientItemRaw) {
                 $clientItem = ClientItem::find($clientItemRaw['id']) ?? new ClientItem();
                 $clientItem->fill($clientItemRaw);
                 $model->clientItems()->save($clientItem);
@@ -85,15 +85,15 @@ class ClientRepository extends BaseRepository
     public function add(array $attributes): bool
     {
         $model = $this->model->replicate();
-        $model->fill($attributes);
 
-        $clientItemsRaw = $model->client_items;
-        unset($model->client_items);
+        $model->fill($attributes);
+        $model->arrival_date = $attributes['arrivalDate'];
+        $model->departure_date = $attributes['departureDate'];
 
         if ($this->saveIfValid($model)) {
             $clientItems = [];
 
-            foreach ($clientItemsRaw as $clientItemRaw) {
+            foreach ($attributes['clientItems'] as $clientItemRaw) {
                 $clientItem = new ClientItem();
                 $clientItem->fill($clientItemRaw);
                 $clientItem->id = null;
@@ -106,70 +106,6 @@ class ClientRepository extends BaseRepository
         return false;
     }
 
-    public function all(array $columns = ['*']): Collection
-    {
-        $models = parent::all($columns);
-        foreach ($models as $model) {
-            $this->fillModel($model);
-        }
-
-        return $models;
-    }
-
-    public function paginate(array $query = []): LengthAwarePaginator
-    {
-        $paginator = parent::paginate($query);
-        foreach ($paginator->items() as $model) {
-            $this->fillModel($model);
-        }
-
-        return $paginator;
-    }
-
-    public function fillModel(Model $model): void
-    {
-        $model->pricePerDay = $this->getPricePerDay($model);
-        $model->price = $this->getStayPrice($model);
-        $model->days = $this->getDays($model);
-    }
-
-    public function getClientItems(Model $model): Collection
-    {
-        return $model->clientItems;
-    }
-
-    public function getPricePerDay(Model $model): float
-    {
-        $clientItems = $this->getClientItems($model);
-        $price = 0;
-        foreach ($clientItems as $clientItem) {
-            $price += $clientItem->price * $clientItem->count;
-        }
-
-        return $price;
-    }
-
-    public function getDays(Model $model): int
-    {
-        if (!strtotime($model->arrivalDate) || !strtotime($model->departureDate)) {
-            return 0;
-        }
-        $arrival = new DateTime($model->arrivalDate);
-        $departure = new DateTime($model->departureDate);
-
-        return $departure->diff($arrival)->format('%a');
-    }
-
-    public function getStayPrice(Model $model): float
-    {
-        $days = $this->getDays($model);
-        if ($days == 0) {
-            return 0;
-        }
-
-        return floor($days * $this->getPricePerDay($model) * (100 - $model->discount) / 100);
-    }
-
     public function settle(int $id, int $amount): bool
     {
         if ($amount <= 0) {
@@ -180,7 +116,7 @@ class ClientRepository extends BaseRepository
             return false;
         }
         $model->paid += $amount;
-        if ($model->paid >= $this->getStayPrice($model)) {
+        if ($model->paid >= $model->price) {
             $model->status = 'settled';
         } else {
             $model->status = 'unsettled';

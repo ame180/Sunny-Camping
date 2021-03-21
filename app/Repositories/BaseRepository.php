@@ -82,6 +82,4 @@ abstract class BaseRepository
     {
         return true;
     }
-
-    abstract public function fillModel(Model $model): void;
 }
