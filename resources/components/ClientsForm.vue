@@ -146,9 +146,6 @@ export default {
             return null;
         },
         addItem(categoryId, item) {
-            if (this.client.arrivalDate && this.client.departureDate) {
-                item.days = Math.round((this.client.departureDate - this.client.arrivalDate) / (1000 * 60 * 60 * 24));
-            }
             item.count = 1;
             this.categories[categoryId].addedItems.push(Vue.util.extend({}, item));
         },
