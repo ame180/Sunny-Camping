@@ -48,7 +48,6 @@ class ClientRepository extends BaseRepository
             foreach ($clientItemsRaw as $clientItemRaw) {
                 $clientItem = ClientItem::find($clientItemRaw['id']) ?? new ClientItem();
                 $clientItem->fill($clientItemRaw);
-                unset($clientItem->days);
                 $model->clientItems()->save($clientItem);
             }
 

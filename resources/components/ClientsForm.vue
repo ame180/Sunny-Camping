@@ -43,9 +43,11 @@
             <div v-for="(category, index) in categories" :key="category.id" class="row">
                 <div class="col-12">
                     <h2>{{ category.name }}</h2>
-                    <a v-for="item in category.categoryItems" :key="item.id" @click="addItem(index, item)"
-                       class="btn btn-primary mx-1">{{ item.name }}</a>
-                    <div class="row" v-for="item in category.addedItems">
+                    <div class="mb-3">
+                        <a v-for="item in category.categoryItems" :key="item.id" @click="addItem(index, item)"
+                           class="btn btn-primary mx-1">{{ item.name }}</a>
+                    </div>
+                    <div class="row" v-for="(item, itemIndex) in category.addedItems">
                         <div class="col-3 col-md-2 d-flex justify-content-center align-items-center">
                             <b>{{ item.name }}</b>
                         </div>
@@ -55,14 +57,15 @@
                                    class="form-control form-control-sm">
                         </div>
                         <div class="col-3 col-md-2 form-group">
-                            <label>Dni</label>
-                            <input v-model="item.days" type="number"
-                                   class="form-control form-control-sm">
-                        </div>
-                        <div class="col-3 col-md-2 form-group">
                             <label>Ilość</label>
                             <input v-model="item.count" type="number"
                                    class="form-control form-control-sm">
+                        </div>
+                        <div class="form-group">
+                            <label>Usuń</label>
+                            <div>
+                                <a class="btn btn-danger" @click="deleteItem(index, itemIndex)"><i class="fas fa-trash"></i></a>
+                            </div>
                         </div>
                     </div>
                     <hr>
@@ -70,7 +73,7 @@
             </div>
         </div>
         <div class="col-12 text-center">
-            <button @click="submitClientForm()" class="btn btn-success w-50">
+            <button @click="submitClientForm()" class="btn btn-success w-50 mb-4">
                 Zatwierdź
             </button>
         </div>
@@ -148,6 +151,9 @@ export default {
             }
             item.count = 1;
             this.categories[categoryId].addedItems.push(Vue.util.extend({}, item));
+        },
+        deleteItem(categoryId, itemId) {
+            this.categories[categoryId].addedItems.splice(itemId, 1);
         },
         submitClientForm() {
             if (!this.client.name) {
