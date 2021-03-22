@@ -87,7 +87,6 @@ class ClientRepository extends BaseRepository
         $model->departure_date = $attributes['departureDate'];
 
         if ($this->saveIfValid($model)) {
-
             foreach ($attributes['clientItems'] as $clientItemRaw) {
                 $clientItem = new ClientItem();
                 $clientItem->fill($clientItemRaw);
