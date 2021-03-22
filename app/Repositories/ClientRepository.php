@@ -4,10 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Client;
 use App\Models\ClientItem;
-use DateTime;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Collection;
 
 class ClientRepository extends BaseRepository
 {
@@ -43,7 +40,6 @@ class ClientRepository extends BaseRepository
 
         if ($this->saveIfValid($model)) {
             $model->clientItems()->delete();
-            $clientItems = [];
 
             foreach ($attributes['clientItems'] as $clientItemRaw) {
                 $clientItem = ClientItem::find($clientItemRaw['id']) ?? new ClientItem();
@@ -91,8 +87,6 @@ class ClientRepository extends BaseRepository
         $model->departure_date = $attributes['departureDate'];
 
         if ($this->saveIfValid($model)) {
-            $clientItems = [];
-
             foreach ($attributes['clientItems'] as $clientItemRaw) {
                 $clientItem = new ClientItem();
                 $clientItem->fill($clientItemRaw);
