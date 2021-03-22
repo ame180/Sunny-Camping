@@ -16,6 +16,9 @@ and open the template in the editor.
 @yield('main')
 @yield('footer')
 @section('scripts')
+    <script>
+        window.baseUrl = '{{ config('app.url') }}';
+    </script>
     @stack('scripts')
 @show
 </body>

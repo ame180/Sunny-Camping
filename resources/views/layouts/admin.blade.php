@@ -35,6 +35,9 @@
     @yield('main')
 </div>
 @section('scripts')
+    <script>
+        window.baseUrl = '{{ config('app.url') }}';
+    </script>
     <script src="{{mix('js/app.js')}}"></script>
     @stack('scripts')
 @show
