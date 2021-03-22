@@ -146,6 +146,7 @@ export default {
             return null;
         },
         addItem(categoryId, item) {
+            item.id = null;
             item.count = 1;
             this.categories[categoryId].addedItems.push(Vue.util.extend({}, item));
         },

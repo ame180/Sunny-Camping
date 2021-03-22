@@ -54,14 +54,13 @@ class ClientTest extends TestCase
         $client->departureDate = '2021-01-05';
         $client->discount = 10;
 
-        $this->assertEquals(216, $this->clientRepository->getStayPrice($client));
+        $this->assertEquals(216, $client->price);
     }
 
     /** @test */
     public function fillModel_ValidClient_AllCustomPropertiesAccessible(): void
     {
         $client = Client::factory()->make();
-        $this->clientRepository->fillModel($client);
         $arr = $client->toArray();
         $this->assertArrayHasKey('pricePerDay', $arr);
         $this->assertArrayHasKey('price', $arr);

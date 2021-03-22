@@ -25,6 +25,9 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $updated_at
  * @property-read Collection|ClientItem[] $clientItems
  * @property-read int|null $client_items_count
+ * @property-read int $days
+ * @property-read float $price
+ * @property-read float $price_per_day
  * @method static ClientFactory factory(...$parameters)
  * @method static Builder|Client newModelQuery()
  * @method static Builder|Client newQuery()
@@ -44,7 +47,42 @@ use Illuminate\Support\Carbon;
 class Client extends BaseModel
 {
     use HasFactory;
-    protected $guarded = [];
+
+    protected $guarded = ['price', 'price_per_day', 'days'];
+
+    protected $appends = ['price', 'price_per_day', 'days'];
+
+    public function getPriceAttribute(): float
+    {
+        if ($this->days === 0) {
+            return 0;
+        }
+
+        return floor($this->days * $this->pricePerDay * (100 - $this->discount) / 100);
+    }
+
+    public function getPricePerDayAttribute(): float
+    {
+        $clientItems = $this->clientItems;
+        $price = 0;
+        foreach ($clientItems as $clientItem) {
+            $price += $clientItem->price * $clientItem->count;
+        }
+
+        return $price;
+    }
+
+    public function getDaysAttribute(): int
+    {
+        if (!strtotime($this->arrival_date) || !strtotime($this->departure_date)) {
+            return 0;
+        }
+
+        $arrivalDate = new Carbon($this->arrival_date);
+        $departureDate = new Carbon($this->departure_date);
+
+        return $departureDate->diff($arrivalDate)->format('%a');
+    }
 
     public function clientItems(): HasMany
     {

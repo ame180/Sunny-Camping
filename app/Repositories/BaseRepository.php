@@ -20,7 +20,6 @@ abstract class BaseRepository
         return $this->model->all($columns);
     }
 
-    /** @noinspection PhpUndefinedMethodInspection */
     public function find(int $id): Model | null
     {
         if ($id <= 0) {
@@ -41,8 +40,6 @@ abstract class BaseRepository
         $model->fill($attributes);
         $this->fillModel($model);
 
-        dd($model);
-
         return $this->saveIfValid($model);
     }
 
@@ -54,7 +51,6 @@ abstract class BaseRepository
         return $this->saveIfValid($model);
     }
 
-    /** @noinspection PhpUndefinedMethodInspection */
     public function paginate(array $query = []): LengthAwarePaginator
     {
         $sort = $query['sort'] ?? null;
@@ -77,11 +73,8 @@ abstract class BaseRepository
         return true;
     }
 
-    /** @noinspection PhpUnusedParameterInspection */
     public function validateModel(Model $model): bool
     {
         return true;
     }
-
-    abstract public function fillModel(Model $model): void;
 }
