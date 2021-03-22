@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use JetBrains\PhpStorm\Pure;
 
 class Client extends BaseModel
 {
@@ -13,17 +15,16 @@ class Client extends BaseModel
 
     protected $appends = ['price', 'price_per_day', 'days'];
 
-    public function getPriceAttribute()
+    public function getPriceAttribute(): float
     {
-        $days = $this->days;
-        if ($days == 0) {
+        if ($this->days === 0) {
             return 0;
         }
 
-        return floor($days * $this->pricePerDay * (100 - $this->discount) / 100);
+        return floor($this->days * $this->pricePerDay * (100 - $this->discount) / 100);
     }
 
-    public function getPricePerDayAttribute()
+    public function getPricePerDayAttribute(): float
     {
         $clientItems = $this->clientItems;
         $price = 0;
@@ -34,19 +35,19 @@ class Client extends BaseModel
         return $price;
     }
 
-    public function getDaysAttribute()
+    public function getDaysAttribute(): int
     {
         if (!strtotime($this->arrival_date) || !strtotime($this->departure_date)) {
             return 0;
         }
 
-        $arrival = new Carbon($this->arrival_date);
-        $departure = new Carbon($this->departure_date);
+        $arrivalDate = new Carbon($this->arrival_date);
+        $departureDate = new Carbon($this->departure_date);
 
-        return $departure->diff($arrival)->format('%a');
+        return $departureDate->diff($arrivalDate)->format('%a');
     }
 
-    public function clientItems()
+    public function clientItems(): HasMany
     {
         return $this->hasMany(ClientItem::class);
     }
