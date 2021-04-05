@@ -8,15 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ClientRepository extends BaseRepository
 {
-    protected array $prices = ['adult' => 18, 'child' => 14, 'electricity' => 10, 'smallPlaces' => 4, 'bigPlaces' => 6];
     protected array $discounts;
-
-    protected array $notNullable = ['discount', 'paid', 'status'];
-    protected array $defaultValues = [
-        'discount' => 0,
-        'paid' => 0,
-        'status' => 'unsettled',
-    ];
 
     public function __construct()
     {
