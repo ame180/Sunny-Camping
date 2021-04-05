@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ClientRepository extends BaseRepository
 {
-    protected array $discounts;
+    private array $discounts;
 
     public function __construct()
     {
