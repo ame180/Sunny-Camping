@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'auth' => env('FEATURE_AUTH', true),
+    'auth' => env('FEATURE_AUTH', false),
 ];

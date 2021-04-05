@@ -55,7 +55,6 @@ class RoutesTest extends TestCase
     public function ApiCategoryAllByService_Get_Success()
     {
         $this->withoutMix();
-        config()->set('features.auth', false);
         $response = $this->get('/api/category/all-by-service/0');
         $response->assertOk();
     }
