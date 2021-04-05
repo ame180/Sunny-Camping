@@ -5,7 +5,7 @@
             <b>
                 #{{ data.id }} {{ data.name }}<br>
                 Dni: {{ data.days }}<br>
-                Cena za dzień: {{ data.pricePerDay }} zł<br>
+                Cena za dzień: {{ data.price_per_day }} zł<br>
                 <span v-if="data.paid !== 0">
                     Zapłacono: {{ data.paid ? data.paid : 0 }} zł<br>
                     <span v-if="data.price - data.paid > 0">Pozostało: {{ data.price - data.paid }} zł</span><br>
