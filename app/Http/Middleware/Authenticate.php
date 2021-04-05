@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use Closure;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 
 class Authenticate extends Middleware
@@ -12,6 +13,15 @@ class Authenticate extends Middleware
      * @param  \Illuminate\Http\Request  $request
      * @return string|null
      */
+    public function handle($request, Closure $next, ...$guards)
+    {
+        if (config('features.auth')) {
+            $this->authenticate($request, $guards);
+        }
+
+        return $next($request);
+    }
+
     protected function redirectTo($request)
     {
         if (!$request->expectsJson()) {
