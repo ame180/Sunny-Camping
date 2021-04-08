@@ -21,8 +21,6 @@ class ClientRepository extends BaseRepository
         $model = $this->find($id);
 
         $model->fill($attributes);
-        $model->arrival_date = $attributes['arrivalDate'];
-        $model->departure_date = $attributes['departureDate'];
 
         if (!isset($model->paid) || $model->paid <= $model->price) {
             $model->status = 'unsettled';
@@ -33,7 +31,7 @@ class ClientRepository extends BaseRepository
         if ($this->saveIfValid($model)) {
             $model->clientItems()->delete();
 
-            foreach ($attributes['clientItems'] as $clientItemRaw) {
+            foreach ($attributes['client_items'] as $clientItemRaw) {
                 $clientItem = ClientItem::find($clientItemRaw['id']) ?? new ClientItem();
                 $clientItem->fill($clientItemRaw);
                 $model->clientItems()->save($clientItem);
@@ -59,8 +57,8 @@ class ClientRepository extends BaseRepository
         if (empty($model->name)) {
             return false;
         }
-        if (strtotime($model->arrivalDate) && strtotime($model->departureDate)
-            && strtotime($model->arrivalDate) >= strtotime($model->departureDate)) {
+        if (strtotime($model->arrival_date) && strtotime($model->departure_date)
+            && strtotime($model->arrival_date) >= strtotime($model->departure_date)) {
             return false;
         }
         if (!in_array($model->discount, $this->discounts)) {
@@ -75,11 +73,9 @@ class ClientRepository extends BaseRepository
         $model = $this->model->replicate();
 
         $model->fill($attributes);
-        $model->arrival_date = $attributes['arrivalDate'];
-        $model->departure_date = $attributes['departureDate'];
 
         if ($this->saveIfValid($model)) {
-            foreach ($attributes['clientItems'] as $clientItemRaw) {
+            foreach ($attributes['client_items'] as $clientItemRaw) {
                 $clientItem = new ClientItem();
                 $clientItem->fill($clientItemRaw);
                 $clientItem->id = null;

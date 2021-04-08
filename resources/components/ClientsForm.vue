@@ -12,12 +12,12 @@
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="arrival_date">Data przyjazdu</label>
-            <input id="arrival_date" v-model="client.arrivalDate" name="arrival_date" type="date"
+            <input id="arrival_date" v-model="client.arrival_date" name="arrival_date" type="date"
                    class="form-control form-control-sm">
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="departure_date">Data odjazdu</label>
-            <input id="departure_date" v-model="client.departureDate" name="departure_date" type="date"
+            <input id="departure_date" v-model="client.departure_date" name="departure_date" type="date"
                    class="form-control form-control-sm">
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
@@ -44,7 +44,7 @@
                 <div class="col-12">
                     <h2>{{ category.name }}</h2>
                     <div class="mb-3">
-                        <a v-for="item in category.categoryItems" :key="item.id" @click="addItem(index, item)"
+                        <a v-for="item in category.category_items" :key="item.id" @click="addItem(index, item)"
                            class="btn btn-primary mx-1">{{ item.name }}</a>
                     </div>
                     <div class="row" v-for="(item, itemIndex) in category.addedItems">
@@ -87,12 +87,12 @@ export default {
         return {
             client: {
                 name: null,
-                arrivalDate: null,
-                departureDate: null,
+                arrival_date: null,
+                departure_date: null,
                 comment: null,
                 paid: null,
                 discount: 0,
-                clientItems: []
+                client_items: []
             },
             categories: [],
             items: [],
@@ -112,8 +112,8 @@ export default {
                             let categories = [];
                             response.data.forEach(function (category) {
                                 category.addedItems = [];
-                                this.client.clientItems.forEach(function (item) {
-                                    if (category.id === item.categoryId) {
+                                this.client.client_items.forEach(function (item) {
+                                    if (category.id === item.category_id) {
                                         category.addedItems.push(item);
                                     }
                                 })
@@ -129,8 +129,8 @@ export default {
                     let categories = [];
                     response.data.forEach(function (category) {
                         category.addedItems = [];
-                        this.client.clientItems.forEach(function (item) {
-                            if (category.id === item.categoryId) {
+                        this.client.client_items.forEach(function (item) {
+                            if (category.id === item.category_id) {
                                 category.addedItems.push(item);
                             }
                         })
@@ -158,15 +158,15 @@ export default {
                 this.isNameInvalid = true;
                 return false;
             }
-            if (this.client.arrivalDate && this.client.departureDate && new Date(this.client.arrivalDate) >= new Date(this.client.departureDate)) {
+            if (this.client.arrival_date && this.client.departure_date && new Date(this.client.arrival_date) >= new Date(this.client.departure_date)) {
                 alert("Data odjazdu musi być później od daty przyjazdu!");
                 return false;
             }
             let request;
 
-            this.client.clientItems = [];
+            this.client.client_items = [];
             this.categories.forEach(function(category) {
-                this.client.clientItems = this.client.clientItems.concat(category.addedItems);
+                this.client.client_items = this.client.client_items.concat(category.addedItems);
             }, this);
 
             if (this.mode === 'PUT') {

@@ -119,11 +119,11 @@ export default {
                     title: 'Imię i Nazwisko'
                 },
                 {
-                    name: 'arrivalDate',
+                    name: 'arrival_date',
                     title: 'Data Przyjazdu'
                 },
                 {
-                    name: 'departureDate',
+                    name: 'departure_date',
                     title: 'Data Odjazdu'
                 },
                 {
