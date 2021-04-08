@@ -16,4 +16,16 @@ use Illuminate\Database\Eloquent\Model;
  */
 class BaseModel extends Model
 {
+    protected array $defaults = [];
+
+    protected static function booted()
+    {
+        static::saving(function ($model) {
+            foreach ($model->defaults as $attribute => $default) {
+                if (!isset($model->$attribute)) {
+                    $model->$attribute = $default;
+                }
+            }
+        });
+    }
 }
