@@ -48,9 +48,18 @@ class Client extends BaseModel
 {
     use HasFactory;
 
+    const STATUS_SETTLED = 'settled';
+    const STATUS_UNSETTLED = 'unsettled';
+
     protected $guarded = ['price', 'price_per_day', 'days'];
 
     protected $appends = ['price', 'price_per_day', 'days'];
+
+    protected array $defaults = [
+        'discount' => 0,
+        'paid' => 0,
+        'status' => self::STATUS_UNSETTLED,
+    ];
 
     public function getPriceAttribute(): float
     {
@@ -58,7 +67,7 @@ class Client extends BaseModel
             return 0;
         }
 
-        return floor($this->days * $this->pricePerDay * (100 - $this->discount) / 100);
+        return floor($this->days * $this->price_per_day * (100 - $this->discount) / 100);
     }
 
     public function getPricePerDayAttribute(): float

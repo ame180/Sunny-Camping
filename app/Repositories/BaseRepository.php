@@ -2,18 +2,14 @@
 
 namespace App\Repositories;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Schema;
 
 abstract class BaseRepository
 {
-    use NullDefaultSupportTrait;
-
     protected Model $model;
-    protected array $notNullable = [];
-    protected array $defaultValues = [];
 
     public function all(array $columns = ['*']): Collection
     {
@@ -64,7 +60,6 @@ abstract class BaseRepository
 
     protected function saveIfValid(Model $model): bool
     {
-        $model = $this->setNotNullableToDefault($model, $this->notNullable, $this->defaultValues);
         if (!$this->validateModel($model)) {
             return false;
         }
