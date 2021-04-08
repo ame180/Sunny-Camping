@@ -227,7 +227,4 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
     ],
-
-    'mix_url' => env('MIX_ASSET_URL', null),
-
 ];
