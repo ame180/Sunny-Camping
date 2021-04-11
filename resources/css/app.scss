@@ -1,2 +1,25 @@
 @import '~bootstrap/scss/bootstrap';
 @import '~vue-js-modal/dist/styles.css';
+
+$yellow: #ffc42d;
+$dark-grey: #141414;
+
+.text-yellow {
+    color: $yellow;
+}
+
+.bg-dark-grey {
+    background-color: $dark-grey;
+}
+
+.parallax {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.section.parallax {
+    background-color: rgba(0, 0, 0, 0.75);
+}
+
+.section {
+    padding: 80px 0px;
+}

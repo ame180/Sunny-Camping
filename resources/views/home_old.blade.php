@@ -1,12 +1,12 @@
 @extends('layouts.default')
 
 @section('head')
-    <link rel="stylesheet" href="{{mix('css/app.css')}}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="{{mix('css/style.css')}}"/>
 @endsection
 
 @section('navbar')
-    <div class="parallax" data-parallax="scroll" data-image-src="{{mix('images/bgsc.jpg')}}">
+    <div class="parallax_nav parallax-window" data-parallax="scroll" data-image-src="{{mix('images/bgsc.jpg')}}">
         <a class="navbar_logo navbar-brand" href="#"><img alt="Nadmorski Sonet"
                                                           src="{{mix('images/sloneczny_camping.png')}}"></a>
         <nav class="navbar navbar-default header_nav">
@@ -29,59 +29,94 @@
 @endsection
 
 @section('about')
-    <div id="onas" class="section">
+    <div id="onas" class="about_section">
         <div class="container">
-            <h1 class="text-yellow">Słoneczny Camping</h1>
-            <p>
-                Wicie to atrakcyjna miejscowość turystyczna środkowego wybrzeża bałtyku. Leży między Darłówkiem a
-                Jarosławcem, ma róœnież bezpośrednim dostępem do dzikiego jeziora Kopań. Słoneczny Camping usytuowany
-                jest w odległości 200 metrów od morza i około 800 metrów od jeziora.
+            <h1>Słoneczny Camping</h1>
+            <span>Serdecznie zapraszamy na wczasy</span>
+            <p>Miejscowość Wicie położona jest między Darłówkiem, a Jarosławcem. Odległość z Pensjonatu do morza 300 m,
+                do jeziora Kopań 900 m. Spokój, natura, czysta woda, duża plaża.
+
+                Oferujemy Państwu pokoje 1-, 2-, 3- i 4- osobowe z łazienkami i dwupokojowe apartamenty. Wszystkie
+                pokoje mają komfortowe wyposażenie. W pensjonacie znajduje się bar z bilardem. Możliwość organizowania
+                imprez okolicznościowych.
+
+                Aktualnie nasz obiekt przechodzi generalny remont, aby urlop Naszych Gości stał się jeszcze bardziej
+                udany. Zapraszamy na sezon 2016!
+
+                Serdecznie zapraszamy na wczasy do pensjonatu nad morzem "Nadmorski Sonet" w Wiciu!
             </p>
         </div>
     </div>
 @endsection
 
 @section('campsite')
-    <div id="pole" class="parallax section" data-parallax="scroll"
+    <div id="pole" class="camping_section parallax-window" data-parallax="scroll"
          data-image-src="{{mix('images/pole.jpg')}}">
         <div class="rooms_content container">
-            <h1 class="text-white">Pole namiotowe</h1>
-            <p>
-                Na terenie campingu znajdują się nowoczesne, murowane sanitariaty, osobno dla kobiet oraz mężczyzn.
-                W sanitariatach są bezpłatne prysznice z ciepłą wodą, umywalnie i toalety. Udostępniamy także specjalne
-                miejsce do zmywania naczyń oraz do opróżniania pojemników z fekaliami. Pole namiotowe jest podzielone
-                żywopłotem na sektory, każdy z dostępem do prądu.
+            <h1>Pole namiotowe</h1>
+            <span>Mamy ich miliardy</span>
+            <p>Miejscowość Wicie położona jest między Darłówkiem, a Jarosławcem. Odległość z Pensjonatu do morza 300 m,
+                do jeziora Kopań 900 m. Spokój, natura, czysta woda, duża plaża.
+
+                Oferujemy Państwu pokoje 1-, 2-, 3- i 4- osobowe z łazienkami i dwupokojowe apartamenty. Wszystkie
+                pokoje mają komfortowe wyposażenie. W pensjonacie znajduje się bar z bilardem. Możliwość organizowania
+                imprez okolicznościowych.
+
+                Aktualnie nasz obiekt przechodzi generalny remont, aby urlop Naszych Gości stał się jeszcze bardziej
+                udany. Zapraszamy na sezon 2016!
+
+                Serdecznie zapraszamy na wczasy do pensjonatu nad morzem "Nadmorski Sonet" w Wiciu!
             </p>
         </div>
     </div>
 @endsection
 
 @section('bungalows')
-    <div id="domki" class="bg-dark-grey section">
+    <div id="domki" class="bungalow_section">
         <div class="container">
-            <h1 class="text-white">Domki</h1>
-            <p>
-                Przy domku znajduje się taras oraz parking dla samochodu. W domku na parterze jest pokój z aneksem
-                kuchennym oraz toaleta z prysznicem. W aneksie kuchennym jest lodówka, kuchenka elektryczna i
-                zlewozmywak, a w pokoju stół oraz kanapa dwuosobowa. Na piętrze znajduje się sypialnia wyposażona
-                w dwa łóżka jednoosobowe, z możliwością połączenia. Domek jest przeznaczony dla maksymalnie 4 osób.
+            <h1>Domki</h1>
+            <span>Miliardy atrakcji wszędzie</span>
+            <p>Miejscowość Wicie położona jest między Darłówkiem, a Jarosławcem. Odległość z Pensjonatu do morza 300 m,
+                do jeziora Kopań 900 m. Spokój, natura, czysta woda, duża plaża.
+
+                Oferujemy Państwu pokoje 1-, 2-, 3- i 4- osobowe z łazienkami i dwupokojowe apartamenty. Wszystkie
+                pokoje mają komfortowe wyposażenie. W pensjonacie znajduje się bar z bilardem. Możliwość organizowania
+                imprez okolicznościowych.
+
+                Aktualnie nasz obiekt przechodzi generalny remont, aby urlop Naszych Gości stał się jeszcze bardziej
+                udany. Zapraszamy na sezon 2016!
+
+                Serdecznie zapraszamy na wczasy do pensjonatu nad morzem "Nadmorski Sonet" w Wiciu!
             </p>
         </div>
     </div>
 @endsection
 
-@section('faq')
+@section('attractions')
+    <div id="atrakcje" class="attractions_section">
+        <div class="container">
+            <h1>Atrakcje</h1>
+            <span>Miliardy atrakcji wszędzie</span>
+            <p>Miejscowość Wicie położona jest między Darłówkiem, a Jarosławcem. Odległość z Pensjonatu do morza 300 m,
+                do jeziora Kopań 900 m. Spokój, natura, czysta woda, duża plaża.
 
-@endsection
+                Oferujemy Państwu pokoje 1-, 2-, 3- i 4- osobowe z łazienkami i dwupokojowe apartamenty. Wszystkie
+                pokoje mają komfortowe wyposażenie. W pensjonacie znajduje się bar z bilardem. Możliwość organizowania
+                imprez okolicznościowych.
 
-@section('pricing')
+                Aktualnie nasz obiekt przechodzi generalny remont, aby urlop Naszych Gości stał się jeszcze bardziej
+                udany. Zapraszamy na sezon 2016!
 
+                Serdecznie zapraszamy na wczasy do pensjonatu nad morzem "Nadmorski Sonet" w Wiciu!
+            </p>
+        </div>
+    </div>
 @endsection
 
 @section('contact')
-    <div id="kontakt" class="section">
+    <div id="kontakt" class="contact_section">
         <div class="container">
-            <h1 class="text-yellow">Kontakt</h1>
+            <h1>Kontakt</h1>
             <div class="row">
                 <div class="col-md-4">
                     <p>
@@ -114,10 +149,6 @@
     </div>
 @endsection
 
-@section('testimonials')
-
-@endsection
-
 @section('map')
     <div class="map_section">
         <iframe id="google_map"
@@ -130,10 +161,8 @@
     @yield('about')
     @yield('campsite')
     @yield('bungalows')
-    @yield('faq')
-    @yield('pricing')
+    @yield('attractions')
     @yield('contact')
-    @yield('testimonials')
     @yield('map')
 @endsection
 
@@ -158,5 +187,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="https://use.fontawesome.com/55e5114f06.js"></script>
     <script src="{{mix('js/parallax.min.js')}}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+    <script src="{{mix('js/script.js')}}"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 @endpush

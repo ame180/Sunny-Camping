@@ -16,7 +16,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/{year?}', [HomeController::class, 'home'])->where('year', '[0-9]+')->name('home');
+Route::get('/', [HomeController::class, 'home'])->where('year', '[0-9]+')->name('home');
+
+Route::view('/old', 'home_old');
 
 Route::prefix('/admin')->group(function () {
     Route::prefix('/clients')->group(function () {
@@ -27,8 +29,4 @@ Route::prefix('/admin')->group(function () {
     Route::get('/clients', [AdminController::class, 'clients'])->name('admin.clients');
     Route::get('/bills', [AdminController::class, 'bills']);
     Route::redirect('/', 'admin/dashboard');
-});
-
-Route::get('/welcome', function () {
-    return view('welcome');
 });

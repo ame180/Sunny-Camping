@@ -78,15 +78,6 @@ p {
     font-size: 40px;
     color: #ffc42d;
 }
-.about_section span, .camping_section span, .bungalow_section span, .attractions_section span {
-    text-transform: uppercase;
-    letter-spacing: 2.5px;
-    font-size: 17px;
-    margin-bottom: 30px;
-    display: block;
-}
-
-
 
 .camping_section {
     background-color: rgba(0, 0, 0, 0.8);
@@ -99,16 +90,10 @@ p {
     color: #fff;
 }
 
-
-
-
 .bungalow_section {
     background-color: #141414;
     padding: 80px 0px;
 }
-
-
-
 
 .gallery_image {
     height: 215px;
