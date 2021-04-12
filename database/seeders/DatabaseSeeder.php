@@ -9,7 +9,7 @@ class DatabaseSeeder extends Seeder
 {
     use Seedable;
 
-    protected $seedersPath = __DIR__ . '/';
+    protected $seedersPath = __DIR__.'/';
 
     /**
      * Seed the application's database.
