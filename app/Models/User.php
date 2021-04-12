@@ -28,7 +28,7 @@ use Illuminate\Notifications\Notifiable;
  * @method static Builder|User query()
  * @mixin Eloquent
  */
-class User extends BaseModel implements
+class User extends \TCG\Voyager\Models\User implements
     AuthenticatableContract,
     AuthorizableContract,
     CanResetPasswordContract
