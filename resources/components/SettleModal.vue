@@ -3,13 +3,13 @@
         <div class="p-2">
             <h1 class="text-center">Rozliczenie</h1>
             <b>
-                #{{ data.id }} {{ data.firstName }} {{ data.lastName }}<br>
-                Dni: {{ days }}<br>
-                Cena za dzień: {{ pricePerDay }} zł<br>
+                #{{ data.id }} {{ data.name }}<br>
+                Dni: {{ data.days }}<br>
+                Cena za dzień: {{ data.price_per_day }} zł<br>
                 <span v-if="data.paid !== 0">
                     Zapłacono: {{ data.paid ? data.paid : 0 }} zł<br>
-                    <span v-if="data.price - data.paid > 0">Pozostało: {{ data.price - data.paid }} zł</span>
-                </span><br>
+                    <span v-if="data.price - data.paid > 0">Pozostało: {{ data.price - data.paid }} zł</span><br>
+                </span>
                 <span v-if="data.discount !== 0">Rabat: {{ data.discount }}%<br></span>
                 Suma<span v-if="data.discount !== 0"> (po rabacie)</span>: {{ data.price }} zł
             </b>
@@ -63,13 +63,5 @@ export default {
             })
         }
     },
-    computed: {
-        days: function() {
-            return (new Date(this.data.departureDate) - new Date(this.data.arrivalDate)) / (1000 * 60 * 60 * 24);
-        },
-        pricePerDay: function() {
-            return Math.round(this.data.price / this.days * 100) / 100;
-        }
-    }
 }
 </script>

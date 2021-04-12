@@ -50,4 +50,12 @@ class RoutesTest extends TestCase
         $response = $this->get('/admin/clients/edit/-1');
         $response->assertNotFound();
     }
+
+    /** @test */
+    public function ApiCategoryAllByService_Get_Success()
+    {
+        $this->withoutMix();
+        $response = $this->get('/api/category/all-by-service/0');
+        $response->assertOk();
+    }
 }

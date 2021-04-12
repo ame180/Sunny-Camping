@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/{year?}', [HomeController::class, 'home'])->where('year', '[0-9]+')->name('home');
 
-Route::prefix('/admin')->group(function () {
+Route::group(['prefix' => '/admin', 'middleware' => 'auth'], function () {
     Route::prefix('/clients')->group(function () {
         Route::get('/add-client', [ClientController::class, 'addClient']);
         Route::get('/edit/{id}', [ClientController::class, 'edit'])->name('admin.clients.edit');
