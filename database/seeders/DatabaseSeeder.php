@@ -9,7 +9,7 @@ class DatabaseSeeder extends Seeder
 {
     use Seedable;
 
-    protected $seedersPath = __DIR__.'/';
+    protected $seedersPath = __DIR__ . '/';
 
     /**
      * Seed the application's database.
@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             ItemSeeder::class,
             ServiceSeeder::class,
         ]);
-        $this->seed('Database\Seeders\AdminMenuItemsSeeder');
+        $this->seed(VoyagerDatabaseSeeder::class);
+        $this->seed(AdminMenuItemsSeeder::class);
     }
 }

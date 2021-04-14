@@ -13,10 +13,10 @@ class RoutesTest extends TestCase
     {
         $this->withoutMix();
         $response = $this->get('/admin/');
-        $response->assertRedirect();
+        $response->assertRedirect('/admin/login');
 
         $response = $this->get('/admin/dashboard');
-        $response->assertOk();
+        $response->assertRedirect('/admin/login');
     }
 
     /** @test */
@@ -24,7 +24,7 @@ class RoutesTest extends TestCase
     {
         $this->withoutMix();
         $response = $this->get('/admin/clients');
-        $response->assertOk();
+        $response->assertRedirect('/admin/login');
     }
 
     /** @test */
@@ -32,7 +32,7 @@ class RoutesTest extends TestCase
     {
         $this->withoutMix();
         $response = $this->get('/admin/bills');
-        $response->assertOk();
+        $response->assertRedirect('/admin/login');
     }
 
     /** @test */
@@ -40,7 +40,7 @@ class RoutesTest extends TestCase
     {
         $this->withoutMix();
         $response = $this->get('/admin/clients/add-client');
-        $response->assertOk();
+        $response->assertRedirect('/admin/login');
     }
 
     /** @test */
@@ -48,7 +48,7 @@ class RoutesTest extends TestCase
     {
         $this->withoutMix();
         $response = $this->get('/admin/clients/edit/-1');
-        $response->assertNotFound();
+        $response->assertRedirect('/admin/login');
     }
 
     /** @test */
@@ -56,6 +56,6 @@ class RoutesTest extends TestCase
     {
         $this->withoutMix();
         $response = $this->get('/api/category/all-by-service/0');
-        $response->assertOk();
+        $response->assertRedirect('/admin/login');
     }
 }

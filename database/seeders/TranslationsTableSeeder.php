@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
 use TCG\Voyager\Models\Category;
 use TCG\Voyager\Models\DataType;
@@ -20,27 +22,6 @@ class TranslationsTableSeeder extends Seeder
         $this->categoriesTranslations();
         $this->pagesTranslations();
         $this->menusTranslations();
-    }
-
-    /**
-     * Auto generate Categories Translations.
-     *
-     * @return void
-     */
-    private function categoriesTranslations()
-    {
-        // Adding translations for 'categories'
-        //
-        $cat = Category::where('slug', 'category-1')->firstOrFail();
-        if ($cat->exists) {
-            $this->trans('pt', $this->arr(['categories', 'slug'], $cat->id), 'categoria-1');
-            $this->trans('pt', $this->arr(['categories', 'name'], $cat->id), 'Categoria 1');
-        }
-        $cat = Category::where('slug', 'category-2')->firstOrFail();
-        if ($cat->exists) {
-            $this->trans('pt', $this->arr(['categories', 'slug'], $cat->id), 'categoria-2');
-            $this->trans('pt', $this->arr(['categories', 'name'], $cat->id), 'Categoria 2');
-        }
     }
 
     /**
@@ -109,6 +90,50 @@ class TranslationsTableSeeder extends Seeder
         }
     }
 
+    private function trans($lang, $keys, $value)
+    {
+        $_t = Translation::firstOrNew(array_merge($keys, [
+            'locale' => $lang,
+        ]));
+
+        if (!$_t->exists) {
+            $_t->fill(array_merge(
+                $keys,
+                ['value' => $value]
+            ))->save();
+        }
+    }
+
+    private function arr($par, $id)
+    {
+        return [
+            'table_name' => $par[0],
+            'column_name' => $par[1],
+            'foreign_key' => $id,
+        ];
+    }
+
+    /**
+     * Auto generate Categories Translations.
+     *
+     * @return void
+     */
+    private function categoriesTranslations()
+    {
+        // Adding translations for 'categories'
+        //
+        $cat = Category::where('slug', 'category-1')->firstOrFail();
+        if ($cat->exists) {
+            $this->trans('pt', $this->arr(['categories', 'slug'], $cat->id), 'categoria-1');
+            $this->trans('pt', $this->arr(['categories', 'name'], $cat->id), 'Categoria 1');
+        }
+        $cat = Category::where('slug', 'category-2')->firstOrFail();
+        if ($cat->exists) {
+            $this->trans('pt', $this->arr(['categories', 'slug'], $cat->id), 'categoria-2');
+            $this->trans('pt', $this->arr(['categories', 'name'], $cat->id), 'Categoria 2');
+        }
+    }
+
     /**
      * Auto generate Pages Translations.
      *
@@ -133,7 +158,7 @@ class TranslationsTableSeeder extends Seeder
 
             $_arr = $this->arr(['pages', 'body'], $page->id);
             $this->trans('pt', $_arr, '<p>Olá Mundo. Scallywag grog swab Cat o\'nine tails scuttle rigging hardtack cable nipper Yellow Jack. Handsomely spirits knave lad killick landlubber or just lubber deadlights chantey pinnace crack Jennys tea cup. Provost long clothes black spot Yellow Jack bilged on her anchor league lateen sail case shot lee tackle.</p>'
-                ."\r\n".'<p>Ballast spirits fluke topmast me quarterdeck schooner landlubber or just lubber gabion belaying pin. Pinnace stern galleon starboard warp carouser to go on account dance the hempen jig jolly boat measured fer yer chains. Man-of-war fire in the hole nipperkin handsomely doubloon barkadeer Brethren of the Coast gibbet driver squiffy.</p>');
+                . "\r\n" . '<p>Ballast spirits fluke topmast me quarterdeck schooner landlubber or just lubber gabion belaying pin. Pinnace stern galleon starboard warp carouser to go on account dance the hempen jig jolly boat measured fer yer chains. Man-of-war fire in the hole nipperkin handsomely doubloon barkadeer Brethren of the Coast gibbet driver squiffy.</p>');
         }
     }
 
@@ -204,28 +229,5 @@ class TranslationsTableSeeder extends Seeder
     private function findMenuItem($title)
     {
         return MenuItem::where('title', $title)->firstOrFail();
-    }
-
-    private function arr($par, $id)
-    {
-        return [
-            'table_name'  => $par[0],
-            'column_name' => $par[1],
-            'foreign_key' => $id,
-        ];
-    }
-
-    private function trans($lang, $keys, $value)
-    {
-        $_t = Translation::firstOrNew(array_merge($keys, [
-            'locale' => $lang,
-        ]));
-
-        if (!$_t->exists) {
-            $_t->fill(array_merge(
-                $keys,
-                ['value' => $value]
-            ))->save();
-        }
     }
 }

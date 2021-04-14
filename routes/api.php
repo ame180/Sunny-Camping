@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['prefix' => '/client', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => '/client', 'middleware' => 'admin.user'], function () {
     Route::put('/add', [ClientController::class, 'add']);
     Route::patch('/update/{id}', [ClientController::class, 'update']);
     Route::patch('/settle/{id}', [ClientController::class, 'settle']);
@@ -24,6 +24,6 @@ Route::group(['prefix' => '/client', 'middleware' => 'auth'], function () {
     Route::get('/find/{id}', [ClientController::class, 'findJson']);
 });
 
-Route::group(['prefix' => '/category', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => '/category', 'middleware' => 'admin.user'], function () {
     Route::get('/all-by-service/{serviceId}', [CategoryController::class, 'allByService'])->middleware('auth');
 });

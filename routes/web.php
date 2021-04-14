@@ -19,9 +19,6 @@ use TCG\Voyager\Facades\Voyager;
 
 Route::get('/{year?}', [HomeController::class, 'home'])->where('year', '[0-9]+')->name('home');
 
-Route::group(['prefix' => '/admin', 'middleware' => 'auth'], function () {
-});
-
 Route::get('/welcome', function () {
     return view('welcome');
 });
