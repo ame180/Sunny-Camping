@@ -35,7 +35,7 @@ class MenuItemsTableSeeder extends Seeder
                     'color' => null,
                     'parent_id' => null,
                     'order' => $this->menuOffset,
-                ]
+                ],
             ],
             [
                 'menu_id' => $this->adminMenuId,
@@ -48,7 +48,7 @@ class MenuItemsTableSeeder extends Seeder
                     'color' => null,
                     'parent_id' => null,
                     'order' => 1,
-                ]
+                ],
             ],
             [
                 'menu_id' => $this->adminMenuId,
@@ -61,7 +61,7 @@ class MenuItemsTableSeeder extends Seeder
                     'color' => null,
                     'parent_id' => null,
                     'order' => 2,
-                ]
+                ],
             ],
             [
                 'menu_id' => $this->adminMenuId,
@@ -74,7 +74,7 @@ class MenuItemsTableSeeder extends Seeder
                     'color' => null,
                     'parent_id' => null,
                     'order' => 3,
-                ]
+                ],
             ],
             [
                 'menu_id' => $this->adminMenuId,
@@ -87,7 +87,7 @@ class MenuItemsTableSeeder extends Seeder
                     'color' => null,
                     'parent_id' => null,
                     'order' => 2,
-                ]
+                ],
             ],
             [
                 'menu_id' => $this->adminMenuId,
@@ -126,7 +126,7 @@ class MenuItemsTableSeeder extends Seeder
                             'color' => null,
                             'parent_id' => null,
                             'order' => 11,
-                        ]
+                        ],
                     ],
                     [
                         'menu_id' => $this->adminMenuId,
@@ -139,7 +139,7 @@ class MenuItemsTableSeeder extends Seeder
                             'color' => null,
                             'parent_id' => null,
                             'order' => 12,
-                        ]
+                        ],
                     ],
                     [
                         'menu_id' => $this->adminMenuId,
@@ -152,7 +152,7 @@ class MenuItemsTableSeeder extends Seeder
                             'color' => null,
                             'parent_id' => null,
                             'order' => 12,
-                        ]
+                        ],
                     ],
                     [
                         'menu_id' => $this->adminMenuId,
@@ -165,7 +165,7 @@ class MenuItemsTableSeeder extends Seeder
                             'color' => null,
                             'parent_id' => null,
                             'order' => 13,
-                        ]
+                        ],
                     ],
                     [
                         'menu_id' => $this->adminMenuId,
@@ -178,9 +178,9 @@ class MenuItemsTableSeeder extends Seeder
                             'color' => null,
                             'parent_id' => null,
                             'order' => 14,
-                        ]
-                    ]
-                ]
+                        ],
+                    ],
+                ],
             ],
         ];
 
@@ -203,7 +203,7 @@ class MenuItemsTableSeeder extends Seeder
                     'color' => null,
                     'parent_id' => null,
                     'order' => $this->menuOffset,
-                ]
+                ],
             ],
             [
                 'menu_id' => $this->adminMenuId,
@@ -216,7 +216,7 @@ class MenuItemsTableSeeder extends Seeder
                     'color' => null,
                     'parent_id' => null,
                     'order' => $this->menuOffset,
-                ]
+                ],
             ],
             [
                 'menu_id' => $this->adminMenuId,
@@ -229,7 +229,7 @@ class MenuItemsTableSeeder extends Seeder
                     'color' => null,
                     'parent_id' => null,
                     'order' => $this->menuOffset,
-                ]
+                ],
             ],
             [
                 'menu_id' => $this->adminMenuId,
@@ -242,7 +242,7 @@ class MenuItemsTableSeeder extends Seeder
                     'color' => null,
                     'parent_id' => null,
                     'order' => $this->menuOffset,
-                ]
+                ],
             ],
             [
                 'menu_id' => $this->adminMenuId,
@@ -255,7 +255,7 @@ class MenuItemsTableSeeder extends Seeder
                     'color' => null,
                     'parent_id' => null,
                     'order' => $this->menuOffset,
-                ]
+                ],
             ],
             [
                 'menu_id' => $this->adminMenuId,
@@ -268,7 +268,7 @@ class MenuItemsTableSeeder extends Seeder
                     'color' => null,
                     'parent_id' => null,
                     'order' => $this->menuOffset,
-                ]
+                ],
             ],
         ];
 
@@ -313,7 +313,6 @@ class MenuItemsTableSeeder extends Seeder
             } catch (\Illuminate\Database\QueryException $QueryException) {
                 throw new \Exception("Check 'fill' subarray data", 0, $QueryException);
             }
-
         }
         if (isset($subMenus)) {
             foreach ($subMenus as $subMenu) {
