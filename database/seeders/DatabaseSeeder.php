@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\App;
+use TCG\Voyager\Contracts\User;
 use TCG\Voyager\Traits\Seedable;
 
 class DatabaseSeeder extends Seeder
@@ -25,6 +27,6 @@ class DatabaseSeeder extends Seeder
             ServiceSeeder::class,
         ]);
         $this->seed(VoyagerDatabaseSeeder::class);
-        $this->seed(AdminMenuItemsSeeder::class);
+        $this->seed(UsersTableSeeder::class);
     }
 }
