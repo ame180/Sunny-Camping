@@ -12,8 +12,6 @@ window.VueApexCharts = require('vue-apexcharts');
 
 window.axios = require('axios');
 
-window.baseUrl = 'http://sc-dev.jacynosoft.ovh';
-
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /**
