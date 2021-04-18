@@ -188,7 +188,7 @@ return [
 
     // Here you can specify additional assets you would like to be included in the master.blade
     'additional_css' => [
-        //'css/custom.css',
+        mix('css/app.css'),
     ],
 
     'additional_js' => [

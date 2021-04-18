@@ -1,7 +1,4 @@
 @extends('voyager::master')
-@push('css')
-    <link rel="stylesheet" href="{{mix('css/app.css')}}"/>
-@endpush
 @push('javascript')
     <script>
         window.baseUrl = '{{ config('app.url') }}';
