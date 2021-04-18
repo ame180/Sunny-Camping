@@ -4,8 +4,9 @@
 
 namespace Tests\Unit;
 
-use App\Models\Category;
-use App\Repositories\CategoryRepository;
+use App\Models\ServiceCategory;
+use App\Repositories\ServiceCategoryRepository;
+use Database\Factories\ServiceCategoryFactory;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\App;
 use Tests\TestCase;
@@ -14,21 +15,23 @@ class CategoryTest extends TestCase
 {
     use DatabaseTransactions;
 
-    private CategoryRepository $categoryRepository;
+    private ServiceCategoryRepository $serviceCategoryRepository;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->categoryRepository = App::make(CategoryRepository::class);
+        $this->serviceCategoryRepository = App::make(ServiceCategoryRepository::class);
     }
 
     /** @test */
     public function allByService_CategoryWithItems_CategoryWithItemsReturned(): void
     {
-        Category::factory(['service_id' => 0])
-            ->hasCategoryItems(3)
+        /** @var ServiceCategoryFactory $ServiceCategoryFactory */
+        $ServiceCategoryFactory = ServiceCategory::factory(['service_id' => 0]);
+        $ServiceCategoryFactory
+            ->hasServiceCategoryItems(3)
             ->create();
-        $category = $this->categoryRepository->allByService(0)[0];
-        $this->assertCount(3, $category->categoryItems);
+        $category = $this->serviceCategoryRepository->allByService(0)[0];
+        $this->assertCount(3, $category->serviceCategoryItems);
     }
 }
