@@ -113,7 +113,7 @@ export default {
                             response.data.forEach(function (category) {
                                 category.addedItems = [];
                                 this.client.client_items.forEach(function (item) {
-                                    if (category.id === item.category_id) {
+                                    if (category.id === item.service_category_id) {
                                         category.addedItems.push(item);
                                     }
                                 })
@@ -130,7 +130,7 @@ export default {
                     response.data.forEach(function (category) {
                         category.addedItems = [];
                         this.client.client_items.forEach(function (item) {
-                            if (category.id === item.category_id) {
+                            if (category.id === item.service_category_id) {
                                 category.addedItems.push(item);
                             }
                         })
