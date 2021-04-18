@@ -23,7 +23,7 @@ class ClientItemFactory extends Factory
     {
         return [
             'service_id' => 0,
-            'category_id' => 0,
+            'service_category_id' => 0,
             'client_id' => 0,
             'name' => $this->faker->safeColorName,
             'price' => $this->faker->numberBetween(2, 20),

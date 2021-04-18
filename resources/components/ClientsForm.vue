@@ -44,7 +44,7 @@
                 <div class="col-12">
                     <h2>{{ category.name }}</h2>
                     <div class="mb-3">
-                        <a v-for="item in category.category_items" :key="item.id" @click="addItem(index, item)"
+                        <a v-for="item in category.service_category_items" :key="item.id" @click="addItem(index, item)"
                            class="btn btn-primary mx-1">{{ item.name }}</a>
                     </div>
                     <div class="row" v-for="(item, itemIndex) in category.addedItems">

@@ -13,7 +13,7 @@ use Illuminate\Support\Carbon;
  *
  * @property int $id
  * @property int $service_id
- * @property int $category_id
+ * @property int $service_category_id
  * @property int $client_id
  * @property string $name
  * @property float $price
