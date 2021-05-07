@@ -1,32 +1,27 @@
 <?php
 
+namespace App\Repositories;
 
-namespace App\Repositories\Eloquent;
-
-
-use App\Repositories\NullDefaultSupportTrait;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Schema;
 
-abstract class EloquentRepository
+abstract class BaseRepository
 {
-    use NullDefaultSupportTrait;
-
     protected Model $model;
-    protected array $notNullable = [];
-    protected array $defaultValues = [];
 
     public function all(array $columns = ['*']): Collection
     {
         return $this->model->all($columns);
     }
 
-    /** @noinspection PhpUndefinedMethodInspection */
-    public function find(int $id): Model|null
+    public function find(int $id): Model | null
     {
-        if ($id <= 0) return null;
+        if ($id <= 0) {
+            return null;
+        }
+
         return $this->model->find($id);
     }
 
@@ -39,6 +34,8 @@ abstract class EloquentRepository
     {
         $model = $this->model->replicate();
         $model->fill($attributes);
+        $this->fillModel($model);
+
         return $this->saveIfValid($model);
     }
 
@@ -46,10 +43,10 @@ abstract class EloquentRepository
     {
         $model = $this->find($id);
         $model->fill($attributes);
+
         return $this->saveIfValid($model);
     }
 
-    /** @noinspection PhpUndefinedMethodInspection */
     public function paginate(array $query = []): LengthAwarePaginator
     {
         $sort = $query['sort'] ?? null;
@@ -57,18 +54,20 @@ abstract class EloquentRepository
         if (isset($sort) && Schema::hasColumn($this->model->getTable(), $sort)) {
             return $this->model->orderBy($sort)->paginate($perPage);
         }
+
         return $this->model->paginate($perPage);
     }
 
     protected function saveIfValid(Model $model): bool
     {
-        $model = $this->setNotNullableToDefault($model, $this->notNullable, $this->defaultValues);
-        if (!$this->validateModel($model)) return false;
+        if (!$this->validateModel($model)) {
+            return false;
+        }
         $model->save();
+
         return true;
     }
 
-    /** @noinspection PhpUnusedParameterInspection */
     public function validateModel(Model $model): bool
     {
         return true;

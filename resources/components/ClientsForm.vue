@@ -1,52 +1,23 @@
 <template>
-    <form id="client-form" class="row mt-4" @submit.prevent="submitClientForm()" method="POST" action="">
+    <div id="client-form" class="row mt-4">
         <div class="col-6 col-sm-4 col-md-3 form-group">
-            <label for="first_name">Imię</label>
-            <input id="first_name" v-model="client.firstName" @blur="client.firstName = trim(client.firstName)"
-                   name="first_name"
-                   type="text" placeholder="Imię"
+            <label for="name">Imię i nazwisko</label>
+            <input id="name" v-model="client.name" :class="{ 'is-invalid': isNameInvalid }" @input="isNameInvalid = false" @blur="client.name = trim(client.name)"
+                   name="name"
+                   type="text" placeholder="Imię i nazwisko"
                    class="form-control form-control-sm">
-        </div>
-        <div class="col-6 col-sm-4 col-md-3 form-group">
-            <label for="last_name">Imię</label>
-            <input id="last_name" v-model="client.lastName" @blur="client.lastName = trim(client.lastName)" name="last_name"
-                   type="text" placeholder="Naziwsko"
-                   class="form-control form-control-sm">
+            <div class="invalid-feedback">
+                Imię i nazwisko muszą być podane!
+            </div>
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="arrival_date">Data przyjazdu</label>
-            <input id="arrival_date" v-model="client.arrivalDate" @change="updateDiscount()" name="arrival_date" type="date"
+            <input id="arrival_date" v-model="client.arrival_date" name="arrival_date" type="date"
                    class="form-control form-control-sm">
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="departure_date">Data odjazdu</label>
-            <input id="departure_date" v-model="client.departureDate" @change="updateDiscount()" name="departure_date" type="date"
-                   class="form-control form-control-sm"
-                   required>
-        </div>
-        <div class="col-6 col-sm-4 col-md-3 form-group">
-            <label for="adults">Dorośli</label>
-            <input id="adults" v-model="client.adults" name="adults" type="number" placeholder="0"
-                   class="form-control form-control-sm">
-        </div>
-        <div class="col-6 col-sm-4 col-md-3 form-group">
-            <label for="children">Dzieci</label>
-            <input id="children" v-model="client.children" name="children" type="number" placeholder="0"
-                   class="form-control form-control-sm">
-        </div>
-        <div class="col-6 col-sm-4 col-md-3 form-group">
-            <label for="electricity">Prąd</label>
-            <input id="electricity" v-model="client.electricity" name="electricity" type="number" placeholder="0"
-                   class="form-control form-control-sm">
-        </div>
-        <div class="col-6 col-sm-4 col-md-3 form-group">
-            <label for="small_places">Małe miejsca</label>
-            <input id="small_places" v-model="client.smallPlaces" name="small_places" type="number" placeholder="0"
-                   class="form-control form-control-sm">
-        </div>
-        <div class="col-6 col-sm-4 col-md-3 form-group">
-            <label for="big_places">Duże miejsca</label>
-            <input id="big_places" v-model="client.bigPlaces" name="big_places" type="number" placeholder="0"
+            <input id="departure_date" v-model="client.departure_date" name="departure_date" type="date"
                    class="form-control form-control-sm">
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
@@ -67,12 +38,46 @@
             <input id="paid" v-model="client.paid" name="paid" type="number" placeholder="0"
                    class="form-control form-control-sm">
         </div>
+        <div class="col-12">
+            <hr>
+            <div v-for="(category, index) in categories" :key="category.id" class="row">
+                <div class="col-12">
+                    <h2>{{ category.name }}</h2>
+                    <div class="mb-3">
+                        <a v-for="item in category.service_category_items" :key="item.id" @click="addItem(index, item)"
+                           class="btn btn-primary mx-1">{{ item.name }}</a>
+                    </div>
+                    <div class="row" v-for="(item, itemIndex) in category.addedItems">
+                        <div class="col-3 col-md-2 d-flex justify-content-center align-items-center">
+                            <b>{{ item.name }}</b>
+                        </div>
+                        <div class="col-3 col-md-2 form-group">
+                            <label>Cena</label>
+                            <input v-model="item.price" type="number"
+                                   class="form-control form-control-sm">
+                        </div>
+                        <div class="col-3 col-md-2 form-group">
+                            <label>Ilość</label>
+                            <input v-model="item.count" type="number"
+                                   class="form-control form-control-sm">
+                        </div>
+                        <div class="form-group">
+                            <label>Usuń</label>
+                            <div>
+                                <a class="btn btn-danger" @click="deleteItem(index, itemIndex)"><i class="fas fa-trash"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+        </div>
         <div class="col-12 text-center">
-            <button type="submit" class="btn btn-success w-50">
+            <button @click="submitClientForm()" class="btn btn-success w-50 mb-4">
                 Zatwierdź
             </button>
         </div>
-    </form>
+    </div>
 </template>
 
 <script>
@@ -81,21 +86,18 @@ export default {
     data() {
         return {
             client: {
-                firstName: null,
-                lastName: null,
-                arrivalDate: null,
-                departureDate: null,
-                sector: null,
-                adults: null,
-                children: null,
-                electricity: null,
-                smallPlaces: null,
-                bigPlaces: null,
+                name: null,
+                arrival_date: null,
+                departure_date: null,
                 comment: null,
                 paid: null,
-                discount: 0
+                discount: 0,
+                client_items: []
             },
-            initialPaid: null
+            categories: [],
+            items: [],
+            initialPaid: null,
+            isNameInvalid: false
         }
     },
     mounted() {
@@ -104,7 +106,38 @@ export default {
                 .then((response) => {
                     this.client = response.data;
                     this.initialPaid = this.client.paid
-                })
+
+                    axios.get(baseUrl + '/api/category/all-by-service/1')
+                        .then((response) => {
+                            let categories = [];
+                            response.data.forEach(function (category) {
+                                category.addedItems = [];
+                                this.client.client_items.forEach(function (item) {
+                                    if (category.id === item.service_category_id) {
+                                        category.addedItems.push(item);
+                                    }
+                                })
+                                categories.push(category);
+                            }, this)
+                            this.categories = categories;
+                        });
+                });
+        }
+        if (this.mode === 'PUT') {
+            axios.get(baseUrl + '/api/category/all-by-service/1')
+                .then((response) => {
+                    let categories = [];
+                    response.data.forEach(function (category) {
+                        category.addedItems = [];
+                        this.client.client_items.forEach(function (item) {
+                            if (category.id === item.service_category_id) {
+                                category.addedItems.push(item);
+                            }
+                        })
+                        categories.push(category);
+                    }, this)
+                    this.categories = categories;
+                });
         }
     },
     methods: {
@@ -112,35 +145,30 @@ export default {
             if (input) return input.trim();
             return null;
         },
-        updateDiscount() {
-            if (!this.client.arrivalDate || !this.client.departureDate) return false;
-            let days = (new Date(this.client.departureDate) - new Date(this.client.arrivalDate)) / (1000 * 60 * 60 * 24);
-            console.log(days);
-            if (days >= 14 && days <= 21) this.client.discount = 5;
-            else if (days > 21) this.client.discount = 10;
-            else this.client.discount = 0;
+        addItem(categoryId, item) {
+            item.id = null;
+            item.count = 1;
+            this.categories[categoryId].addedItems.push(Vue.util.extend({}, item));
+        },
+        deleteItem(categoryId, itemId) {
+            this.categories[categoryId].addedItems.splice(itemId, 1);
         },
         submitClientForm() {
-            if (this.client.firstName) this.client.firstName = this.client.firstName.trim();
-            if (this.client.lastName) this.client.lastName = this.client.lastName.trim();
-            if (!this.client.firstName && !this.client.lastName) {
-                alert("Imię lub Nazwisko musi być wpisane!");
+            if (!this.client.name) {
+                this.isNameInvalid = true;
                 return false;
             }
-            if (!this.client.adults && !this.client.children) {
-                alert("Musisz wpisać co najmniej jedną osobę!");
-                return false;
-            }
-            if (new Date(this.client.arrivalDate) >= new Date(this.client.departureDate)) {
+            if (this.client.arrival_date && this.client.departure_date && new Date(this.client.arrival_date) >= new Date(this.client.departure_date)) {
                 alert("Data odjazdu musi być później od daty przyjazdu!");
                 return false;
             }
-            if (this.client.adults < 0 || this.client.children < 0 || this.client.electricity < 0 || this.client.bigPlaces < 0 ||
-                this.client.smallPlaces < 0) {
-                alert("Liczby nie mogą być ujemne!")
-                return false;
-            }
             let request;
+
+            this.client.client_items = [];
+            this.categories.forEach(function(category) {
+                this.client.client_items = this.client.client_items.concat(category.addedItems);
+            }, this);
+
             if (this.mode === 'PUT') {
                 request = axios.put(baseUrl + '/api/client/add', this.client);
             } else {

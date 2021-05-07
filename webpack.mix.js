@@ -18,4 +18,5 @@ mix.js('resources/js/app.js', 'public/js/app.js')
     .js('resources/js/script.js', 'public/js/script.js')
     .styles('resources/css/style.css', 'public/css/style.css')
     .copy('resources/images', 'public/images')
-    .copy('resources/fonts', 'public/fonts');
+    .copy('resources/fonts', 'public/fonts')
+    .copy('resources/storage', 'public/storage');
