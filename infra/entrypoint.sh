@@ -1,3 +1,3 @@
 #!/bin/bash
 
-tail -F anything
+php-fpm
