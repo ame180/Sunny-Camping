@@ -23,6 +23,10 @@ jobs:
       with:
         php-version: '8.0'
     - uses: actions/checkout@v2
+    - name: Install LTS Node.js
+      run: |
+        curl -L https://raw.githubusercontent.com/tj/n/master/bin/n -o n
+        bash n lts
     - name: Copy .env
       run: php -r "copy('.env.example', '.env');"
     - name: Install PHP Dependencies
