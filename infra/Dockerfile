@@ -5,6 +5,8 @@ ARG DEBIAN_FRONTEND=noninteractive
 ADD . /application
 WORKDIR /application
 
+RUN apt-get update && apt-get install -y git zip
+
 # Install NodeJS
 RUN curl -L https://raw.githubusercontent.com/tj/n/master/bin/n -o n
 RUN bash n lts
