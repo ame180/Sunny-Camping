@@ -13,8 +13,7 @@ services:
       - "9000:9000"
 
   nginx:
-    build:
-      context: .
+    image: nginx
     working_dir: /application
     depends_on:
       - php-fpm
