@@ -1,14 +1,14 @@
 version: '3.8'
 
 services:
-  php-fpm:
+  php:
     build:
       context: .
-      dockerfile: ./infra/Dockerfile
+      dockerfile: infrastructure/Dockerfile
     volumes:
       - .:/application
     working_dir: /application
-    entrypoint: "/bin/bash /application/infra/entrypoint.sh"
+    entrypoint: "/bin/bash /application/infrastructure/entrypoint.sh"
     ports:
       - "9000:9000"
 
@@ -16,10 +16,10 @@ services:
     image: nginx
     working_dir: /application
     depends_on:
-      - php-fpm
+      - php
     volumes:
       - .:/application
-      - ./infra/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./infrastructure/nginx/default.conf:/etc/nginx/conf.d/default.conf
     ports:
       - "80:80"
 
