@@ -16,6 +16,7 @@ class CategorySeeder extends Seeder
     {
         DB::table('service_categories')->insert([
             ['name' => 'Osoby', 'service_id' => 1, 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Klimatyczne', 'service_id' => 1, 'created_at' => now(), 'updated_at' => now()],
             ['name' => 'Plac', 'service_id' => 1, 'created_at' => now(), 'updated_at' => now()],
             ['name' => 'Prąd', 'service_id' => 1, 'created_at' => now(), 'updated_at' => now()],
         ]);
