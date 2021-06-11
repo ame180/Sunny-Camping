@@ -90,7 +90,7 @@ class ClientRepository extends BaseRepository
 
     public function settle(int $id, int $settlement, int $climateSettlement = 0): bool
     {
-        if ($settlement <= 0) {
+        if ($settlement <= 0 && $climateSettlement <= 0) {
             return false;
         }
 

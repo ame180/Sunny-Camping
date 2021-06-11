@@ -20,11 +20,11 @@
             </div>
             <div class="form-group mt-2">
                 <label for="climateSettlement">Klimatyczne:</label>
-                <input id="climateSettlement" class="form-control" :class="{ 'is-invalid': isInvalid }" @input="isInvalid = false" name="settlement"
+                <input id="climateSettlement" class="form-control" @input="isInvalid = false" name="settlement"
                        v-model="climateSettlement" type="number" placeholder="0">
-                <div class="invalid-feedback">
-                    Liczba musi być większa od 0.
-                </div>
+            </div>
+            <div class="invalid-feedback" :class="isInvalid ? 'd-block' : 'd-none'">
+                Jedna z liczb musi być większa od 0.
             </div>
         </div>
         <div class="row no-gutters">
@@ -54,14 +54,13 @@ export default {
     },
     methods: {
         submitSettlement() {
-            if (!this.settlement) return;
-            if (this.settlement <= 0 || this.climateSettlement <= 0) {
+            if (this.settlement <= 0 && this.climateSettlement <= 0) {
                 this.isInvalid = true;
                 return;
             }
             axios.patch(baseUrl + '/api/client/settle/' + this.data.id, {
-                settlement: this.settlement,
-                climate_settlement: this.climateSettlement
+                settlement: this.settlement ?? 0,
+                climate_settlement: this.climateSettlement ?? 0
             }).then(() => {
                 this.refreshTable();
                 this.$modal.hide('settle-modal');

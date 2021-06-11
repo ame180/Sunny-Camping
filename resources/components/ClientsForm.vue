@@ -39,7 +39,7 @@
                    class="form-control form-control-sm">
         </div>
         <div v-if="mode === 'PATCH' && initialClimatePaid > 0" class="col-6 col-sm-4 col-md-3 form-group">
-            <label for="climate_paid">Zapłacono</label>
+            <label for="climate_paid">Klimatyczne</label>
             <input id="climate_paid" v-model="client.climate_paid" name="paid" type="number" placeholder="0"
                    class="form-control form-control-sm">
         </div>
