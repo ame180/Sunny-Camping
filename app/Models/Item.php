@@ -28,6 +28,8 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Item wherePrice($value)
  * @method static Builder|Item whereUpdatedAt($value)
  * @mixin Eloquent
+ * @property int $service_category_id
+ * @method static Builder|Item whereServiceCategoryId($value)
  */
 class Item extends BaseModel
 {

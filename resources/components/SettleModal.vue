@@ -11,14 +11,19 @@
                     <span v-if="data.price - data.paid > 0">Pozostało: {{ data.price - data.paid }} zł</span><br>
                 </span>
                 <span v-if="data.discount !== 0">Rabat: {{ data.discount }}%<br></span>
-                Suma<span v-if="data.discount !== 0"> (po rabacie)</span>: {{ data.price }} zł
+                Suma<span v-if="data.discount !== 0"> (po rabacie)</span>: {{ data.price }} + {{ data.climate_price }} zł
             </b>
             <div class="form-group mt-2">
-                <label for="settlement">Wpłacono:</label>
-                <input id="settlement" class="form-control" :class="{ 'is-invalid': isInvalid }" @input="isInvalid = false" name="settlement"
+                <label for="settlement">Wpłata:</label>
+                <input id="settlement" class="form-control" @input="isInvalid = false" name="settlement"
                        v-model="settlement" type="number" placeholder="0">
+            </div>
+            <div class="form-group mt-2">
+                <label for="climateSettlement">Klimatyczne:</label>
+                <input id="climateSettlement" class="form-control" :class="{ 'is-invalid': isInvalid }" @input="isInvalid = false" name="settlement"
+                       v-model="climateSettlement" type="number" placeholder="0">
                 <div class="invalid-feedback">
-                    Liczba nie może być ujemna.
+                    Liczba musi być większa od 0.
                 </div>
             </div>
         </div>
@@ -43,18 +48,20 @@ export default {
     data() {
         return {
             settlement: null,
+            climateSettlement: null,
             isInvalid: false
         }
     },
     methods: {
         submitSettlement() {
             if (!this.settlement) return;
-            if (this.settlement <= 0) {
+            if (this.settlement <= 0 || this.climateSettlement <= 0) {
                 this.isInvalid = true;
                 return;
             }
             axios.patch(baseUrl + '/api/client/settle/' + this.data.id, {
-                settlement: this.settlement
+                settlement: this.settlement,
+                climate_settlement: this.climateSettlement
             }).then(() => {
                 this.refreshTable();
                 this.$modal.hide('settle-modal');

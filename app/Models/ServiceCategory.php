@@ -30,6 +30,8 @@ use Illuminate\Support\Carbon;
  * @method static Builder|ServiceCategory whereServiceId($value)
  * @method static Builder|ServiceCategory whereUpdatedAt($value)
  * @mixin Eloquent
+ * @property-read Collection|\App\Models\Item[] $serviceCategoryItems
+ * @property-read int|null $service_category_items_count
  */
 class ServiceCategory extends BaseModel
 {

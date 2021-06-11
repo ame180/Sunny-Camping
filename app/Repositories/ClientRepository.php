@@ -88,17 +88,21 @@ class ClientRepository extends BaseRepository
         return false;
     }
 
-    public function settle(int $id, int $amount): bool
+    public function settle(int $id, int $settlement, int $climateSettlement = 0): bool
     {
-        if ($amount <= 0) {
+        if ($settlement <= 0) {
             return false;
         }
+
         $model = $this->find($id);
         if (!isset($model)) {
             return false;
         }
-        $model->paid += $amount;
-        if ($model->paid >= $model->price) {
+
+        $model->paid += $settlement;
+        $model->climate_paid += $climateSettlement;
+
+        if ($model->paid >= $model->price && $model->climate_paid >= $model->climate_price) {
             $model->status = 'settled';
         } else {
             $model->status = 'unsettled';

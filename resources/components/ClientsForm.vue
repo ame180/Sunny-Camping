@@ -38,6 +38,11 @@
             <input id="paid" v-model="client.paid" name="paid" type="number" placeholder="0"
                    class="form-control form-control-sm">
         </div>
+        <div v-if="mode === 'PATCH' && initialClimatePaid > 0" class="col-6 col-sm-4 col-md-3 form-group">
+            <label for="climate_paid">Zapłacono</label>
+            <input id="climate_paid" v-model="client.climate_paid" name="paid" type="number" placeholder="0"
+                   class="form-control form-control-sm">
+        </div>
         <div class="col-12">
             <hr>
             <div v-for="(category, index) in categories" :key="category.id" class="row">
@@ -91,12 +96,14 @@ export default {
                 departure_date: null,
                 comment: null,
                 paid: null,
+                climate_paid: null,
                 discount: 0,
                 client_items: []
             },
             categories: [],
             items: [],
             initialPaid: null,
+            initialClimatePaid: null,
             isNameInvalid: false
         }
     },
@@ -106,6 +113,7 @@ export default {
                 .then((response) => {
                     this.client = response.data;
                     this.initialPaid = this.client.paid
+                    this.initialClimatePaid = this.client.climate_paid
 
                     axios.get(baseUrl + '/api/category/all-by-service/1')
                         .then((response) => {

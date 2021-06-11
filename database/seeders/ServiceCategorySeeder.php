@@ -15,9 +15,10 @@ class ServiceCategorySeeder extends Seeder
     public function run()
     {
         DB::table('service_categories')->insert([
-            ['name' => 'Osoby', 'service_id' => 1, 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'Plac', 'service_id' => 1, 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'Prąd', 'service_id' => 1, 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 1, 'name' => 'Osoby', 'service_id' => 1, 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 2, 'name' => 'Klimatyczne', 'service_id' => 1, 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 3, 'name' => 'Plac', 'service_id' => 1, 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 4, 'name' => 'Prąd', 'service_id' => 1, 'created_at' => now(), 'updated_at' => now()],
         ]);
     }
 }
