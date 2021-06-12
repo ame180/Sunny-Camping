@@ -1,61 +1,46 @@
 <template>
     <div>
-        <vuetable ref="vuetable"
-                  :api-url="'../api/client/paginated'"
-                  :fields="fields"
-                  data-path="data"
-                  no-data-template="Brak klientów do wyświetlenia"
-                  pagination-path=""
-                  :css="css.table"
-                  @vuetable:pagination-data="onPaginationData"
-        >
-            <div slot="id-slot" slot-scope="props">
-                <b>{{ props.rowData.id }}</b>
-            </div>
-            <div slot="name-slot" slot-scope="props">
-                {{ props.rowData.name }}
-            </div>
-            <div slot="options-slot" slot-scope="props" class="row no-gutters">
-                <div class="col-12 p-1">
-                    <a class="btn btn-primary"
-                       :href="'clients/edit/' + props.rowData.id">
-                        <i class="far fa-fw fa-sticky-note"></i>
-                    </a>
+        <div class="row border" v-for="client in clients.data">
+            <div class="col border-right p-2">
+                <div>
+                    <b>#{{ client.id }} {{ client.name }}</b>
                 </div>
-                <form @submit.prevent="showDeleteDialog(props.rowData.id)" method="POST" action=""
-                      class="col-12 p-1 m-0">
-                    <button class="btn btn-danger">
-                        <i class="far fa-fw fa-trash-alt"></i>
-                    </button>
-                </form>
-                <div class="col-12 p-1">
-                    <a @click="showSettleModal(props.rowData)"
-                       class="btn btn-warning text-light">
-                        <i class="fas fa-fw fa-dollar-sign"></i>
-                    </a>
+                <div v-for="item in client.client_items" v-if="item.service_category && item.service_category.name == 'Prąd'">
+                    {{ item.name }}
                 </div>
             </div>
-        </vuetable>
-        <vuetable-pagination
-            ref="pagination"
-            :css="css.pagination"
-            :onEachSide="2"
-            @vuetable-pagination:change-page="onChangePage">
-        </vuetable-pagination>
-        <v-dialog></v-dialog>
+            <div class="col-3 col-sm-2">
+                <div class="row no-gutters text-center">
+                    <div class="col-12 p-1">
+                        <a class="btn btn-primary"
+                           :href="'clients/edit/' + client.id">
+                            <i class="far fa-fw fa-sticky-note"></i>
+                        </a>
+                    </div>
+                    <form @submit.prevent="showDeleteDialog(client.id)" method="POST" action=""
+                          class="col-12 p-1 m-0">
+                        <button class="btn btn-danger">
+                            <i class="far fa-fw fa-trash-alt"></i>
+                        </button>
+                    </form>
+                    <div class="col-12 p-1">
+                        <a @click="showSettleModal(client)"
+                           class="btn btn-warning text-light">
+                            <i class="fas fa-fw fa-dollar-sign"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <v-dialog></v-dialog>
+        </div>
     </div>
 </template>
 
 <script>
-import Vuetable from 'vuetable-2'
-import VuetablePagination from './VuetablePagination'
 import SettleModal from "./SettleModal";
 
 export default {
-    components: {
-        Vuetable,
-        VuetablePagination
-    },
+    props: ['clients'],
     methods:
         {
             showSettleModal(data) {
@@ -100,73 +85,9 @@ export default {
                         this.$refs.vuetable.reload()
                     });
             },
-            onPaginationData(paginationData) {
-                this.$refs.pagination.setPaginationData(paginationData)
-            },
-            onChangePage(page) {
-                this.$refs.vuetable.changePage(page)
-            }
         },
     data() {
-        return {
-            fields: [
-                {
-                    name: 'id-slot',
-                    title: '#'
-                },
-                {
-                    name: 'name-slot',
-                    title: 'Imię i Nazwisko'
-                },
-                {
-                    name: 'arrival_date',
-                    title: 'Data Przyjazdu'
-                },
-                {
-                    name: 'departure_date',
-                    title: 'Data Odjazdu'
-                },
-                {
-                    name: 'discount',
-                    title: 'Rabat',
-                    formatter: (value) => value + '%'
-                },
-                {
-                    name: 'price',
-                    title: 'Cena',
-                    formatter: (value) => value + ' zł'
-                },
-                {
-                    name: 'comment',
-                    title: 'Komentarz'
-                },
-                {
-                    name: 'options-slot',
-                    title: 'Opcje',
-                }
-            ],
-            css: {
-                table: {
-                    tableClass: 'table table-responsive table-bordered table-striped table-hover text-center mt-3',
-                },
-                pagination: {
-                    wrapperClass: 'pagination',
-                    activeClass: 'active',
-                    disabledClass: 'disabled',
-                    pageClass: 'page-item',
-                    linkClass: 'page-link',
-                    paginationClass: 'pagination',
-                    paginationInfoClass: 'float-left',
-                    dropdownClass: 'form-control',
-                    icons: {
-                        first: 'fa fa-angle-double-left',
-                        prev: 'fa fa-angle-left',
-                        next: 'fa fa-angle-right',
-                        last: 'fa fa-angle-double-right',
-                    }
-                }
-            },
-        }
+        return {}
     }
 }
 </script>

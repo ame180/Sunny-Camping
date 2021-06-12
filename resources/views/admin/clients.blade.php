@@ -8,8 +8,11 @@
 
 @section('table')
     <div id="clients-table" class="mt-3">
-        <clients-table>
+        <clients-table :clients="{{ $clients }}">
         </clients-table>
+        <div class="h-25 w-25">
+            {!! $pagination !!}
+        </div>
     </div>
 @endsection
 
