@@ -35,7 +35,7 @@ class AdminController extends Controller
             'filters' => collect([
                 'name' => $request->input('name'),
                 'status' => $request->input('status') ?? '',
-            ])->toJson()
+            ])->toJson(),
         ]);
     }
 
