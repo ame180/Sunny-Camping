@@ -66,7 +66,7 @@ class ClientController extends Controller
 
     public function settle(int $id, Request $request)
     {
-        if (!$this->clientsRepository->settle($id, $request->get('settlement'), $request->get('climate_settlement'))) {
+        if (!$this->clientsRepository->settle($id, $request->get('settlement') ?? 0, $request->get('climate_settlement') ?? 0)) {
             return response('', 400);
         }
 

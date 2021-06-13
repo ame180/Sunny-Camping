@@ -92,7 +92,7 @@ class Client extends BaseModel
         $clientItems = $this->clientItems;
         $price = 0;
         foreach ($clientItems as $clientItem) {
-            if ($clientItem->serviceCategory && $clientItem->serviceCategory->name != 'Klimatyczne') {
+            if (!$clientItem->serviceCategory || $clientItem->serviceCategory->name != 'Klimatyczne') {
                 $price += $clientItem->price * $clientItem->count;
             }
         }

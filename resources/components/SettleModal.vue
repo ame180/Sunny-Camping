@@ -3,16 +3,27 @@
         <div class="p-2">
             <h1 class="text-center">Rozliczenie</h1>
             <b>
-                #{{ data.id }} {{ data.name }}<br>
-                Dni: {{ data.days }}<br>
-                Cena za dzień: {{ data.price_per_day }} zł<br>
-                <span v-if="data.paid !== 0">
-                    Zapłacono: {{ data.paid ? data.paid : 0 }} zł<br>
-                    <span v-if="data.price - data.paid > 0">Pozostało: {{ data.price - data.paid }} zł</span><br>
-                </span>
-                <span v-if="data.discount !== 0">Rabat: {{ data.discount }}%<br></span>
-                Suma<span v-if="data.discount !== 0"> (po rabacie)</span>: {{ data.price }} + {{ data.climate_price }} zł
+                #{{ client.id }} {{ client.name }}<br>
+                Dni: {{ client.days }}<br>
             </b>
+            <div v-for="category in categories">
+                <div>
+                    <b>{{ category.name }}</b>
+                    <div v-for="item in client.client_items"
+                         v-if="item.service_category && item.service_category.name === category.name">
+                        {{ item.count }} x {{ item.name }} {{ item.price }} zł
+                    </div>
+                </div>
+            </div>
+            <div>
+                <b>Suma: {{ client.price }} zł <span v-if="client.paid > 0">(zapłacono {{ client.paid }} zł)</span></b>
+            </div>
+            <div>
+                <b>Klimatyczne: {{ client.climate_price }} zł <span v-if="client.climate_paid > 0">(zapłacono {{ client.climate_paid }} zł)</span></b>
+            </div>
+            <div>
+                <b>Razem: {{ client.price + client.climate_price }} zł <span v-if="client.paid + client.climate_paid> 0">(zapłacono {{ client.paid + client.climate_paid }} zł)</span></b>
+            </div>
             <div class="form-group mt-2">
                 <label for="settlement">Wpłata:</label>
                 <input id="settlement" class="form-control" @input="isInvalid = false" name="settlement"
@@ -42,8 +53,8 @@
 <script>
 export default {
     props: {
-        data: Object,
-        refreshTable: Function
+        client: Object,
+        categories: Array,
     },
     data() {
         return {
@@ -58,11 +69,11 @@ export default {
                 this.isInvalid = true;
                 return;
             }
-            axios.patch(baseUrl + '/api/client/settle/' + this.data.id, {
+            axios.patch(baseUrl + '/api/client/settle/' + this.client.id, {
                 settlement: this.settlement ?? 0,
                 climate_settlement: this.climateSettlement ?? 0
             }).then(() => {
-                this.refreshTable();
+                window.location.reload();
                 this.$modal.hide('settle-modal');
             }, () => {
                 alert("Coś poszło nie tak! Czy wpisane dane są poprawne?");

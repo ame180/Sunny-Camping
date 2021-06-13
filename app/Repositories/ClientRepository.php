@@ -22,12 +22,6 @@ class ClientRepository extends BaseRepository
 
         $model->fill($attributes);
 
-        if (!isset($model->paid) || $model->paid <= $model->price) {
-            $model->status = 'unsettled';
-        } else {
-            $model->status = 'settled';
-        }
-
         if ($this->saveIfValid($model)) {
             $model->clientItems()->delete();
 
@@ -88,7 +82,7 @@ class ClientRepository extends BaseRepository
         return false;
     }
 
-    public function settle(int $id, int $settlement, int $climateSettlement = 0): bool
+    public function settle(int $id, int $settlement, int $climateSettlement): bool
     {
         if ($settlement <= 0 && $climateSettlement <= 0) {
             return false;
@@ -102,7 +96,7 @@ class ClientRepository extends BaseRepository
         $model->paid += $settlement;
         $model->climate_paid += $climateSettlement;
 
-        if ($model->paid >= $model->price && $model->climate_paid >= $model->climate_price) {
+        if ($model->paid + $model->climate_paid >= $model->price + $model->climate_price) {
             $model->status = 'settled';
         } else {
             $model->status = 'unsettled';
