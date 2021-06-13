@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
-use App\Repositories\ClientRepository;
+use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
@@ -12,14 +12,30 @@ class AdminController extends Controller
         return view('admin.dashboard', ['page' => 'dashboard']);
     }
 
-    public function clients()
+    public function clients(Request $request)
     {
-        $paginatedClients = Client::paginate(10);
+        $filters = [];
+
+        if ($request->input('name')) {
+            $filters[] = ['name', 'LIKE', "%{$request->input('name')}%"];
+        }
+
+        if ($request->input('status')) {
+            $filters[] = ['status', '=', $request->input('status')];
+        }
+
+        $paginatedClients = Client::where($filters)
+            ->paginate(10)
+            ->appends(\Request::except('page'));
 
         return view('admin.clients', [
             'page' => 'clients',
             'pagination' => $paginatedClients->links(),
             'clients' => $paginatedClients->toJson(),
+            'filters' => collect([
+                'name' => $request->input('name'),
+                'status' => $request->input('status') ?? '',
+            ])->toJson(),
         ]);
     }
 
