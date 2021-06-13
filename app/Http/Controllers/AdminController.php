@@ -14,20 +14,28 @@ class AdminController extends Controller
 
     public function clients(Request $request)
     {
-        $name = $request->input('name');
+        $filters = [];
 
-        if ($name) {
-            $paginatedClients = Client::where([['name', 'LIKE', "%$name%"]])->paginate(10);
-        } else {
-            $paginatedClients = Client::paginate(10);
+        if ($request->input('name')) {
+            $filters[] = ['name', 'LIKE', "%{$request->input('name')}%"];
         }
 
-        $paginatedClients->appends(\Request::except('page'));
+        if ($request->input('status')) {
+            $filters[] = ['status', '=', $request->input('status')];
+        }
+
+        $paginatedClients = Client::where($filters)
+            ->paginate(10)
+            ->appends(\Request::except('page'));
 
         return view('admin.clients', [
             'page' => 'clients',
             'pagination' => $paginatedClients->links(),
             'clients' => $paginatedClients->toJson(),
+            'filters' => collect([
+                'name' => $request->input('name'),
+                'status' => $request->input('status') ?? '',
+            ])->toJson()
         ]);
     }
 

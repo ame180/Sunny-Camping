@@ -1,5 +1,17 @@
 <template>
     <div>
+        <form class="d-flex justify-content-end" method="get" action="">
+            <div class="form-inline mb-2">
+                <select v-model="filters.status" name="status" type="select"
+                        class="form-control form-control-sm m-1">
+                    <option value="">Wszystkie</option>
+                    <option value="unsettled">Nierozliczono</option>
+                    <option value="settled">Rozliczono</option>
+                </select>
+                <input v-model="filters.name" type="text" class="form-control form-control-sm m-1" name="name" placeholder="Imię i nazwisko">
+                <button type="submit" class="btn btn-primary btn-sm m-1">Filtruj</button>
+            </div>
+        </form>
         <div class="row border" v-for="client in clients.data" type="button" :data-target="'#collapse-' + client.id"
              data-toggle="collapse"
              aria-expanded="false" :aria-controls="'collapse-' + client.id">
@@ -80,7 +92,7 @@
 import SettleModal from "./SettleModal";
 
 export default {
-    props: ['clients'],
+    props: ['clients', 'filters'],
     methods:
         {
             showSettleModal(client) {
@@ -150,7 +162,7 @@ export default {
     },
     data: function () {
         return {
-            categories: null
+            categories: null,
         }
     }
 }
