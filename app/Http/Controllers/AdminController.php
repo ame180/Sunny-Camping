@@ -19,7 +19,7 @@ class AdminController extends Controller
         return view('admin.clients', [
             'page' => 'clients',
             'pagination' => $paginatedClients->links(),
-            'clients' => $paginatedClients->toJson()
+            'clients' => $paginatedClients->toJson(),
         ]);
     }
 
