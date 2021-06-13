@@ -79,7 +79,6 @@ export default {
                 this.$modal.show(SettleModal,
                     {
                         data: data,
-                        refreshTable: window.location.reload
                     },
                     {
                         name: 'settle-modal',

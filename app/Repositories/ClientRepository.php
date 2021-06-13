@@ -22,10 +22,10 @@ class ClientRepository extends BaseRepository
 
         $model->fill($attributes);
 
-        if (!isset($model->paid) || $model->paid <= $model->price) {
-            $model->status = 'unsettled';
-        } else {
+        if ($model->paid + $model->climate_paid >= $model->price + $model->climate_price) {
             $model->status = 'settled';
+        } else {
+            $model->status = 'unsettled';
         }
 
         if ($this->saveIfValid($model)) {
@@ -102,7 +102,7 @@ class ClientRepository extends BaseRepository
         $model->paid += $settlement;
         $model->climate_paid += $climateSettlement;
 
-        if ($model->paid >= $model->price && $model->climate_paid >= $model->climate_price) {
+        if ($model->paid + $model->climate_paid >= $model->price + $model->climate_price) {
             $model->status = 'settled';
         } else {
             $model->status = 'unsettled';

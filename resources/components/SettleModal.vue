@@ -43,7 +43,6 @@
 export default {
     props: {
         data: Object,
-        refreshTable: Function
     },
     data() {
         return {
@@ -62,7 +61,7 @@ export default {
                 settlement: this.settlement ?? 0,
                 climate_settlement: this.climateSettlement ?? 0
             }).then(() => {
-                this.refreshTable();
+                window.location.reload();
                 this.$modal.hide('settle-modal');
             }, () => {
                 alert("Coś poszło nie tak! Czy wpisane dane są poprawne?");
