@@ -75,10 +75,11 @@ export default {
     props: ['clients'],
     methods:
         {
-            showSettleModal(data) {
+            showSettleModal(client) {
                 this.$modal.show(SettleModal,
                     {
-                        data: data,
+                        client: client,
+                        categories: this.categories,
                     },
                     {
                         name: 'settle-modal',

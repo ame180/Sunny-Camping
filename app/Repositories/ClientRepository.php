@@ -22,12 +22,6 @@ class ClientRepository extends BaseRepository
 
         $model->fill($attributes);
 
-        if ($model->paid + $model->climate_paid >= $model->price + $model->climate_price) {
-            $model->status = 'settled';
-        } else {
-            $model->status = 'unsettled';
-        }
-
         if ($this->saveIfValid($model)) {
             $model->clientItems()->delete();
 
@@ -36,6 +30,16 @@ class ClientRepository extends BaseRepository
                 $clientItem->fill($clientItemRaw);
                 $model->clientItems()->save($clientItem);
             }
+
+            $model->refresh();
+
+            if ($model->paid + $model->climate_paid >= $model->price + $model->climate_price) {
+                $model->status = 'settled';
+            } else {
+                $model->status = 'unsettled';
+            }
+
+            $model->save();
 
             return true;
         }
