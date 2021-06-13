@@ -43,6 +43,14 @@
             <input id="climate_paid" v-model="client.climate_paid" name="paid" type="number" placeholder="0"
                    class="form-control form-control-sm">
         </div>
+        <div class="col-6 col-sm-4 col-md-3 form-group">
+            <label for="status">Status</label>
+            <select id="status" v-model="client.status" name="paid" type="select"
+                 class="form-control form-control-sm">
+              <option value="unsettled">Nierozliczono</option>
+              <option value="settled">Rozliczono</option>
+            </select>
+        </div>
         <div class="col-12">
             <hr>
             <div v-for="(category, index) in categories" :key="category.id" class="row">

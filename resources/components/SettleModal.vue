@@ -69,7 +69,7 @@ export default {
                 this.isInvalid = true;
                 return;
             }
-            axios.patch(baseUrl + '/api/client/settle/' + this.data.id, {
+            axios.patch(baseUrl + '/api/client/settle/' + this.client.id, {
                 settlement: this.settlement ?? 0,
                 climate_settlement: this.climateSettlement ?? 0
             }).then(() => {
