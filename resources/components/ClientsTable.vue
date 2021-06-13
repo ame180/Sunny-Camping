@@ -117,6 +117,18 @@ export default {
                         window.location.reload()
                     });
             },
+            groupItems(client) {
+                let items = client.client_items;
+                for (let i = 0; i < items.length; i++) {
+                    for (let j = i + 1; j < items.length; j++) {
+                        if (items[i].name === items[j].name && items[i].price === items[j].price) {
+                            items[i].count += items[j].count;
+                            items.splice(j, 1);
+                            j--;
+                        }
+                    }
+                }
+            },
         },
     mounted() {
         axios.get(baseUrl + '/api/category/all-by-service/1')
@@ -124,6 +136,9 @@ export default {
                 this.categories = response.data;
                 console.log(this.categories);
             });
+        this.clients.data.forEach(function (client) {
+            this.groupItems(client)
+        }, this);
     },
     data: function() {
         return {
