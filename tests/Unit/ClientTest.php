@@ -43,7 +43,7 @@ class ClientTest extends TestCase
     /** @test */
     public function getStayPrice_ClientWithStayPriceOf216_216Returned(): void
     {
-        /** @noinspection PhpUndefinedMethodInspection */
+        /** @var Client $client @noinspection PhpUndefinedMethodInspection */
         $client = Client::factory()
             ->hasClientItems(3, [
                 'count' => 2,
