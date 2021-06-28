@@ -43,14 +43,27 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Client whereStatus($value)
  * @method static Builder|Client whereUpdatedAt($value)
  * @mixin Eloquent
+ * @property float $climate_paid
+ * @property-read float $climate_price
+ * @method static Builder|Client whereClimatePaid($value)
  */
 class Client extends BaseModel
 {
     use HasFactory;
 
-    protected $guarded = ['price', 'price_per_day', 'days'];
+    const STATUS_SETTLED = 'settled';
+    const STATUS_UNSETTLED = 'unsettled';
 
-    protected $appends = ['price', 'price_per_day', 'days'];
+    protected $guarded = ['price', 'price_per_day', 'days', 'climate_price'];
+
+    protected $appends = ['price', 'price_per_day', 'days', 'climate_price'];
+
+    protected array $defaults = [
+        'discount' => 0,
+        'paid' => 0,
+        'climate_paid' => 0,
+        'status' => self::STATUS_UNSETTLED,
+    ];
 
     public function getPriceAttribute(): float
     {
@@ -58,7 +71,20 @@ class Client extends BaseModel
             return 0;
         }
 
-        return floor($this->days * $this->pricePerDay * (100 - $this->discount) / 100);
+        return floor($this->days * $this->price_per_day * (100 - $this->discount) / 100);
+    }
+
+    public function getClimatePriceAttribute(): float
+    {
+        $clientItems = $this->clientItems;
+        $price = 0;
+        foreach ($clientItems as $clientItem) {
+            if ($clientItem->serviceCategory && $clientItem->serviceCategory->name == 'Klimatyczne') {
+                $price += $clientItem->price * $clientItem->count;
+            }
+        }
+
+        return $price * $this->days;
     }
 
     public function getPricePerDayAttribute(): float
@@ -66,7 +92,9 @@ class Client extends BaseModel
         $clientItems = $this->clientItems;
         $price = 0;
         foreach ($clientItems as $clientItem) {
-            $price += $clientItem->price * $clientItem->count;
+            if (!$clientItem->serviceCategory || $clientItem->serviceCategory->name != 'Klimatyczne') {
+                $price += $clientItem->price * $clientItem->count;
+            }
         }
 
         return $price;

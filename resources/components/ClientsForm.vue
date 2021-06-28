@@ -12,12 +12,12 @@
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="arrival_date">Data przyjazdu</label>
-            <input id="arrival_date" v-model="client.arrivalDate" name="arrival_date" type="date"
+            <input id="arrival_date" v-model="client.arrival_date" name="arrival_date" type="date"
                    class="form-control form-control-sm">
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="departure_date">Data odjazdu</label>
-            <input id="departure_date" v-model="client.departureDate" name="departure_date" type="date"
+            <input id="departure_date" v-model="client.departure_date" name="departure_date" type="date"
                    class="form-control form-control-sm">
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
@@ -33,10 +33,23 @@
                 <option value="10">10%</option>
             </select>
         </div>
-        <div v-if="mode === 'PATCH' && initialPaid > 0" class="col-6 col-sm-4 col-md-3 form-group">
+        <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="paid">Zapłacono</label>
             <input id="paid" v-model="client.paid" name="paid" type="number" placeholder="0"
                    class="form-control form-control-sm">
+        </div>
+        <div class="col-6 col-sm-4 col-md-3 form-group">
+            <label for="climate_paid">Klimatyczne</label>
+            <input id="climate_paid" v-model="client.climate_paid" name="paid" type="number" placeholder="0"
+                   class="form-control form-control-sm">
+        </div>
+        <div class="col-6 col-sm-4 col-md-3 form-group">
+            <label for="status">Status</label>
+            <select id="status" v-model="client.status" name="paid" type="select"
+                 class="form-control form-control-sm">
+              <option value="unsettled">Nierozliczono</option>
+              <option value="settled">Rozliczono</option>
+            </select>
         </div>
         <div class="col-12">
             <hr>
@@ -44,7 +57,7 @@
                 <div class="col-12">
                     <h2>{{ category.name }}</h2>
                     <div class="mb-3">
-                        <a v-for="item in category.categoryItems" :key="item.id" @click="addItem(index, item)"
+                        <a v-for="item in category.service_category_items" :key="item.id" @click="addItem(index, item)"
                            class="btn btn-primary mx-1">{{ item.name }}</a>
                     </div>
                     <div class="row" v-for="(item, itemIndex) in category.addedItems">
@@ -87,16 +100,16 @@ export default {
         return {
             client: {
                 name: null,
-                arrivalDate: null,
-                departureDate: null,
+                arrival_date: null,
+                departure_date: null,
                 comment: null,
                 paid: null,
+                climate_paid: null,
                 discount: 0,
-                clientItems: []
+                client_items: []
             },
             categories: [],
             items: [],
-            initialPaid: null,
             isNameInvalid: false
         }
     },
@@ -105,15 +118,14 @@ export default {
             axios.get(baseUrl + '/api/client/find/' + this.id)
                 .then((response) => {
                     this.client = response.data;
-                    this.initialPaid = this.client.paid
 
                     axios.get(baseUrl + '/api/category/all-by-service/1')
                         .then((response) => {
                             let categories = [];
                             response.data.forEach(function (category) {
                                 category.addedItems = [];
-                                this.client.clientItems.forEach(function (item) {
-                                    if (category.id === item.categoryId) {
+                                this.client.client_items.forEach(function (item) {
+                                    if (category.id === item.service_category_id) {
                                         category.addedItems.push(item);
                                     }
                                 })
@@ -129,8 +141,8 @@ export default {
                     let categories = [];
                     response.data.forEach(function (category) {
                         category.addedItems = [];
-                        this.client.clientItems.forEach(function (item) {
-                            if (category.id === item.categoryId) {
+                        this.client.client_items.forEach(function (item) {
+                            if (category.id === item.service_category_id) {
                                 category.addedItems.push(item);
                             }
                         })
@@ -158,15 +170,15 @@ export default {
                 this.isNameInvalid = true;
                 return false;
             }
-            if (this.client.arrivalDate && this.client.departureDate && new Date(this.client.arrivalDate) >= new Date(this.client.departureDate)) {
+            if (this.client.arrival_date && this.client.departure_date && new Date(this.client.arrival_date) >= new Date(this.client.departure_date)) {
                 alert("Data odjazdu musi być później od daty przyjazdu!");
                 return false;
             }
             let request;
 
-            this.client.clientItems = [];
+            this.client.client_items = [];
             this.categories.forEach(function(category) {
-                this.client.clientItems = this.client.clientItems.concat(category.addedItems);
+                this.client.client_items = this.client.client_items.concat(category.addedItems);
             }, this);
 
             if (this.mode === 'PUT') {

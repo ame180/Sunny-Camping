@@ -16,7 +16,7 @@ class CreateClientItemsTable extends Migration
         Schema::create('client_items', function (Blueprint $table) {
             $table->id();
             $table->integer('service_id')->default(0);
-            $table->integer('category_id')->default(0);
+            $table->integer('service_category_id')->default(0);
             $table->integer('client_id');
             $table->string('name', 32);
             $table->double('price', 8, 2);

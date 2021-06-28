@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  php:
+    build:
+      context: .
+      dockerfile: infrastructure/Dockerfile
+    volumes:
+      - .:/application
+    working_dir: /application
+    entrypoint: "/bin/bash /application/infrastructure/entrypoint.sh"
+    ports:
+      - "9000:9000"
+
+  nginx:
+    image: nginx
+    working_dir: /application
+    depends_on:
+      - php
+    volumes:
+      - .:/application
+      - ./infrastructure/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "80:80"
+
+  mysql:
+    image: library/mariadb:10.5
+    volumes:
+      - .:/application
+      - dbdata:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+    ports:
+      - "3306:3306"
+
+volumes:
+  dbdata:

@@ -80,7 +80,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'pl',
 
     /*
     |--------------------------------------------------------------------------
@@ -93,7 +93,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'en',
+    'fallback_locale' => 'pl',
 
     /*
     |--------------------------------------------------------------------------
@@ -227,7 +227,4 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
     ],
-
-    'mix_url' => env('MIX_ASSET_URL', null),
-
 ];

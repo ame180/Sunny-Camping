@@ -11,11 +11,14 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js/app.js')
+mix
+    .options({processCssUrls: false})
+    .js('resources/js/app.js', 'public/js/app.js')
     .vue()
-    .sass('resources/css/app.scss', 'public/css/app.css')
+    .sass('resources/scss/app.scss', 'public/css/app.css')
     .js('resources/js/parallax.min.js', 'public/js/parallax.min.js')
     .js('resources/js/script.js', 'public/js/script.js')
-    .styles('resources/css/style.css', 'public/css/style.css')
+    .styles('resources/scss/style.css', 'public/css/style.css')
     .copy('resources/images', 'public/images')
-    .copy('resources/fonts', 'public/fonts');
+    .copy('resources/fonts', 'public/fonts')
+    .copy('resources/storage', 'public/storage');

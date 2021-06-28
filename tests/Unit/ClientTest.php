@@ -36,22 +36,22 @@ class ClientTest extends TestCase
     public function validateModel_ClientWithDepartureBeforeOrAtArrival_FalseReturned()
     {
         $client = Client::factory()->make();
-        $client->departureDate = $client->arrivalDate;
+        $client->departure_date = $client->arrival_date;
         $this->assertFalse($this->clientRepository->validateModel($client));
     }
 
     /** @test */
     public function getStayPrice_ClientWithStayPriceOf216_216Returned(): void
     {
-        /** @noinspection PhpUndefinedMethodInspection */
+        /** @var Client $client @noinspection PhpUndefinedMethodInspection */
         $client = Client::factory()
             ->hasClientItems(3, [
                 'count' => 2,
                 'price' => 10,
             ])
             ->create();
-        $client->arrivalDate = '2021-01-01';
-        $client->departureDate = '2021-01-05';
+        $client->arrival_date = '2021-01-01';
+        $client->departure_date = '2021-01-05';
         $client->discount = 10;
 
         $this->assertEquals(216, $client->price);
@@ -62,7 +62,7 @@ class ClientTest extends TestCase
     {
         $client = Client::factory()->make();
         $arr = $client->toArray();
-        $this->assertArrayHasKey('pricePerDay', $arr);
+        $this->assertArrayHasKey('price_per_day', $arr);
         $this->assertArrayHasKey('price', $arr);
         $this->assertArrayHasKey('days', $arr);
     }

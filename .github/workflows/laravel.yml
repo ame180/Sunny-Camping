@@ -23,14 +23,20 @@ jobs:
       with:
         php-version: '8.0'
     - uses: actions/checkout@v2
+    - name: Install LTS Node.js
+      run: |
+        curl -L https://raw.githubusercontent.com/tj/n/master/bin/n -o n
+        sudo bash n lts
     - name: Copy .env
       run: php -r "copy('.env.example', '.env');"
-    - name: Install Dependencies
+    - name: Install PHP Dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+    - name: Install Node.js Dependencies
+      run: npm install
+    - name: Compile assets
+      run: npm run dev
     - name: Check if the code fits Coding Standards
-      run: php vendor/bin/php-cs-fixer fix --dry-run --stop-on-violation --using-cache=no
-    - name: Generate key
-      run: php artisan key:generate
+      run: php bin/php-cs-fixer fix --dry-run --stop-on-violation --using-cache=no
     - name: Directory Permissions
       run: chmod -R 777 storage bootstrap/cache
     - name: Create Database
@@ -39,4 +45,4 @@ jobs:
         touch database/database.sqlite
         php artisan migrate
     - name: Execute tests (Unit and Feature tests) via PHPUnit
-      run: vendor/bin/phpunit
+      run: bin/phpunit

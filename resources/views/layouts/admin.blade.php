@@ -4,35 +4,19 @@
         <title>@yield('title', 'Słoneczny Camping - Wicie')</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="csrf-token" content="{{ csrf_token() }}"/>
         <link rel="stylesheet" href="{{mix('css/app.css')}}"/>
         @stack('head')
     @show
 </head>
 <body>
-@section('navbar')
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-        <a class="navbar-brand" href="{{config('app.url')}}/admin/dashboard">Admin</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                @foreach($nav_items as $key => $value)
-                    @include('admin.templates.nav_item')
-                @endforeach
-            </ul>
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{config('app.url')}}">Strona główna</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-@show
-<div id="app" class="container">
-    @yield('main')
+<div id="app">
+    @section('navbar')
+        <custom-admin-menu :items="{{ menu('admin', '_json') }}"></custom-admin-menu>
+    @show
+    <div class="container">
+        @yield('main')
+    </div>
 </div>
 @section('scripts')
     <script>

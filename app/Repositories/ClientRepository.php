@@ -8,15 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ClientRepository extends BaseRepository
 {
-    protected array $prices = ['adult' => 18, 'child' => 14, 'electricity' => 10, 'smallPlaces' => 4, 'bigPlaces' => 6];
-    protected array $discounts;
-
-    protected array $notNullable = ['discount', 'paid', 'status'];
-    protected array $defaultValues = [
-        'discount' => 0,
-        'paid' => 0,
-        'status' => 'unsettled',
-    ];
+    private array $discounts;
 
     public function __construct()
     {
@@ -29,19 +21,11 @@ class ClientRepository extends BaseRepository
         $model = $this->find($id);
 
         $model->fill($attributes);
-        $model->arrival_date = $attributes['arrivalDate'];
-        $model->departure_date = $attributes['departureDate'];
-
-        if (!isset($model->paid) || $model->paid <= $model->price) {
-            $model->status = 'unsettled';
-        } else {
-            $model->status = 'settled';
-        }
 
         if ($this->saveIfValid($model)) {
             $model->clientItems()->delete();
 
-            foreach ($attributes['clientItems'] as $clientItemRaw) {
+            foreach ($attributes['client_items'] as $clientItemRaw) {
                 $clientItem = ClientItem::find($clientItemRaw['id']) ?? new ClientItem();
                 $clientItem->fill($clientItemRaw);
                 $model->clientItems()->save($clientItem);
@@ -67,8 +51,8 @@ class ClientRepository extends BaseRepository
         if (empty($model->name)) {
             return false;
         }
-        if (strtotime($model->arrivalDate) && strtotime($model->departureDate)
-            && strtotime($model->arrivalDate) >= strtotime($model->departureDate)) {
+        if (strtotime($model->arrival_date) && strtotime($model->departure_date)
+            && strtotime($model->arrival_date) >= strtotime($model->departure_date)) {
             return false;
         }
         if (!in_array($model->discount, $this->discounts)) {
@@ -83,11 +67,9 @@ class ClientRepository extends BaseRepository
         $model = $this->model->replicate();
 
         $model->fill($attributes);
-        $model->arrival_date = $attributes['arrivalDate'];
-        $model->departure_date = $attributes['departureDate'];
 
         if ($this->saveIfValid($model)) {
-            foreach ($attributes['clientItems'] as $clientItemRaw) {
+            foreach ($attributes['client_items'] as $clientItemRaw) {
                 $clientItem = new ClientItem();
                 $clientItem->fill($clientItemRaw);
                 $clientItem->id = null;
@@ -100,17 +82,21 @@ class ClientRepository extends BaseRepository
         return false;
     }
 
-    public function settle(int $id, int $amount): bool
+    public function settle(int $id, int $settlement, int $climateSettlement): bool
     {
-        if ($amount <= 0) {
+        if ($settlement <= 0 && $climateSettlement <= 0) {
             return false;
         }
+
         $model = $this->find($id);
         if (!isset($model)) {
             return false;
         }
-        $model->paid += $amount;
-        if ($model->paid >= $model->price) {
+
+        $model->paid += $settlement;
+        $model->climate_paid += $climateSettlement;
+
+        if ($model->paid + $model->climate_paid >= $model->price + $model->climate_price) {
             $model->status = 'settled';
         } else {
             $model->status = 'unsettled';
