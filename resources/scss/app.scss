@@ -9,11 +9,22 @@ $dark-grey: #141414;
     color: $yellow;
 }
 
+.border-yellow {
+    border: 1px solid $yellow;
+}
+
 .bg-dark-grey {
     background-color: $dark-grey;
 }
 
 .parallax {
+    min-height: 300px;
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
     background-color: rgba(0, 0, 0, 0.5);
 }
 
@@ -22,5 +33,12 @@ $dark-grey: #141414;
 }
 
 .section {
-    padding: 80px 0px;
+    padding: 80px 0;
+}
+
+.navbar-homepage .nav-item > .nav-link {
+    color: $yellow;
+    font-size: 19px;
+    text-transform: uppercase;
+    transition: 0.4s;
 }

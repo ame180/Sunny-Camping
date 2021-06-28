@@ -6,25 +6,37 @@
 @endsection
 
 @section('navbar')
-    <div class="parallax" data-parallax="scroll" data-image-src="{{mix('images/bgsc.jpg')}}">
-        <a class="navbar_logo navbar-brand" href="#"><img alt="Nadmorski Sonet"
-                                                          src="{{mix('images/sloneczny_camping.png')}}"></a>
-        <nav class="navbar navbar-default header_nav">
-            <div class="container">
-                <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu">
-                    <span class=" glyphicon glyphicon-align-justify"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="menu">
-                    <ul class="nav navbar-nav">
-                        <li><a href="#onas">O nas</a></li>
-                        <li><a href="#pole">Pole namiotowe</a></li>
-                        <li><a href="#domki">Domki</a></li>
-                        <li><a href="#atrakcje">Atrakcje</a></li>
-                        <li><a href="#kontakt">Kontakt</a></li>
-                    </ul>
-                </div>
+    <div class="parallax pb-5 text-center" data-parallax="scroll" data-image-src="{{mix('images/bgsc.jpg')}}">
+        <nav class="navbar navbar-expand-md navbar-homepage pt-3 pt-md-4">
+            <button class="navbar-toggler text-yellow border-yellow" type="button" data-toggle="collapse"
+                    data-target="#menu"
+                    aria-controls="menu" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse justify-content-center" id="menu">
+                <ul class="navbar-nav text-left">
+                    <li class="nav-item p-0 mx-2">
+                        <a class="nav-link" href="#onas">O nas</a>
+                    </li>
+                    <li class="nav-item p-0 mx-2">
+                        <a class="nav-link" href="#pole">Pole namiotowe</a>
+                    </li>
+                    <li class="nav-item p-0 mx-2">
+                        <a class="nav-link" href="#domki">Domki</a>
+                    </li>
+                    <li class="nav-item p-0 mx-2">
+                        <a class="nav-link" href="#faq">FAQ</a>
+                    </li>
+                    <li class="nav-item p-0 mx-2">
+                        <a class="nav-link" href="#kontakt">Kontakt</a>
+                    </li>
+                </ul>
             </div>
         </nav>
+        <a href="#">
+            <img class="img-fluid px-4 mt-3 mt-md-5" alt="Nadmorski Sonet"
+                 src="{{mix('images/sloneczny_camping.png')}}">
+        </a>
     </div>
 @endsection
 
@@ -57,9 +69,9 @@
 @endsection
 
 @section('bungalows')
-    <div id="domki" class="bg-dark-grey section">
+    <div id="domki" class="section">
         <div class="container">
-            <h1 class="text-white">Domki</h1>
+            <h1 class="text-yellow">Domki</h1>
             <p>
                 Przy domku znajduje się taras oraz parking dla samochodu. W domku na parterze jest pokój z aneksem
                 kuchennym oraz toaleta z prysznicem. W aneksie kuchennym jest lodówka, kuchenka elektryczna i
@@ -71,45 +83,48 @@
 @endsection
 
 @section('faq')
+    <div id="faq" class="section bg-dark-grey">
+        <div class="container">
+            <h1 class="text-white mb-4">FAQ</h1>
+            <p class="mb-4">
+                P: Czy możemy zarezerwować miejsce?<br>
+                O: Ze względu na specyfikę wypoczynku na campingu, nie rezerwujemy miejsc. Goście często przedłużają
+                pobyt,
+                przez co rezerwacje prowadziłyby do wielu niekomfortowych sytuacji zarówno dla nas jak i gości.
+            </p>
 
+            <p>
+                P: Czy istnieje możliwość kontaktu mailowego lub SMS?<br>
+                O: Nie, wszelkie informacje przekazujemy tylko poprzez kontakt telefoniczny.
+            </p>
+        </div>
+    </div>
 @endsection
 
 @section('pricing')
-
+    <div id="kontakt" class="section">
+        <div class="container">
+            <img class="img-fluid" src="{{mix('images/cennik.jpg')}}">
+        </div>
+    </div>
 @endsection
 
 @section('contact')
     <div id="kontakt" class="section">
         <div class="container">
             <h1 class="text-yellow">Kontakt</h1>
-            <div class="row">
-                <div class="col-md-4">
-                    <p>
-                        W celu uzyskania szczegółowych informacji, sprawdzenia dostępności noclegu lub dokonania
-                        rezerwacji
-                        zapraszamy do kontaktu telefonicznego, emailowego lub za pośrednictwem formularza
-                        kontaktowego.<br><br>
-                    </p>
-                    <i class="pull-left fa fa-map-marker" aria-hidden="true"></i>
-                    <p>
-                        Słoneczny Camping<br>
-                        Wicie, ul. Słoneczna 11b<br>
-                    </p>
-                    <i class="pull-left fa fa-mobile" aria-hidden="true"></i>
-                    <a href="tel:+48509321120">+48 509 321 120</a>
-                    <a href="mailto:nadmorskisonet@gmail.com">nadmorskisonet@gmail.com</a>
-                </div>
-                <div class="col-md-8">
-                    <input type="text" class="form_input form-control" id="name" name="name"
-                           placeholder="Imię i nazwisko" value="">
-                    <input type="email" class="form_input form-control" id="email" name="email"
-                           placeholder="Adres email" value="">
-                    <textarea class="form_textarea form-control" rows="4" name="message"
-                              placeholder="Treść wiadomości..."></textarea>
-                    <input id="submit" name="submit" type="submit" value="Wyślij wiadomość"
-                           class="contact_form_button btn btn-primary pull-right">
-                </div>
-            </div>
+            <p>
+                W celu uzyskania szczegółowych informacji, sprawdzenia dostępności noclegu lub dokonania
+                rezerwacji (tylko w przypadku domków!)
+                zapraszamy do kontaktu telefonicznego.<br><br>
+            </p>
+            <i class="fa fa-map-marker" aria-hidden="true"></i>
+            <span class="pl-1">
+                Słoneczny Camping<br>
+                Wicie, ul. Słoneczna 11b<br>
+            </span>
+            <i class="fa fa-mobile" aria-hidden="true"></i>
+            <a class="pl-1" href="tel:+48509321120">+48 509 321 120</a>
         </div>
     </div>
 @endsection
@@ -155,8 +170,8 @@
 @endsection
 
 @push('scripts')
+    <script src="{{mix('js/app.js')}}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="https://use.fontawesome.com/55e5114f06.js"></script>
     <script src="{{mix('js/parallax.min.js')}}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
 @endpush
