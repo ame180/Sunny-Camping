@@ -21,4 +21,5 @@ mix
     .styles('resources/scss/style.css', 'public/css/style.css')
     .copy('resources/images', 'public/images')
     .copy('resources/fonts', 'public/fonts')
-    .copy('resources/storage', 'public/storage');
+    .copy('resources/storage', 'public/storage')
+    .version();
