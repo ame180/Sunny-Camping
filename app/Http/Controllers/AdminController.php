@@ -25,6 +25,7 @@ class AdminController extends Controller
         }
 
         $paginatedClients = Client::where($filters)
+            ->orderBy('id', 'desc')
             ->paginate(10)
             ->appends(\Request::except('page'));
 
