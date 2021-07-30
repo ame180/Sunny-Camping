@@ -71,7 +71,7 @@ class Client extends BaseModel
             return 0;
         }
 
-        return floor($this->days * $this->price_per_day * (100 - $this->discount) / 100);
+        return floor($this->days * $this->price_per_day);
     }
 
     public function getClimatePriceAttribute(): float
@@ -92,7 +92,9 @@ class Client extends BaseModel
         $clientItems = $this->clientItems;
         $price = 0;
         foreach ($clientItems as $clientItem) {
-            if (!$clientItem->serviceCategory || $clientItem->serviceCategory->name != 'Klimatyczne') {
+            if ($clientItem->serviceCategory == 'Osoby') {
+                $price += $clientItem->price * $clientItem->count * (100 - $this->discount) / 100;
+            } else if (!$clientItem->serviceCategory || $clientItem->serviceCategory->name != 'Klimatyczne') {
                 $price += $clientItem->price * $clientItem->count;
             }
         }
