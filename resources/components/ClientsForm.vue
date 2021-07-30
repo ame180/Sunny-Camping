@@ -51,6 +51,17 @@
               <option value="settled">Rozliczono</option>
             </select>
         </div>
+        <div class="col-12 text-center">
+            <div>
+                <b>Suma: {{ price }} zł <span v-if="client.paid > 0">(zapłacono {{ client.paid }} zł)</span></b>
+            </div>
+            <div>
+                <b>Klimatyczne: {{ climate_price }} zł <span v-if="client.climate_paid > 0">(zapłacono {{ client.climate_paid }} zł)</span></b>
+            </div>
+            <div>
+                <b>Razem: {{ price + climate_price }} zł <span v-if="client.paid + client.climate_paid> 0">(zapłacono {{ client.paid + client.climate_paid }} zł)</span></b>
+            </div>
+        </div>
         <div class="col-12">
             <hr>
             <div v-for="(category, index) in categories" :key="category.id" class="row">
@@ -110,7 +121,9 @@ export default {
             },
             categories: [],
             items: [],
-            isNameInvalid: false
+            isNameInvalid: false,
+            price: 0,
+            climate_price: 0
         }
     },
     mounted() {
@@ -150,6 +163,24 @@ export default {
                     }, this)
                     this.categories = categories;
                 });
+        }
+        this.updateClimatePrice();
+        this.updatePrice();
+    },
+    watch: {
+        client: {
+            handler() {
+                this.updatePrice();
+                this.updateClimatePrice();
+            },
+            deep: true
+        },
+        categories: {
+            handler() {
+                this.updatePrice();
+                this.updateClimatePrice();
+            },
+            deep: true
         }
     },
     methods: {
@@ -191,6 +222,47 @@ export default {
             }, () => {
                 alert("Coś poszło nie tak! Upewnij się że wpisane dane są poprawne!");
             });
+        },
+        getDays() {
+            if (!this.client.arrival_date || !this.client.departure_date) {
+                return 0;
+            }
+            const day = 1000 * 60 * 60 * 24;
+            const diff = Math.abs(new Date(this.client.arrival_date) - new Date(this.client.departure_date));
+
+            return Math.round(diff / day);
+        },
+        updatePrice() {
+            if (this.days === 0) {
+                return 0;
+            }
+
+            let price_per_day = 0;
+            this.categories.forEach(function(category) {
+                if (category.name !== 'Klimatyczne') {
+                    category.addedItems.forEach(function(item) {
+                        price_per_day += item.price;
+                    })
+                }
+            })
+
+            this.price = Math.floor(this.getDays() * price_per_day * (100 - this.client.discount) / 100);
+        },
+        updateClimatePrice() {
+            if (this.days === 0) {
+                return 0;
+            }
+
+            let price_per_day = 0;
+            this.categories.forEach(function(category) {
+                if (category.name === 'Klimatyczne') {
+                    category.addedItems.forEach(function(item) {
+                        price_per_day += item.price;
+                    })
+                }
+            })
+
+            this.climate_price = Math.floor(this.getDays() * price_per_day * (100 - this.client.discount) / 100);
         }
     },
 }
