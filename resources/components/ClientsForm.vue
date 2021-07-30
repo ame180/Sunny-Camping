@@ -241,12 +241,16 @@ export default {
             this.categories.forEach(function(category) {
                 if (category.name !== 'Klimatyczne') {
                     category.addedItems.forEach(function(item) {
-                        price_per_day += item.price;
-                    })
+                        if (category.name === 'Osoby') {
+                            price_per_day += item.price * (100 - this.client.discount) / 100;
+                        } else {
+                            price_per_day += item.price;
+                        }
+                    }, this)
                 }
-            })
+            }, this)
 
-            this.price = Math.floor(this.getDays() * price_per_day * (100 - this.client.discount) / 100);
+            this.price = Math.round(this.getDays() * price_per_day);
         },
         updateClimatePrice() {
             if (this.days === 0) {
@@ -262,7 +266,7 @@ export default {
                 }
             })
 
-            this.climate_price = Math.floor(this.getDays() * price_per_day * (100 - this.client.discount) / 100);
+            this.climate_price = Math.round(this.getDays() * price_per_day);
         }
     },
 }
