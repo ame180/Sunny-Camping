@@ -8,8 +8,8 @@
                     <option value="unsettled">Nierozliczono</option>
                     <option value="settled">Rozliczono</option>
                 </select>
-                <input v-model="filters.name" type="text" class="form-control form-control-sm m-1" name="name" placeholder="Imię i nazwisko">
-                <button type="submit" class="btn btn-primary btn-sm m-1">Filtruj</button>
+                <input v-model="filters.query" type="text" class="form-control form-control-sm m-1" name="query" placeholder="Szukaj">
+                <button type="submit" class="btn btn-primary btn-sm m-1">Szukaj</button>
             </div>
         </form>
         <div class="row border" v-for="client in clients.data" type="button" :data-target="'#collapse-' + client.id"

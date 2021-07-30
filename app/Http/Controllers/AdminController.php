@@ -15,16 +15,22 @@ class AdminController extends Controller
     public function clients(Request $request)
     {
         $filters = [];
+        $paginatedClients = new Client();
 
-        if ($request->input('name')) {
-            $filters[] = ['name', 'LIKE', "%{$request->input('name')}%"];
+        if ($request->input('query')) {
+            $searchQuery = $request->input('query');
+            $paginatedClients = $paginatedClients->where(function ($query) use ($searchQuery) {
+                return $query
+                    ->where('name', 'LIKE', "%$searchQuery%")
+                    ->orWhere('id', '=', "$searchQuery");
+            });
         }
 
         if ($request->input('status')) {
-            $filters[] = ['status', '=', $request->input('status')];
+            $paginatedClients = $paginatedClients->where('status', '=', $request->input('status'));
         }
 
-        $paginatedClients = Client::where($filters)
+        $paginatedClients = $paginatedClients
             ->orderBy('id', 'desc')
             ->paginate(10)
             ->appends(\Request::except('page'));
@@ -34,7 +40,7 @@ class AdminController extends Controller
             'pagination' => $paginatedClients->links(),
             'clients' => $paginatedClients->toJson(),
             'filters' => collect([
-                'name' => $request->input('name'),
+                'query' => $request->input('query'),
                 'status' => $request->input('status') ?? '',
             ])->toJson(),
         ]);
