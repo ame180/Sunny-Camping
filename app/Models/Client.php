@@ -120,7 +120,7 @@ class Client extends BaseModel
         return $this->hasMany(ClientItem::class);
     }
 
-    public static function validate(Client $client): bool
+    public static function validate(self $client): bool
     {
         if (empty($client->name)) {
             return false;
