@@ -54,8 +54,8 @@ class Client extends BaseModel
 {
     use HasFactory;
 
-    const STATUS_SETTLED = 'settled';
-    const STATUS_UNSETTLED = 'unsettled';
+    public const STATUS_SETTLED = 'settled';
+    public const STATUS_UNSETTLED = 'unsettled';
 
     protected $guarded = ['price', 'price_per_day', 'days', 'climate_price'];
 

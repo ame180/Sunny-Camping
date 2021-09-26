@@ -22,6 +22,7 @@ return Config::create()
     ->setFinder($finder)
     ->setRules([
         '@Symfony' => true,
+        '@PSR12' => true,
         'concat_space' => ['spacing' => 'one'],
     ])
     ->setRiskyAllowed(true)
