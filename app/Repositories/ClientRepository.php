@@ -12,7 +12,7 @@ class ClientRepository extends BaseRepository
 
     public function __construct()
     {
-        $this->model = new Client;
+        $this->model = new Client();
         $this->discounts = config('constants.discounts');
     }
 

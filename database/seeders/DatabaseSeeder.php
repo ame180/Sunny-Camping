@@ -3,15 +3,13 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\App;
-use TCG\Voyager\Contracts\User;
 use TCG\Voyager\Traits\Seedable;
 
 class DatabaseSeeder extends Seeder
 {
     use Seedable;
 
-    protected $seedersPath = __DIR__.'/';
+    protected $seedersPath = __DIR__ . '/';
 
     /**
      * Seed the application's database.

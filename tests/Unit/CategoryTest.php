@@ -24,7 +24,7 @@ class CategoryTest extends TestCase
     }
 
     /** @test */
-    public function allByService_CategoryWithItems_CategoryWithItemsReturned(): void
+    public function allByServiceCategoryWithItemsCategoryWithItemsReturned(): void
     {
         /** @var ServiceCategoryFactory $ServiceCategoryFactory */
         $ServiceCategoryFactory = ServiceCategory::factory(['service_id' => 0]);

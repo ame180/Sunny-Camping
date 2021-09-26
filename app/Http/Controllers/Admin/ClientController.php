@@ -31,7 +31,7 @@ class ClientController extends Controller
 
     public function edit($id)
     {
-        if ($this->clientsRepository->find($id) == null) {
+        if (null == $this->clientsRepository->find($id)) {
             return response('', 404);
         }
 

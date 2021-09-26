@@ -13,13 +13,14 @@ use Illuminate\Support\Carbon;
 /**
  * App\Models\ServiceCategory.
  *
- * @property int $id
- * @property int $service_id
- * @property string $name
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
- * @property-read Collection|Item[] $categoryItems
- * @property-read int|null $category_items_count
+ * @property int               $id
+ * @property int               $service_id
+ * @property string            $name
+ * @property Carbon|null       $created_at
+ * @property Carbon|null       $updated_at
+ * @property Collection|Item[] $categoryItems
+ * @property int|null          $category_items_count
+ *
  * @method static ServiceCategoryFactory factory(...$parameters)
  * @method static Builder|ServiceCategory newModelQuery()
  * @method static Builder|ServiceCategory newQuery()
@@ -30,8 +31,9 @@ use Illuminate\Support\Carbon;
  * @method static Builder|ServiceCategory whereServiceId($value)
  * @method static Builder|ServiceCategory whereUpdatedAt($value)
  * @mixin Eloquent
- * @property-read Collection|\App\Models\Item[] $serviceCategoryItems
- * @property-read int|null $service_category_items_count
+ *
+ * @property Collection|\App\Models\Item[] $serviceCategoryItems
+ * @property int|null                      $service_category_items_count
  */
 class ServiceCategory extends BaseModel
 {

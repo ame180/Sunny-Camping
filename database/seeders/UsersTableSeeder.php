@@ -17,7 +17,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        if (!App::environment('production') && User::count() == 0) {
+        if (!App::environment('production') && 0 == User::count()) {
             $role = Role::where('name', 'admin')->firstOrFail();
 
             User::create([
