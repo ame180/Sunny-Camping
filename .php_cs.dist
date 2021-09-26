@@ -18,12 +18,11 @@ $finder = Finder::create()
     ->ignoreDotFiles(true)
     ->ignoreVCS(true);
 
-return Config::create()
+return (new Config())
     ->setFinder($finder)
     ->setRules([
         '@Symfony' => true,
         '@PSR12' => true,
         'concat_space' => ['spacing' => 'one'],
     ])
-    ->setRiskyAllowed(true)
     ->setUsingCache(true);
