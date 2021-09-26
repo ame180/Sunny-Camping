@@ -119,20 +119,4 @@ class Client extends BaseModel
     {
         return $this->hasMany(ClientItem::class);
     }
-
-    public static function validate(self $client): bool
-    {
-        if (empty($client->name)) {
-            return false;
-        }
-        if (strtotime($client->arrival_date) && strtotime($client->departure_date)
-            && strtotime($client->arrival_date) >= strtotime($client->departure_date)) {
-            return false;
-        }
-        if (!in_array($client->discount, Config::get('constants.discounts'))) {
-            return false;
-        }
-
-        return true;
-    }
 }

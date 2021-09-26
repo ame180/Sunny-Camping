@@ -6,22 +6,26 @@ use App\Models\Client;
 use App\Models\ClientItem;
 use App\Models\ServiceCategory;
 use App\Repositories\ClientRepository;
+use App\Validators\ClientPersistenceValidator;
 use Database\Factories\ServiceCategoryFactory;
 use Illuminate\Support\Facades\App;
 use Tests\TestCase;
 
 class ClientTest extends TestCase
 {
+    private ClientPersistenceValidator $clientPersistenceValidator;
+
     public function setUp(): void
     {
         parent::setUp();
+        $this->clientPersistenceValidator = $this->app->make(ClientPersistenceValidator::class);
     }
 
     /** @test */
     public function validateModel_ValidClient_TrueReturned(): void
     {
         $client = Client::factory()->make();
-        $this->assertTrue(Client::validate($client));
+        $this->assertTrue($this->clientPersistenceValidator->isValid($client));
     }
 
     /** @test */
@@ -29,7 +33,7 @@ class ClientTest extends TestCase
     {
         $client = Client::factory()->make();
         $client->name = '';
-        $this->assertFalse(Client::validate($client));
+        $this->assertFalse($this->clientPersistenceValidator->isValid($client));
     }
 
     /** @test */
@@ -37,7 +41,7 @@ class ClientTest extends TestCase
     {
         $client = Client::factory()->make();
         $client->departure_date = $client->arrival_date;
-        $this->assertFalse(Client::validate($client));
+        $this->assertFalse($this->clientPersistenceValidator->isValid($client));
     }
 
     /** @test */
