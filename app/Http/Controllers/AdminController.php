@@ -21,7 +21,7 @@ class AdminController extends Controller
 
     public function clients(Request $request)
     {
-        $paginatedClients = $this->clientRepository->getPaginatedSearch($request->get('query'), $request->input('status'));
+        $paginatedClients = $this->clientRepository->paginatedSearch($request->get('query'), $request->input('status'));
 
         return view('admin.clients', [
             'page' => 'clients',

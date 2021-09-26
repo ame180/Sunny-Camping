@@ -12,7 +12,7 @@ class ClientRepository extends BaseRepository
         $this->model = new Client;
     }
 
-    public function getPaginatedSearch(?string $query = null, ?string $status = null)
+    public function paginatedSearch(?string $query = null, ?string $status = null)
     {
         $paginatedClients = $this->model->replicate();
 
