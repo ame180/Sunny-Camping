@@ -3,16 +3,18 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Client;
+use App\Models\ClientItem;
 use App\Repositories\ClientRepository;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
-    private ClientRepository $clientsRepository;
+    private ClientRepository $clientRepository;
 
     public function __construct(ClientRepository $clientsRepository)
     {
-        $this->clientsRepository = $clientsRepository;
+        $this->clientRepository = $clientsRepository;
     }
 
     public function addClient()
@@ -22,7 +24,19 @@ class ClientController extends Controller
 
     public function add(Request $request)
     {
-        if ($this->clientsRepository->add($request->all())) {
+        $client = new Client();
+
+        $client->fill($request->all());
+
+        if (Client::validate($client)) {
+            $this->clientRepository->save($client);
+            foreach ($request->get('client_items') as $clientItemRaw) {
+                $clientItem = new ClientItem();
+                $clientItem->fill($clientItemRaw);
+                $clientItem->id = null;
+                $client->clientItems()->save($clientItem);
+            }
+
             return true;
         }
 
@@ -31,7 +45,7 @@ class ClientController extends Controller
 
     public function edit($id)
     {
-        if (null == $this->clientsRepository->find($id)) {
+        if (!$this->clientRepository->find($id)) {
             return response('', 404);
         }
 
@@ -40,7 +54,21 @@ class ClientController extends Controller
 
     public function update(Request $request, $id)
     {
-        if ($this->clientsRepository->update($id, $request->all())) {
+        /** @var Client $client */
+        $client = $this->clientRepository->find($id);
+
+        $client->fill($request->all());
+
+        if (Client::validate($client)) {
+            $this->clientRepository->save($client);
+            $client->clientItems()->delete();
+
+            foreach ($request->get('client_items') as $clientItemRaw) {
+                $clientItem = ClientItem::find($clientItemRaw['id']) ?? new ClientItem();
+                $clientItem->fill($clientItemRaw);
+                $client->clientItems()->save($clientItem);
+            }
+
             return true;
         }
 
@@ -49,26 +77,44 @@ class ClientController extends Controller
 
     public function delete($id)
     {
-        $this->clientsRepository->delete($id);
+        $this->clientRepository->delete($this->clientRepository->find($id));
     }
 
     public function paginatedJson(Request $request)
     {
-        return $this->clientsRepository->paginate($request->toArray())->toJson();
+        return $this->clientRepository->paginate($request->get('per_page'), $request->get('sort'))->toJson();
     }
 
     public function findJson($id)
     {
-        $client = $this->clientsRepository->find($id);
+        $client = $this->clientRepository->find($id);
 
         return $client->toJson();
     }
 
     public function settle(int $id, Request $request)
     {
-        if (!$this->clientsRepository->settle($id, $request->get('settlement') ?? 0, $request->get('climate_settlement') ?? 0)) {
+        $settlement = $request->get('settlement') ?? 0;
+        $climateSettlement = $request->get('climate_settlement') ?? 0;
+
+        if ($settlement <= 0 && $climateSettlement <= 0) {
             return response('', 400);
         }
+
+        $client = $this->clientRepository->find($id);
+        if (!isset($client)) {
+            return response('', 400);
+        }
+
+        $client->paid += $settlement;
+        $client->climate_paid += $climateSettlement;
+
+        if ($client->paid + $client->climate_paid >= $client->price + $client->climate_price) {
+            $client->status = 'settled';
+        } else {
+            $client->status = 'unsettled';
+        }
+        $this->clientRepository->save($client);
 
         return true;
     }
