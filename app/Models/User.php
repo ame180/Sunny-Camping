@@ -20,27 +20,30 @@ use Illuminate\Notifications\Notifiable;
 /**
  * App\Models\User.
  *
- * @property-read DatabaseNotificationCollection|DatabaseNotification[] $notifications
- * @property-read int|null $notifications_count
+ * @property DatabaseNotificationCollection|DatabaseNotification[] $notifications
+ * @property int|null                                              $notifications_count
+ *
  * @method static UserFactory factory(...$parameters)
  * @method static Builder|User newModelQuery()
  * @method static Builder|User newQuery()
  * @method static Builder|User query()
  * @mixin Eloquent
- * @property int $id
- * @property int|null $role_id
- * @property string $name
- * @property string $email
- * @property string|null $avatar
- * @property string|null $password
- * @property string $remember_token
- * @property string|null $settings
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property mixed $locale
- * @property-read \TCG\Voyager\Models\Role|null $role
- * @property-read \Illuminate\Database\Eloquent\Collection|\TCG\Voyager\Models\Role[] $roles
- * @property-read int|null $roles_count
+ *
+ * @property int                                                                 $id
+ * @property int|null                                                            $role_id
+ * @property string                                                              $name
+ * @property string                                                              $email
+ * @property string|null                                                         $avatar
+ * @property string|null                                                         $password
+ * @property string                                                              $remember_token
+ * @property string|null                                                         $settings
+ * @property \Illuminate\Support\Carbon|null                                     $created_at
+ * @property \Illuminate\Support\Carbon|null                                     $updated_at
+ * @property mixed                                                               $locale
+ * @property \TCG\Voyager\Models\Role|null                                       $role
+ * @property \Illuminate\Database\Eloquent\Collection|\TCG\Voyager\Models\Role[] $roles
+ * @property int|null                                                            $roles_count
+ *
  * @method static Builder|User whereAvatar($value)
  * @method static Builder|User whereCreatedAt($value)
  * @method static Builder|User whereEmail($value)
@@ -52,12 +55,14 @@ use Illuminate\Notifications\Notifiable;
  * @method static Builder|User whereSettings($value)
  * @method static Builder|User whereUpdatedAt($value)
  */
-class User extends \TCG\Voyager\Models\User implements
-    AuthenticatableContract,
-    AuthorizableContract,
-    CanResetPasswordContract
+class User extends \TCG\Voyager\Models\User implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract
 {
-    use HasFactory, Notifiable, Authenticatable, Authorizable, CanResetPassword, MustVerifyEmail;
+    use HasFactory;
+    use Notifiable;
+    use Authenticatable;
+    use Authorizable;
+    use CanResetPassword;
+    use MustVerifyEmail;
 
     /**
      * The attributes that are mass assignable.

@@ -2,8 +2,6 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ClientTest extends TestCase
@@ -13,7 +11,7 @@ class ClientTest extends TestCase
      *
      * @return void
      */
-    public function test_example()
+    public function testExample()
     {
         $this->assertTrue(true);
     }
