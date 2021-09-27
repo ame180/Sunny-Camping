@@ -2,11 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Client;
+use App\Repositories\ClientRepository;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
+    private ClientRepository $clientRepository;
+
+    public function __construct(ClientRepository $clientRepository)
+    {
+        $this->clientRepository = $clientRepository;
+    }
+
     public function dashboard()
     {
         return view('admin.dashboard', ['page' => 'dashboard']);
@@ -14,26 +21,7 @@ class AdminController extends Controller
 
     public function clients(Request $request)
     {
-        $filters = [];
-        $paginatedClients = new Client();
-
-        if ($request->input('query')) {
-            $searchQuery = $request->input('query');
-            $paginatedClients = $paginatedClients->where(function ($query) use ($searchQuery) {
-                return $query
-                    ->where('name', 'LIKE', "%$searchQuery%")
-                    ->orWhere('id', '=', "$searchQuery");
-            });
-        }
-
-        if ($request->input('status')) {
-            $paginatedClients = $paginatedClients->where('status', '=', $request->input('status'));
-        }
-
-        $paginatedClients = $paginatedClients
-            ->orderBy('id', 'desc')
-            ->paginate(10)
-            ->appends(\Request::except('page'));
+        $paginatedClients = $this->clientRepository->paginatedSearch($request->get('query'), $request->input('status'));
 
         return view('admin.clients', [
             'page' => 'clients',

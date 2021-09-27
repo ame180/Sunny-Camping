@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Config;
 
 /**
  * App\Models\Client.
@@ -55,8 +56,8 @@ class Client extends BaseModel
     const STATUS_UNSETTLED = 'unsettled';
 
     protected $guarded = ['price', 'price_per_day', 'days', 'climate_price'];
-
     protected $appends = ['price', 'price_per_day', 'days', 'climate_price'];
+    protected $with = ['clientItems'];
 
     protected array $defaults = [
         'discount' => 0,
@@ -92,7 +93,7 @@ class Client extends BaseModel
         $clientItems = $this->clientItems;
         $price = 0;
         foreach ($clientItems as $clientItem) {
-            if ($clientItem->serviceCategory == 'Osoby') {
+            if ('Osoby' === $clientItem->serviceCategory?->name) {
                 $price += $clientItem->price * $clientItem->count * (100 - $this->discount) / 100;
             } elseif (!$clientItem->serviceCategory || $clientItem->serviceCategory->name != 'Klimatyczne') {
                 $price += $clientItem->price * $clientItem->count;
@@ -117,5 +118,21 @@ class Client extends BaseModel
     public function clientItems(): HasMany
     {
         return $this->hasMany(ClientItem::class);
+    }
+
+    public static function validate(self $client): bool
+    {
+        if (empty($client->name)) {
+            return false;
+        }
+        if (strtotime($client->arrival_date) && strtotime($client->departure_date)
+            && strtotime($client->arrival_date) >= strtotime($client->departure_date)) {
+            return false;
+        }
+        if (!in_array($client->discount, Config::get('constants.discounts'))) {
+            return false;
+        }
+
+        return true;
     }
 }
