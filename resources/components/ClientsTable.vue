@@ -132,7 +132,7 @@ export default {
                 })
             },
             deleteClient: function (id) {
-                axios.delete(baseUrl + '/api/client/delete/' + id)
+                axios.delete(baseUrl + '/api/clients/' + id)
                     .then(() => {
                         window.location.reload()
                     });
