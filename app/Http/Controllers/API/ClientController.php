@@ -5,19 +5,22 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Client;
 use App\Models\ClientItem;
+use App\Repositories\ClientItemRepository;
 use App\Repositories\ClientRepository;
 use App\Validators\ClientPersistenceValidator;
 use Illuminate\Http\Request;
 
-class ClientsController extends Controller
+class ClientController extends Controller
 {
     private ClientRepository $clientRepository;
     private ClientPersistenceValidator $clientPersistenceValidator;
+    private ClientItemRepository $clientItemRepository;
 
-    public function __construct(ClientRepository $clientsRepository, ClientPersistenceValidator $clientPersistenceValidator)
+    public function __construct(ClientRepository $clientsRepository, ClientPersistenceValidator $clientPersistenceValidator, ClientItemRepository $clientItemRepository)
     {
         $this->clientRepository = $clientsRepository;
         $this->clientPersistenceValidator = $clientPersistenceValidator;
+        $this->clientItemRepository = $clientItemRepository;
     }
 
     public function get($id)
@@ -63,7 +66,7 @@ class ClientsController extends Controller
             $client->clientItems()->delete();
 
             foreach ($request->get('client_items') as $clientItemRaw) {
-                $clientItem = ClientItem::find($clientItemRaw['id']) ?? new ClientItem();
+                $clientItem = $this->clientItemRepository->find($clientItemRaw['id']) ?? new ClientItem();
                 $clientItem->fill($clientItemRaw);
                 $client->clientItems()->save($clientItem);
             }

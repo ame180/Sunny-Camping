@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\API\ClientsController;
+use App\Http\Controllers\API\ClientController;
 use App\Http\Controllers\API\CategoryController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,12 +16,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['middleware' => 'admin.user'], function () {
-    Route::get('/clients', [ClientsController::class, 'getMultiple']);
-    Route::get('/clients/{id}', [ClientsController::class, 'get']);
-    Route::post('/clients', [ClientsController::class, 'add']);
-    Route::post('/clients/{id}/settle', [ClientsController::class, 'settle']);
-    Route::patch('/clients/{id}', [ClientsController::class, 'update']);
-    Route::delete('/clients/{id}', [ClientsController::class, 'delete']);
+    Route::get('/clients', [ClientController::class, 'getMultiple']);
+    Route::get('/clients/{id}', [ClientController::class, 'get']);
+    Route::post('/clients', [ClientController::class, 'add']);
+    Route::post('/clients/{id}/settle', [ClientController::class, 'settle']);
+    Route::patch('/clients/{id}', [ClientController::class, 'update']);
+    Route::delete('/clients/{id}', [ClientController::class, 'delete']);
 });
 
 Route::group(['prefix' => '/category', 'middleware' => 'admin.user'], function () {

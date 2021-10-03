@@ -9,7 +9,7 @@ class ServiceCategoryRepository extends BaseRepository
 {
     public function __construct()
     {
-        $this->model = new ServiceCategory();
+        parent::__construct(ServiceCategory::class);
     }
 
     public function allByService(int $serviceId): Collection

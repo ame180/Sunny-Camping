@@ -9,7 +9,7 @@ class ClientRepository extends BaseRepository
 {
     public function __construct()
     {
-        $this->model = new Client();
+        parent::__construct(Client::class);
     }
 
     public function paginatedSearch(?string $query = null, ?string $status = null)

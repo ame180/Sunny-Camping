@@ -11,6 +11,11 @@ abstract class BaseRepository
 {
     protected Model $model;
 
+    public function __construct(string $class)
+    {
+        $this->model = new $class();
+    }
+
     public function all(array $columns = ['*']): Collection
     {
         return $this->model->all($columns);
