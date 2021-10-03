@@ -5,20 +5,24 @@ namespace Tests\Unit;
 use App\Models\Client;
 use App\Models\ClientItem;
 use App\Models\ServiceCategory;
+use App\Validators\ClientPersistenceValidator;
 use Tests\TestCase;
 
 class ClientTest extends TestCase
 {
+    private ClientPersistenceValidator $clientPersistenceValidator;
+
     public function setUp(): void
     {
         parent::setUp();
+        $this->clientPersistenceValidator = $this->app->make(ClientPersistenceValidator::class);
     }
 
     /** @test */
     public function validateModelValidClientTrueReturned(): void
     {
         $client = Client::factory()->make();
-        $this->assertTrue(Client::validate($client));
+        $this->assertTrue($this->clientPersistenceValidator->isValid($client));
     }
 
     /** @test */
@@ -26,7 +30,7 @@ class ClientTest extends TestCase
     {
         $client = Client::factory()->make();
         $client->name = '';
-        $this->assertFalse(Client::validate($client));
+        $this->assertFalse($this->clientPersistenceValidator->isValid($client));
     }
 
     /** @test */
@@ -34,7 +38,7 @@ class ClientTest extends TestCase
     {
         $client = Client::factory()->make();
         $client->departure_date = $client->arrival_date;
-        $this->assertFalse(Client::validate($client));
+        $this->assertFalse($this->clientPersistenceValidator->isValid($client));
     }
 
     /** @test */
