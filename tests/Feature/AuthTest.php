@@ -7,7 +7,7 @@ use Tests\TestCase;
 class AuthTest extends TestCase
 {
     /** @test */
-    public function api_WithoutUser_Redirect()
+    public function apiWithoutUserRedirect()
     {
         $this->withoutMix();
         $response = $this->get('/api/category/all-by-service/0');
@@ -15,7 +15,7 @@ class AuthTest extends TestCase
     }
 
     /** @test */
-    public function admin_WithoutUser_Redirect()
+    public function adminWithoutUserRedirect()
     {
         $this->withoutMix();
         $response = $this->get('/admin/dashboard');

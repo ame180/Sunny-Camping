@@ -5,7 +5,6 @@ namespace Tests\Unit;
 use App\Models\Client;
 use App\Models\ClientItem;
 use App\Models\ServiceCategory;
-use App\Repositories\ClientRepository;
 use App\Validators\ClientPersistenceValidator;
 use Database\Factories\ServiceCategoryFactory;
 use Illuminate\Support\Facades\App;
@@ -22,14 +21,14 @@ class ClientTest extends TestCase
     }
 
     /** @test */
-    public function validateModel_ValidClient_TrueReturned(): void
+    public function validateModelValidClientTrueReturned(): void
     {
         $client = Client::factory()->make();
         $this->assertTrue($this->clientPersistenceValidator->isValid($client));
     }
 
     /** @test */
-    public function validateModel_ClientWithoutName_FalseReturned()
+    public function validateModelClientWithoutNameFalseReturned()
     {
         $client = Client::factory()->make();
         $client->name = '';
@@ -37,7 +36,7 @@ class ClientTest extends TestCase
     }
 
     /** @test */
-    public function validateModel_ClientWithDepartureBeforeOrAtArrival_FalseReturned()
+    public function validateModelClientWithDepartureBeforeOrAtArrivalFalseReturned()
     {
         $client = Client::factory()->make();
         $client->departure_date = $client->arrival_date;
@@ -45,7 +44,7 @@ class ClientTest extends TestCase
     }
 
     /** @test */
-    public function getStayPrice_ClientWithStayPriceOf232_232Returned(): void
+    public function getStayPriceClientWithStayPriceOf232232Returned(): void
     {
         /** @var Client $client @noinspection PhpUndefinedMethodInspection */
         $serviceCategory = ServiceCategory::factory()->create(['name' => 'Osoby']);
@@ -66,7 +65,7 @@ class ClientTest extends TestCase
     }
 
     /** @test */
-    public function fillModel_ValidClient_AllCustomPropertiesAccessible(): void
+    public function fillModelValidClientAllCustomPropertiesAccessible(): void
     {
         $client = Client::factory()->make();
         $arr = $client->toArray();
