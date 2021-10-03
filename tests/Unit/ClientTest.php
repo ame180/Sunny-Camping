@@ -6,8 +6,6 @@ use App\Models\Client;
 use App\Models\ClientItem;
 use App\Models\ServiceCategory;
 use App\Validators\ClientPersistenceValidator;
-use Database\Factories\ServiceCategoryFactory;
-use Illuminate\Support\Facades\App;
 use Tests\TestCase;
 
 class ClientTest extends TestCase
