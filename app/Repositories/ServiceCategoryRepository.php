@@ -9,13 +9,17 @@ class ServiceCategoryRepository extends BaseRepository
 {
     public function __construct()
     {
-        $this->model = new ServiceCategory();
+        parent::__construct(ServiceCategory::class);
     }
 
-    public function allByService(int $serviceId): Collection
+    public function findWithCategoryItemsByFilters(array $filters = []): Collection
     {
-        $serviceCategories = $this->model->with('serviceCategoryItems')->where('service_id', $serviceId)->get();
+        $query = $this->model->with('serviceCategoryItems');
 
-        return $serviceCategories;
+        if (isset($filters['service_id'])) {
+            $query->where('service_id', $filters['service_id']);
+        }
+
+        return $query->get();
     }
 }

@@ -127,12 +127,12 @@ export default {
         }
     },
     mounted() {
-        if (this.mode === 'PATCH' && this.id != null) {
-            axios.get(baseUrl + '/api/client/find/' + this.id)
+        if (this.mode === 'PUT' && this.id != null) {
+            axios.get(baseUrl + '/api/clients/' + this.id)
                 .then((response) => {
                     this.client = response.data;
 
-                    axios.get(baseUrl + '/api/category/all-by-service/1')
+                    axios.get(baseUrl + '/api/categories?service_id=1')
                         .then((response) => {
                             let categories = [];
                             response.data.forEach(function (category) {
@@ -148,8 +148,8 @@ export default {
                         });
                 });
         }
-        if (this.mode === 'PUT') {
-            axios.get(baseUrl + '/api/category/all-by-service/1')
+        if (this.mode === 'POST') {
+            axios.get(baseUrl + '/api/categories?service_id=1')
                 .then((response) => {
                     let categories = [];
                     response.data.forEach(function (category) {
@@ -212,10 +212,10 @@ export default {
                 this.client.client_items = this.client.client_items.concat(category.addedItems);
             }, this);
 
-            if (this.mode === 'PUT') {
-                request = axios.put(baseUrl + '/api/client/add', this.client);
+            if (this.mode === 'POST') {
+                request = axios.post(baseUrl + '/api/clients', this.client);
             } else {
-                request = axios.patch(baseUrl + '/api/client/update/' + this.id, this.client);
+                request = axios.put(baseUrl + '/api/clients/' + this.id, this.client);
             }
             request.then(() => {
                 window.location.href = baseUrl + '/admin/clients';

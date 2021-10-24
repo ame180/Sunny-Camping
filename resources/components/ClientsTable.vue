@@ -132,7 +132,7 @@ export default {
                 })
             },
             deleteClient: function (id) {
-                axios.delete(baseUrl + '/api/client/delete/' + id)
+                axios.delete(baseUrl + '/api/clients/' + id)
                     .then(() => {
                         window.location.reload()
                     });
@@ -151,7 +151,7 @@ export default {
             },
         },
     mounted() {
-        axios.get(baseUrl + '/api/category/all-by-service/1')
+        axios.get(baseUrl + '/api/categories?service_id=1')
             .then((response) => {
                 this.categories = response.data;
                 console.log(this.categories);
