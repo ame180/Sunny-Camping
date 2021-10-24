@@ -31,7 +31,7 @@ class CategoryTest extends TestCase
         $ServiceCategoryFactory
             ->hasServiceCategoryItems(3)
             ->create();
-        $category = $this->serviceCategoryRepository->allByService(0)[0];
+        $category = $this->serviceCategoryRepository->findWithCategoryItemsByFilters(['service_id' => 0])[0];
         $this->assertCount(3, $category->serviceCategoryItems);
     }
 }
