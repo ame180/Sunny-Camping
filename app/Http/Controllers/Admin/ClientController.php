@@ -16,7 +16,7 @@ class ClientController extends Controller
 
     public function addClient()
     {
-        return view('admin.clients.client_input_form', ['page' => 'clients', 'nav_items' => config('constants.admin_nav_items'), 'mode' => 'PUT']);
+        return view('admin.clients.client_input_form', ['page' => 'clients', 'nav_items' => config('constants.admin_nav_items'), 'mode' => 'POST']);
     }
 
     public function edit($id)
@@ -25,6 +25,6 @@ class ClientController extends Controller
             return response('', 404);
         }
 
-        return view('admin.clients.client_input_form', ['page' => 'clients', 'nav_items' => config('constants.admin_nav_items'), 'mode' => 'PATCH', 'id' => $id]);
+        return view('admin.clients.client_input_form', ['page' => 'clients', 'nav_items' => config('constants.admin_nav_items'), 'mode' => 'PUT', 'id' => $id]);
     }
 }

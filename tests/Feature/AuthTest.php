@@ -10,7 +10,7 @@ class AuthTest extends TestCase
     public function apiWithoutUserRedirect()
     {
         $this->withoutMix();
-        $response = $this->get('/api/category/all-by-service/0');
+        $response = $this->get('/api/categories?service_id=0');
         $response->assertRedirect('/admin/login');
     }
 

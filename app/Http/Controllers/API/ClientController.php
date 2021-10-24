@@ -54,7 +54,7 @@ class ClientController extends Controller
         return response('', 400);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
         /** @var Client $client */
         $client = $this->clientRepository->find($id);
@@ -66,7 +66,7 @@ class ClientController extends Controller
             $client->clientItems()->delete();
 
             foreach ($request->get('client_items') as $clientItemRaw) {
-                $clientItem = $this->clientItemRepository->find($clientItemRaw['id']) ?? new ClientItem();
+                $clientItem = new ClientItem();
                 $clientItem->fill($clientItemRaw);
                 $client->clientItems()->save($clientItem);
             }

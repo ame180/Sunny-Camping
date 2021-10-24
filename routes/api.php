@@ -20,10 +20,10 @@ Route::group(['middleware' => 'admin.user'], function () {
     Route::get('/clients/{id}', [ClientController::class, 'get']);
     Route::post('/clients', [ClientController::class, 'add']);
     Route::post('/clients/{id}/settle', [ClientController::class, 'settle']);
-    Route::patch('/clients/{id}', [ClientController::class, 'update']);
+    Route::put('/clients/{id}', [ClientController::class, 'update']);
     Route::delete('/clients/{id}', [ClientController::class, 'delete']);
 });
 
-Route::group(['prefix' => '/category', 'middleware' => 'admin.user'], function () {
-    Route::get('/all-by-service/{serviceId}', [CategoryController::class, 'allByService'])->middleware('auth');
+Route::group(['middleware' => 'admin.user'], function () {
+    Route::get('/categories', [CategoryController::class, 'getMultiple']);
 });

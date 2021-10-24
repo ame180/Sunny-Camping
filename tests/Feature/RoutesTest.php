@@ -53,7 +53,7 @@ class RoutesTest extends TestCase
     public function apiCategoryAllByServiceGetSuccess()
     {
         $this->withoutMix();
-        $response = $this->get('/api/category/all-by-service/0');
+        $response = $this->get('/api/categories?service_id=0');
         $response->assertRedirect('/admin/login');
     }
 }
