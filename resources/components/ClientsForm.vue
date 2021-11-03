@@ -71,21 +71,26 @@
                         <a v-for="item in category.service_category_items" :key="item.id" @click="addItem(index, item)"
                            class="btn btn-primary mx-1">{{ item.name }}</a>
                     </div>
-                    <div class="row" v-for="(item, itemIndex) in category.addedItems">
-                        <div class="col-3 col-md-2 d-flex justify-content-center align-items-center">
+                    <div class="row no-gutters" v-for="(item, itemIndex) in category.addedItems">
+                        <div class="col-12 col-md-2 d-flex justify-content-md-center align-items-md-center">
                             <b>{{ item.name }}</b>
                         </div>
-                        <div class="col-3 col-md-2 form-group">
+                        <div class="col-3 col-md-2 px-1 px-md-2 form-group">
                             <label>Cena</label>
                             <input v-model="item.price" type="number"
                                    class="form-control form-control-sm">
                         </div>
-                        <div class="col-3 col-md-2 form-group">
+                        <div class="col-3 col-md-2 px-1 px-md-2 form-group">
                             <label>Ilość</label>
                             <input v-model="item.count" type="number"
                                    class="form-control form-control-sm">
                         </div>
-                        <div class="form-group">
+                        <div class="col-3 col-md-2 px-1 px-md-2 form-group">
+                            <label>Dni</label>
+                            <input v-model="item.days" type="number"
+                                   class="form-control form-control-sm">
+                        </div>
+                        <div class="form-group px-1 px-md-2">
                             <label>Usuń</label>
                             <div>
                                 <a class="btn btn-danger" @click="deleteItem(index, itemIndex)"><i class="fas fa-trash"></i></a>
@@ -237,36 +242,52 @@ export default {
                 return 0;
             }
 
-            let price_per_day = 0;
+            let price = 0;
             this.categories.forEach(function(category) {
                 if (category.name !== 'Klimatyczne') {
                     category.addedItems.forEach(function(item) {
+                        let item_price = item.price * item.count;
+
                         if (category.name === 'Osoby') {
-                            price_per_day += item.price * (100 - this.client.discount) / 100;
-                        } else {
-                            price_per_day += item.price;
+                            item_price *= (100 - this.client.discount) / 100;
                         }
+
+                        if (item.days) {
+                            item_price *= item.days;
+                        } else {
+                            item_price *= this.getDays();
+                        }
+
+                        price += item_price;
                     }, this)
                 }
             }, this)
 
-            this.price = Math.round(this.getDays() * price_per_day);
+            this.price = Math.round(price);
         },
         updateClimatePrice() {
             if (this.days === 0) {
                 return 0;
             }
 
-            let price_per_day = 0;
+            let price = 0;
             this.categories.forEach(function(category) {
                 if (category.name === 'Klimatyczne') {
                     category.addedItems.forEach(function(item) {
-                        price_per_day += item.price;
-                    })
-                }
-            })
+                        let item_price = item.price * item.count;
 
-            this.climate_price = Math.round(this.getDays() * price_per_day);
+                        if (item.days) {
+                            item_price *= item.days;
+                        } else {
+                            item_price *= this.getDays();
+                        }
+
+                        price += item_price;
+                    }, this)
+                }
+            }, this)
+
+            this.climate_price = Math.round(price);
         }
     },
 }
