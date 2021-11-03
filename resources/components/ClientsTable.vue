@@ -154,7 +154,6 @@ export default {
         axios.get(baseUrl + '/api/categories?service_id=1')
             .then((response) => {
                 this.categories = response.data;
-                console.log(this.categories);
             });
         this.clients.data.forEach(function (client) {
             this.groupItems(client)
