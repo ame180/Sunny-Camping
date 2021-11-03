@@ -40,6 +40,10 @@ use Illuminate\Support\Carbon;
  * @property \App\Models\ServiceCategory $serviceCategory
  *
  * @method static Builder|ClientItem whereServiceCategoryId($value)
+ *
+ * @property int|null $days
+ *
+ * @method static Builder|ClientItem whereDays($value)
  */
 class ClientItem extends BaseModel
 {
