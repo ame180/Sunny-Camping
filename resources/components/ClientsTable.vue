@@ -8,7 +8,8 @@
                     <option value="unsettled">Nierozliczono</option>
                     <option value="settled">Rozliczono</option>
                 </select>
-                <input v-model="filters.query" type="text" class="form-control form-control-sm m-1" name="query" placeholder="Szukaj">
+                <input v-model="filters.query" type="text" class="form-control form-control-sm m-1" name="query"
+                       placeholder="Szukaj">
                 <button type="submit" class="btn btn-primary btn-sm m-1">Szukaj</button>
             </div>
         </form>
@@ -22,8 +23,9 @@
                             <div class="col-12 col-sm">
                                 <b>#{{ client.id }} {{ client.name }}</b>
                             </div>
-                            <div class="col-12 col-sm text-left text-sm-right" v-if="client.status === 'settled'">
-                                <b>Rozliczono</b>
+                            <div class="col-12 col-sm text-left text-sm-right">
+                                <b v-if="client.status === 'settled'">Rozliczono</b>
+                                <b v-if="client.unregistered === 1">N</b><b v-if="client.cash_register === 1">K</b><b v-if="client.terminal === 1">T</b><b v-if="client.voucher === 1">B</b>
                             </div>
                         </div>
                         <div>

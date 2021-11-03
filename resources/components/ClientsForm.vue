@@ -67,6 +67,11 @@
                        class="form-check-input">
                 <label for="terminal" class="form-check-label">T</label>
             </div>
+            <div class="form-check-inline">
+                <input id="voucher" v-model="client.voucher" type="checkbox"
+                       class="form-check-input">
+                <label for="voucher" class="form-check-label">B</label>
+            </div>
         </div>
         <div class="col-12 text-center">
             <div>

@@ -12,13 +12,14 @@ class AddCustomLetterCodesToClients extends Migration
             $table->boolean('unregistered')->default(false);
             $table->boolean('cash_register')->default(false);
             $table->boolean('terminal')->default(false);
+            $table->boolean('voucher')->default(false);
         });
     }
 
     public function down()
     {
         Schema::table('clients', function (Blueprint $table) {
-            $table->dropColumn(['unregistered', 'cash_register', 'terminal']);
+            $table->dropColumn(['unregistered', 'cash_register', 'terminal', 'voucher']);
         });
     }
 }
