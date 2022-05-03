@@ -24,14 +24,14 @@ class CategoryTest extends TestCase
     }
 
     /** @test */
-    public function allByService_CategoryWithItems_CategoryWithItemsReturned(): void
+    public function allByServiceCategoryWithItemsCategoryWithItemsReturned(): void
     {
         /** @var ServiceCategoryFactory $ServiceCategoryFactory */
         $ServiceCategoryFactory = ServiceCategory::factory(['service_id' => 0]);
         $ServiceCategoryFactory
             ->hasServiceCategoryItems(3)
             ->create();
-        $category = $this->serviceCategoryRepository->allByService(0)[0];
+        $category = $this->serviceCategoryRepository->findWithCategoryItemsByFilters(['service_id' => 0])[0];
         $this->assertCount(3, $category->serviceCategoryItems);
     }
 }

@@ -8,9 +8,9 @@
 
 @section('table')
     <div id="clients-table" class="mt-3">
-        <clients-table :clients="{{ $clients }}">
+        <clients-table :clients="{{ $clients }}" :filters="{{ $filters }}">
         </clients-table>
-        <div class="h-25 w-25">
+        <div class="mt-2">
             {!! $pagination !!}
         </div>
     </div>

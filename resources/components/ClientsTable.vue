@@ -1,5 +1,17 @@
 <template>
     <div>
+        <form class="d-flex justify-content-end" method="get" action="">
+            <div class="form-inline mb-2">
+                <select v-model="filters.status" name="status" type="select"
+                        class="form-control form-control-sm m-1">
+                    <option value="">Wszystkie</option>
+                    <option value="unsettled">Nierozliczono</option>
+                    <option value="settled">Rozliczono</option>
+                </select>
+                <input v-model="filters.query" type="text" class="form-control form-control-sm m-1" name="query" placeholder="Szukaj">
+                <button type="submit" class="btn btn-primary btn-sm m-1">Szukaj</button>
+            </div>
+        </form>
         <div class="row border" v-for="client in clients.data" type="button" :data-target="'#collapse-' + client.id"
              data-toggle="collapse"
              aria-expanded="false" :aria-controls="'collapse-' + client.id">
@@ -80,7 +92,7 @@
 import SettleModal from "./SettleModal";
 
 export default {
-    props: ['clients'],
+    props: ['clients', 'filters'],
     methods:
         {
             showSettleModal(client) {
@@ -120,7 +132,7 @@ export default {
                 })
             },
             deleteClient: function (id) {
-                axios.delete(baseUrl + '/api/client/delete/' + id)
+                axios.delete(baseUrl + '/api/clients/' + id)
                     .then(() => {
                         window.location.reload()
                     });
@@ -139,7 +151,7 @@ export default {
             },
         },
     mounted() {
-        axios.get(baseUrl + '/api/category/all-by-service/1')
+        axios.get(baseUrl + '/api/categories?service_id=1')
             .then((response) => {
                 this.categories = response.data;
                 console.log(this.categories);
@@ -150,7 +162,7 @@ export default {
     },
     data: function () {
         return {
-            categories: null
+            categories: null,
         }
     }
 }

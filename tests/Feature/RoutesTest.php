@@ -2,14 +2,12 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class RoutesTest extends TestCase
 {
     /** @test */
-    public function adminDashboard_Get_RedirectThenSuccess()
+    public function adminDashboardGetRedirectThenSuccess()
     {
         $this->withoutMix();
         $response = $this->get('/admin/');
@@ -20,7 +18,7 @@ class RoutesTest extends TestCase
     }
 
     /** @test */
-    public function clientsTable_Get_Success()
+    public function clientsTableGetSuccess()
     {
         $this->withoutMix();
         $response = $this->get('/admin/clients');
@@ -28,7 +26,7 @@ class RoutesTest extends TestCase
     }
 
     /** @test */
-    public function billsPage_Get_Success()
+    public function billsPageGetSuccess()
     {
         $this->withoutMix();
         $response = $this->get('/admin/bills');
@@ -36,7 +34,7 @@ class RoutesTest extends TestCase
     }
 
     /** @test */
-    public function clientsAddForm_Get_Success()
+    public function clientsAddFormGetSuccess()
     {
         $this->withoutMix();
         $response = $this->get('/admin/clients/add-client');
@@ -44,7 +42,7 @@ class RoutesTest extends TestCase
     }
 
     /** @test */
-    public function clientsEditForm_GetNonexistentClient_NotFound()
+    public function clientsEditFormGetNonexistentClientNotFound()
     {
         $this->withoutMix();
         $response = $this->get('/admin/clients/edit/-1');
@@ -52,10 +50,10 @@ class RoutesTest extends TestCase
     }
 
     /** @test */
-    public function ApiCategoryAllByService_Get_Success()
+    public function apiCategoryAllByServiceGetSuccess()
     {
         $this->withoutMix();
-        $response = $this->get('/api/category/all-by-service/0');
+        $response = $this->get('/api/categories?service_id=0');
         $response->assertRedirect('/admin/login');
     }
 }

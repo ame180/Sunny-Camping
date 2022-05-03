@@ -3,106 +3,35 @@
 namespace App\Repositories;
 
 use App\Models\Client;
-use App\Models\ClientItem;
-use Illuminate\Database\Eloquent\Model;
+use Request;
 
 class ClientRepository extends BaseRepository
 {
-    private array $discounts;
-
     public function __construct()
     {
-        $this->model = new Client;
-        $this->discounts = config('constants.discounts');
+        parent::__construct(Client::class);
     }
 
-    public function update(int $id, array $attributes): bool
+    public function paginatedSearch(?string $query = null, ?string $status = null)
     {
-        $model = $this->find($id);
+        $paginatedClients = $this->model->replicate();
 
-        $model->fill($attributes);
-
-        if ($this->saveIfValid($model)) {
-            $model->clientItems()->delete();
-
-            foreach ($attributes['client_items'] as $clientItemRaw) {
-                $clientItem = ClientItem::find($clientItemRaw['id']) ?? new ClientItem();
-                $clientItem->fill($clientItemRaw);
-                $model->clientItems()->save($clientItem);
-            }
-
-            return true;
+        if ($query) {
+            $searchQuery = $query;
+            $paginatedClients = $paginatedClients->where(function ($query) use ($searchQuery) {
+                return $query
+                    ->where('name', 'LIKE', "%$searchQuery%")
+                    ->orWhere('id', '=', "$searchQuery");
+            });
         }
 
-        return false;
-    }
-
-    public function find(int $id): Model | null
-    {
-        if ($id <= 0) {
-            return null;
+        if ($status) {
+            $paginatedClients = $paginatedClients->where('status', '=', $status);
         }
 
-        return $this->model->with('clientItems')->find($id);
-    }
-
-    public function validateModel(Model $model): bool
-    {
-        if (empty($model->name)) {
-            return false;
-        }
-        if (strtotime($model->arrival_date) && strtotime($model->departure_date)
-            && strtotime($model->arrival_date) >= strtotime($model->departure_date)) {
-            return false;
-        }
-        if (!in_array($model->discount, $this->discounts)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    public function add(array $attributes): bool
-    {
-        $model = $this->model->replicate();
-
-        $model->fill($attributes);
-
-        if ($this->saveIfValid($model)) {
-            foreach ($attributes['client_items'] as $clientItemRaw) {
-                $clientItem = new ClientItem();
-                $clientItem->fill($clientItemRaw);
-                $clientItem->id = null;
-                $model->clientItems()->save($clientItem);
-            }
-
-            return true;
-        }
-
-        return false;
-    }
-
-    public function settle(int $id, int $settlement, int $climateSettlement): bool
-    {
-        if ($settlement <= 0 && $climateSettlement <= 0) {
-            return false;
-        }
-
-        $model = $this->find($id);
-        if (!isset($model)) {
-            return false;
-        }
-
-        $model->paid += $settlement;
-        $model->climate_paid += $climateSettlement;
-
-        if ($model->paid + $model->climate_paid >= $model->price + $model->climate_price) {
-            $model->status = 'settled';
-        } else {
-            $model->status = 'unsettled';
-        }
-        $model->save();
-
-        return true;
+        return $paginatedClients
+            ->orderBy('id', 'desc')
+            ->paginate(10)
+            ->appends(Request::except('page'));
     }
 }

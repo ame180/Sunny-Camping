@@ -9,10 +9,11 @@ use Illuminate\Support\Carbon;
 /**
  * App\Models\Service.
  *
- * @property int $id
- * @property string $name
+ * @property int         $id
+ * @property string      $name
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ *
  * @method static Builder|Service newModelQuery()
  * @method static Builder|Service newQuery()
  * @method static Builder|Service query()

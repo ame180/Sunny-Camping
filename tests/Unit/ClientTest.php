@@ -3,62 +3,67 @@
 namespace Tests\Unit;
 
 use App\Models\Client;
-use App\Repositories\ClientRepository;
-use Illuminate\Support\Facades\App;
+use App\Models\ClientItem;
+use App\Models\ServiceCategory;
+use App\Validators\ClientPersistenceValidator;
 use Tests\TestCase;
 
 class ClientTest extends TestCase
 {
-    private ClientRepository $clientRepository;
+    private ClientPersistenceValidator $clientPersistenceValidator;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->clientRepository = App::make(ClientRepository::class);
+        $this->clientPersistenceValidator = $this->app->make(ClientPersistenceValidator::class);
     }
 
     /** @test */
-    public function validateModel_ValidClient_TrueReturned(): void
+    public function validateModelValidClientTrueReturned(): void
     {
         $client = Client::factory()->make();
-        $this->assertTrue($this->clientRepository->validateModel($client));
+        $this->assertTrue($this->clientPersistenceValidator->isValid($client));
     }
 
     /** @test */
-    public function validateModel_ClientWithoutName_FalseReturned()
+    public function validateModelClientWithoutNameFalseReturned()
     {
         $client = Client::factory()->make();
         $client->name = '';
-        $this->assertFalse($this->clientRepository->validateModel($client));
+        $this->assertFalse($this->clientPersistenceValidator->isValid($client));
     }
 
     /** @test */
-    public function validateModel_ClientWithDepartureBeforeOrAtArrival_FalseReturned()
+    public function validateModelClientWithDepartureBeforeOrAtArrivalFalseReturned()
     {
         $client = Client::factory()->make();
         $client->departure_date = $client->arrival_date;
-        $this->assertFalse($this->clientRepository->validateModel($client));
+        $this->assertFalse($this->clientPersistenceValidator->isValid($client));
     }
 
     /** @test */
-    public function getStayPrice_ClientWithStayPriceOf216_216Returned(): void
+    public function getStayPriceClientWithStayPriceOf232232Returned(): void
     {
         /** @var Client $client @noinspection PhpUndefinedMethodInspection */
+        $serviceCategory = ServiceCategory::factory()->create(['name' => 'Osoby']);
+        $clientItem = ClientItem::factory()->create(['count' => 1, 'price' => 20]);
+        $clientItem->serviceCategory()->associate($serviceCategory);
         $client = Client::factory()
-            ->hasClientItems(3, [
+            ->hasClientItems(2, [
                 'count' => 2,
                 'price' => 10,
             ])
             ->create();
+        $client->clientItems()->save($clientItem);
         $client->arrival_date = '2021-01-01';
         $client->departure_date = '2021-01-05';
         $client->discount = 10;
 
-        $this->assertEquals(216, $client->price);
+        $this->assertEquals(232, $client->price);
     }
 
     /** @test */
-    public function fillModel_ValidClient_AllCustomPropertiesAccessible(): void
+    public function fillModelValidClientAllCustomPropertiesAccessible(): void
     {
         $client = Client::factory()->make();
         $arr = $client->toArray();

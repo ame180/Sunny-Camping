@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\ServiceCategoryRepository;
+use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
@@ -14,8 +15,8 @@ class CategoryController extends Controller
         $this->categoryRepository = $categoryRepository;
     }
 
-    public function allByService($serviceId)
+    public function getMultiple(Request $request)
     {
-        return $this->categoryRepository->allByService($serviceId)->toJson();
+        return response()->json($this->categoryRepository->findWithCategoryItemsByFilters($request->query->all()));
     }
 }

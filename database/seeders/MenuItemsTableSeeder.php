@@ -278,9 +278,6 @@ class MenuItemsTableSeeder extends Seeder
     }
 
     /**
-     * @param array $menu
-     * @param MenuItem|null $ParentMenu
-     * @return MenuItem
      * @throws \Exception
      */
     private function tryToSeedMenu(array $menu, MenuItem $ParentMenu = null): MenuItem
@@ -296,7 +293,7 @@ class MenuItemsTableSeeder extends Seeder
                     if (isset($menu['submenu'])) {
                         $subMenus = $menu['submenu'];
                     }
-                    if (!is_null($ParentMenu) && $keyElement === 'parent_id') {
+                    if (!is_null($ParentMenu) && 'parent_id' === $keyElement) {
                         $mainData[$keyElement] = $ParentMenu->id;
                     }
                     break 2;
@@ -309,7 +306,7 @@ class MenuItemsTableSeeder extends Seeder
         if (!$menuItem->exists) {
             try {
                 $menuItem->fill($fillData)->save();
-                $this->menuOffset++;
+                ++$this->menuOffset;
             } catch (\Illuminate\Database\QueryException $QueryException) {
                 throw new \Exception("Check 'fill' subarray data", 0, $QueryException);
             }

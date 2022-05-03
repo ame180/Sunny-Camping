@@ -51,6 +51,17 @@
               <option value="settled">Rozliczono</option>
             </select>
         </div>
+        <div class="col-12 text-center">
+            <div>
+                <b>Suma: {{ price }} zł <span v-if="client.paid > 0">(zapłacono {{ client.paid }} zł)</span></b>
+            </div>
+            <div>
+                <b>Klimatyczne: {{ climate_price }} zł <span v-if="client.climate_paid > 0">(zapłacono {{ client.climate_paid }} zł)</span></b>
+            </div>
+            <div>
+                <b>Razem: {{ price + climate_price }} zł <span v-if="client.paid + client.climate_paid> 0">(zapłacono {{ client.paid + client.climate_paid }} zł)</span></b>
+            </div>
+        </div>
         <div class="col-12">
             <hr>
             <div v-for="(category, index) in categories" :key="category.id" class="row">
@@ -60,21 +71,26 @@
                         <a v-for="item in category.service_category_items" :key="item.id" @click="addItem(index, item)"
                            class="btn btn-primary mx-1">{{ item.name }}</a>
                     </div>
-                    <div class="row" v-for="(item, itemIndex) in category.addedItems">
-                        <div class="col-3 col-md-2 d-flex justify-content-center align-items-center">
+                    <div class="row no-gutters" v-for="(item, itemIndex) in category.addedItems">
+                        <div class="col-12 col-md-2 d-flex justify-content-md-center align-items-md-center">
                             <b>{{ item.name }}</b>
                         </div>
-                        <div class="col-3 col-md-2 form-group">
+                        <div class="col-3 col-md-2 px-1 px-md-2 form-group">
                             <label>Cena</label>
                             <input v-model="item.price" type="number"
                                    class="form-control form-control-sm">
                         </div>
-                        <div class="col-3 col-md-2 form-group">
+                        <div class="col-3 col-md-2 px-1 px-md-2 form-group">
                             <label>Ilość</label>
                             <input v-model="item.count" type="number"
                                    class="form-control form-control-sm">
                         </div>
-                        <div class="form-group">
+                        <div class="col-3 col-md-2 px-1 px-md-2 form-group">
+                            <label>Dni</label>
+                            <input v-model="item.days" type="number"
+                                   class="form-control form-control-sm">
+                        </div>
+                        <div class="form-group px-1 px-md-2">
                             <label>Usuń</label>
                             <div>
                                 <a class="btn btn-danger" @click="deleteItem(index, itemIndex)"><i class="fas fa-trash"></i></a>
@@ -110,16 +126,18 @@ export default {
             },
             categories: [],
             items: [],
-            isNameInvalid: false
+            isNameInvalid: false,
+            price: 0,
+            climate_price: 0
         }
     },
     mounted() {
-        if (this.mode === 'PATCH' && this.id != null) {
-            axios.get(baseUrl + '/api/client/find/' + this.id)
+        if (this.mode === 'PUT' && this.id != null) {
+            axios.get(baseUrl + '/api/clients/' + this.id)
                 .then((response) => {
                     this.client = response.data;
 
-                    axios.get(baseUrl + '/api/category/all-by-service/1')
+                    axios.get(baseUrl + '/api/categories?service_id=1')
                         .then((response) => {
                             let categories = [];
                             response.data.forEach(function (category) {
@@ -135,8 +153,8 @@ export default {
                         });
                 });
         }
-        if (this.mode === 'PUT') {
-            axios.get(baseUrl + '/api/category/all-by-service/1')
+        if (this.mode === 'POST') {
+            axios.get(baseUrl + '/api/categories?service_id=1')
                 .then((response) => {
                     let categories = [];
                     response.data.forEach(function (category) {
@@ -150,6 +168,24 @@ export default {
                     }, this)
                     this.categories = categories;
                 });
+        }
+        this.updateClimatePrice();
+        this.updatePrice();
+    },
+    watch: {
+        client: {
+            handler() {
+                this.updatePrice();
+                this.updateClimatePrice();
+            },
+            deep: true
+        },
+        categories: {
+            handler() {
+                this.updatePrice();
+                this.updateClimatePrice();
+            },
+            deep: true
         }
     },
     methods: {
@@ -181,16 +217,77 @@ export default {
                 this.client.client_items = this.client.client_items.concat(category.addedItems);
             }, this);
 
-            if (this.mode === 'PUT') {
-                request = axios.put(baseUrl + '/api/client/add', this.client);
+            if (this.mode === 'POST') {
+                request = axios.post(baseUrl + '/api/clients', this.client);
             } else {
-                request = axios.patch(baseUrl + '/api/client/update/' + this.id, this.client);
+                request = axios.put(baseUrl + '/api/clients/' + this.id, this.client);
             }
             request.then(() => {
                 window.location.href = baseUrl + '/admin/clients';
             }, () => {
                 alert("Coś poszło nie tak! Upewnij się że wpisane dane są poprawne!");
             });
+        },
+        getDays() {
+            if (!this.client.arrival_date || !this.client.departure_date) {
+                return 0;
+            }
+            const day = 1000 * 60 * 60 * 24;
+            const diff = Math.abs(new Date(this.client.arrival_date) - new Date(this.client.departure_date));
+
+            return Math.round(diff / day);
+        },
+        updatePrice() {
+            if (this.days === 0) {
+                return 0;
+            }
+
+            let price = 0;
+            this.categories.forEach(function(category) {
+                if (category.name !== 'Klimatyczne') {
+                    category.addedItems.forEach(function(item) {
+                        let item_price = item.price * item.count;
+
+                        if (category.name === 'Osoby') {
+                            item_price *= (100 - this.client.discount) / 100;
+                        }
+
+                        if (item.days) {
+                            item_price *= item.days;
+                        } else {
+                            item_price *= this.getDays();
+                        }
+
+                        price += item_price;
+                    }, this)
+                }
+            }, this)
+
+            this.price = Math.round(price);
+        },
+        updateClimatePrice() {
+            if (this.days === 0) {
+                return 0;
+            }
+
+            let price = 0;
+            this.categories.forEach(function(category) {
+                if (category.name === 'Klimatyczne') {
+                    category.addedItems.forEach(function(item) {
+                        let item_price = item.price * item.count;
+
+                        if (item.days) {
+                            item_price *= item.days;
+                        } else {
+                            item_price *= this.getDays();
+                        }
+
+                        price += item_price;
+                    }, this)
+                }
+            }, this)
+
+            this.climate_price = Math.round(price);
         }
     },
 }

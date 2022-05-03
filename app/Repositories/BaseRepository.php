@@ -11,6 +11,11 @@ abstract class BaseRepository
 {
     protected Model $model;
 
+    public function __construct(string $class)
+    {
+        $this->model = new $class();
+    }
+
     public function all(array $columns = ['*']): Collection
     {
         return $this->model->all($columns);
@@ -18,58 +23,25 @@ abstract class BaseRepository
 
     public function find(int $id): Model | null
     {
-        if ($id <= 0) {
-            return null;
-        }
-
         return $this->model->find($id);
     }
 
-    public function delete(int $id): void
+    public function delete(Model $model): void
     {
-        $this->model->destroy($id);
+        $model->delete();
     }
 
-    public function add(array $attributes): bool
+    public function save(Model $model): void
     {
-        $model = $this->model->replicate();
-        $model->fill($attributes);
-        $this->fillModel($model);
-
-        return $this->saveIfValid($model);
+        $model->save();
     }
 
-    public function update(int $id, array $attributes): bool
+    public function paginate(int $perPage = null, string $sort = null): LengthAwarePaginator
     {
-        $model = $this->find($id);
-        $model->fill($attributes);
-
-        return $this->saveIfValid($model);
-    }
-
-    public function paginate(array $query = []): LengthAwarePaginator
-    {
-        $sort = $query['sort'] ?? null;
-        $perPage = $query['per_page'] ?? null;
         if (isset($sort) && Schema::hasColumn($this->model->getTable(), $sort)) {
             return $this->model->orderBy($sort)->paginate($perPage);
         }
 
         return $this->model->paginate($perPage);
-    }
-
-    protected function saveIfValid(Model $model): bool
-    {
-        if (!$this->validateModel($model)) {
-            return false;
-        }
-        $model->save();
-
-        return true;
-    }
-
-    public function validateModel(Model $model): bool
-    {
-        return true;
     }
 }

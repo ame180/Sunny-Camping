@@ -13,21 +13,22 @@ use Illuminate\Support\Carbon;
 /**
  * App\Models\Client.
  *
- * @property int $id
- * @property string $name
- * @property string|null $arrival_date
- * @property string|null $departure_date
- * @property string|null $comment
- * @property int $discount
- * @property float $paid
- * @property string $status
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
- * @property-read Collection|ClientItem[] $clientItems
- * @property-read int|null $client_items_count
- * @property-read int $days
- * @property-read float $price
- * @property-read float $price_per_day
+ * @property int                     $id
+ * @property string                  $name
+ * @property string|null             $arrival_date
+ * @property string|null             $departure_date
+ * @property string|null             $comment
+ * @property int                     $discount
+ * @property float                   $paid
+ * @property string                  $status
+ * @property Carbon|null             $created_at
+ * @property Carbon|null             $updated_at
+ * @property Collection|ClientItem[] $clientItems
+ * @property int|null                $client_items_count
+ * @property int                     $days
+ * @property float                   $price
+ * @property float                   $price_per_day
+ *
  * @method static ClientFactory factory(...$parameters)
  * @method static Builder|Client newModelQuery()
  * @method static Builder|Client newQuery()
@@ -43,20 +44,22 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Client whereStatus($value)
  * @method static Builder|Client whereUpdatedAt($value)
  * @mixin Eloquent
+ *
  * @property float $climate_paid
- * @property-read float $climate_price
+ * @property float $climate_price
+ *
  * @method static Builder|Client whereClimatePaid($value)
  */
 class Client extends BaseModel
 {
     use HasFactory;
 
-    const STATUS_SETTLED = 'settled';
-    const STATUS_UNSETTLED = 'unsettled';
+    public const STATUS_SETTLED = 'settled';
+    public const STATUS_UNSETTLED = 'unsettled';
 
     protected $guarded = ['price', 'price_per_day', 'days', 'climate_price'];
-
     protected $appends = ['price', 'price_per_day', 'days', 'climate_price'];
+    protected $with = ['clientItems'];
 
     protected array $defaults = [
         'discount' => 0,
@@ -67,11 +70,38 @@ class Client extends BaseModel
 
     public function getPriceAttribute(): float
     {
-        if ($this->days === 0) {
+        if (0 === $this->days) {
             return 0;
         }
 
-        return floor($this->days * $this->price_per_day * (100 - $this->discount) / 100);
+        $clientItems = $this->clientItems;
+        $price = 0;
+        foreach ($clientItems as $clientItem) {
+            if ('Klimatyczne' == $clientItem->serviceCategory?->name) {
+                continue;
+            }
+
+            $itemPrice = $clientItem->price * $clientItem->count;
+
+            if ('Osoby' === $clientItem->serviceCategory?->name) {
+                $itemPrice *= (100 - $this->discount) / 100;
+            }
+
+            $itemPrice *= $clientItem->days ?? $this->days;
+
+            $price += $itemPrice;
+        }
+
+        return floor($price);
+    }
+
+    public function getPricePerDayAttribute(): float
+    {
+        if (0 === $this->days) {
+            return 0;
+        }
+
+        return round($this->price / $this->days, 2);
     }
 
     public function getClimatePriceAttribute(): float
@@ -79,25 +109,12 @@ class Client extends BaseModel
         $clientItems = $this->clientItems;
         $price = 0;
         foreach ($clientItems as $clientItem) {
-            if ($clientItem->serviceCategory && $clientItem->serviceCategory->name == 'Klimatyczne') {
+            if ($clientItem->serviceCategory && 'Klimatyczne' == $clientItem->serviceCategory->name) {
                 $price += $clientItem->price * $clientItem->count;
             }
         }
 
         return $price * $this->days;
-    }
-
-    public function getPricePerDayAttribute(): float
-    {
-        $clientItems = $this->clientItems;
-        $price = 0;
-        foreach ($clientItems as $clientItem) {
-            if (!$clientItem->serviceCategory || $clientItem->serviceCategory->name != 'Klimatyczne') {
-                $price += $clientItem->price * $clientItem->count;
-            }
-        }
-
-        return $price;
     }
 
     public function getDaysAttribute(): int
