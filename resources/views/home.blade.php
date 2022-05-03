@@ -29,6 +29,9 @@
                         <a class="nav-link" href="#faq">FAQ</a>
                     </li>
                     <li class="nav-item p-0 mx-2">
+                        <a class="nav-link" href="#cennik">Cennik</a>
+                    </li>
+                    <li class="nav-item p-0 mx-2">
                         <a class="nav-link" href="#kontakt">Kontakt</a>
                     </li>
                 </ul>
@@ -102,9 +105,55 @@
 @endsection
 
 @section('pricing')
-    <div id="kontakt" class="section">
+    <div id="cennik" class="section">
         <div class="container">
-            <img class="img-fluid" src="{{mix('images/cennik.jpg')}}">
+            <h1 class="text-yellow">Cennik</h1>
+            <table class="table table-borderless text-uppercase">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Cena za dobę</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Osoba dorosła</td>
+                        <td>20 zł</td>
+                    </tr>
+                    <tr>
+                        <td>Dziecko do lat 12</td>
+                        <td>18 zł</td>
+                    </tr>
+                    <tr>
+                        <td>Prąd</td>
+                        <td>15 zł</td>
+                    </tr>
+                    <tr>
+                        <td>Przyczepa</td>
+                        <td>5-10 zł¹</td>
+                    </tr>
+                    <tr>
+                        <td>Przedsionek</td>
+                        <td>5-10 zł¹</td>
+                    </tr>
+                    <tr>
+                        <td>Namiot</td>
+                        <td>5-10 zł¹</td>
+                    </tr>
+                    <tr>
+                        <td>Samochód</td>
+                        <td>5-10 zł¹</td>
+                    </tr>
+                    <tr>
+                        <td>Domek</td>
+                        <td>200-250 zł²</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="text-center text-danger">
+                OPŁATA KLIMATYCZNA WG UCHWAŁY RADY GMINY
+            </div>
+
         </div>
     </div>
 @endsection
