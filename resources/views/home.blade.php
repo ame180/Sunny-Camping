@@ -183,8 +183,8 @@
 @endsection
 
 @section('map')
-    <div class="map_section">
-        <iframe id="google_map"
+    <div>
+        <iframe id="google-map"
                 src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d9265.562287219303!2d16.473439!3d54.508973!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x549f3ebc291d2d79!2sS%C5%82oneczny+Camping+WICIE!5e0!3m2!1spl!2spl!4v1489054569469"
                 height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
     </div>
@@ -204,16 +204,16 @@
 @section('footer')
     <div class="container">
         <div class="pull-right">
-            <span>Created by</span><a target="_blank" href="http://www.vnsoft.pl"><img class="vn_img"
-                                                                                       src="{{mix('images/vn.png')}}"></a>
-            <span>Design by</span><a target="_blank" href="http://www.jacynodesign.pl"><img class="jd_img"
+            <span>Design by</span><a target="_blank" href="http://www.jacynodesign.pl"><img class="jd-img"
+                                                                                            alt="Jacyno Design"
                                                                                             src="{{mix('images/jd.png')}}"></a>
         </div>
         <div class="pull-left">
             <span>Copyright <i class="fa fa-copyright" aria-hidden="true"></i> 2021</span><a
                 target="_blank"
-                href="http://www.nadmorskisonet.pl"><img
-                    class="sc_img" src="{{mix('images/sloneczny_camping.png')}}"></a>
+                href="http://www.slonecznycamping.pl"><img alt="Słoneczny Camping"
+                                                           class="sc-img"
+                                                           src="{{mix('images/sloneczny_camping.png')}}"></a>
         </div>
     </div>
 @endsection
