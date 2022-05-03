@@ -2,7 +2,6 @@
 
 @section('head')
     <link rel="stylesheet" href="{{mix('css/app.css')}}">
-    <link rel="stylesheet" href="{{mix('css/style.css')}}"/>
 @endsection
 
 @section('navbar')
@@ -153,7 +152,6 @@
             <div class="text-center text-danger">
                 OPŁATA KLIMATYCZNA WG UCHWAŁY RADY GMINY
             </div>
-
         </div>
     </div>
 @endsection
