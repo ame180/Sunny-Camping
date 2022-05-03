@@ -16,7 +16,6 @@ mix
     .js('resources/js/app.js', 'public/js/app.js')
     .vue()
     .sass('resources/scss/app.scss', 'public/css/app.css')
-    .js('resources/js/parallax.min.js', 'public/js/parallax.min.js')
     .js('resources/js/script.js', 'public/js/script.js')
     .styles('resources/scss/style.css', 'public/css/style.css')
     .copy('resources/images', 'public/images')

@@ -6,8 +6,9 @@
 @endsection
 
 @section('navbar')
-    <div class="parallax pb-5 text-center" data-parallax="scroll" data-image-src="{{mix('images/bgsc.jpg')}}">
-        <nav class="navbar navbar-expand-md navbar-homepage pt-3 pt-md-4">
+    <div class="text-center">
+        <div>
+        <nav class="navbar navbar-expand-md navbar-homepage">
             <button class="navbar-toggler text-yellow border-yellow" type="button" data-toggle="collapse"
                     data-target="#menu"
                     aria-controls="menu" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,10 +34,10 @@
                 </ul>
             </div>
         </nav>
-        <a href="#">
-            <img class="img-fluid px-4 mt-3 mt-md-5" alt="Nadmorski Sonet"
+        <div class="px-4 py-5" style="background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url({{mix('images/bgsc.jpg')}}) no-repeat center; background-size: cover">
+            <img class="img-fluid" alt="Słoneczny Camping"
                  src="{{mix('images/sloneczny_camping.png')}}">
-        </a>
+        </div>
     </div>
 @endsection
 
@@ -54,8 +55,7 @@
 @endsection
 
 @section('campsite')
-    <div id="pole" class="parallax section" data-parallax="scroll"
-         data-image-src="{{mix('images/pole.jpg')}}">
+    <div id="pole" class="section" style="background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url({{mix('images/pole.jpg')}}) no-repeat center; background-size: cover">
         <div class="rooms_content container">
             <h1 class="text-white">Pole namiotowe</h1>
             <p>
@@ -173,5 +173,4 @@
     <script src="{{mix('js/app.js')}}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="https://use.fontawesome.com/55e5114f06.js"></script>
-    <script src="{{mix('js/parallax.min.js')}}"></script>
 @endpush
