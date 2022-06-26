@@ -25,7 +25,7 @@
                             </div>
                             <div class="col-12 col-sm text-left text-sm-right">
                                 <b v-if="client.status === 'settled'">Rozliczono</b>
-                                <b v-if="client.unregistered === 1">N</b><b v-if="client.cash_register === 1">K</b><b v-if="client.terminal === 1">T</b><b v-if="client.voucher === 1">B</b>
+                                <b v-if="client.unregistered === 1">N</b><b v-if="client.cash_register === 1">K</b><b v-if="client.terminal === 1">T</b><b v-if="client.voucher === 1">B</b><b v-if="client.invoice === 1">F</b>
                             </div>
                         </div>
                         <div>

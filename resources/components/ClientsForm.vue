@@ -72,6 +72,11 @@
                        class="form-check-input">
                 <label for="voucher" class="form-check-label">B</label>
             </div>
+            <div class="form-check-inline">
+                <input id="invoice" v-model="client.invoice" type="checkbox"
+                       class="form-check-input">
+                <label for="invoice" class="form-check-label">F</label>
+            </div>
         </div>
         <div class="col-12 text-center">
             <div>
@@ -138,7 +143,12 @@ export default {
         return {
             client: {
                 discount: 0,
-                client_items: []
+                client_items: [],
+                unregistered: false,
+                cash_register: false,
+                terminal: false,
+                voucher: false,
+                invoice: false
             },
             categories: [],
             items: [],
