@@ -30,8 +30,9 @@ class ClientRepository extends BaseRepository
         }
 
         foreach (['unregistered', 'cash_register', 'terminal', 'voucher', 'invoice'] as $code) {
-            if (isset($filters[$code]))
-            $paginatedClients = $paginatedClients->where($code, '=', true);
+            if (isset($filters[$code])) {
+                $paginatedClients = $paginatedClients->where($code, '=', true);
+            }
         }
 
         return $paginatedClients
