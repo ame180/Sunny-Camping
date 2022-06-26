@@ -2,6 +2,31 @@
     <div>
         <form class="d-flex justify-content-end" method="get" action="">
             <div class="form-inline mb-2">
+                <div class="form-check-inline">
+                    <input name="unregistered" v-model="filters.unregistered" type="checkbox"
+                           class="form-check-input m-1" value="true">
+                    <label for="unregistered" class="form-check-label">N</label>
+                </div>
+                <div class="form-check-inline">
+                    <input name="cash_register" v-model="filters.cash_register" type="checkbox"
+                           class="form-check-input m-1" value="true">
+                    <label for="cash_register" class="form-check-label">K</label>
+                </div>
+                <div class="form-check-inline">
+                    <input name="terminal" v-model="filters.terminal" type="checkbox"
+                           class="form-check-input m-1" value="true">
+                    <label for="terminal" class="form-check-label">T</label>
+                </div>
+                <div class="form-check-inline">
+                    <input name="voucher" v-model="filters.voucher" type="checkbox"
+                           class="form-check-input m-1" value="true">
+                    <label for="voucher" class="form-check-label">B</label>
+                </div>
+                <div class="form-check-inline">
+                    <input name="invoice" v-model="filters.invoice" type="checkbox"
+                           class="form-check-input m-1" value="true">
+                    <label for="invoice" class="form-check-label">F</label>
+                </div>
                 <select v-model="filters.status" name="status" type="select"
                         class="form-control form-control-sm m-1">
                     <option value="">Wszystkie</option>
