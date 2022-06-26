@@ -12,12 +12,12 @@ class ClientRepository extends BaseRepository
         parent::__construct(Client::class);
     }
 
-    public function paginatedSearch(?string $query = null, ?string $status = null)
+    public function paginatedSearch(array $filters = [])
     {
         $paginatedClients = $this->model->replicate();
 
-        if ($query) {
-            $searchQuery = $query;
+        if (isset($filters['query'])) {
+            $searchQuery = $filters['query'];
             $paginatedClients = $paginatedClients->where(function ($query) use ($searchQuery) {
                 return $query
                     ->where('name', 'LIKE', "%$searchQuery%")
@@ -25,8 +25,14 @@ class ClientRepository extends BaseRepository
             });
         }
 
-        if ($status) {
-            $paginatedClients = $paginatedClients->where('status', '=', $status);
+        if (isset($filters['status'])) {
+            $paginatedClients = $paginatedClients->where('status', '=', $filters['status']);
+        }
+
+        foreach (['unregistered', 'cash_register', 'terminal', 'voucher', 'invoice'] as $code) {
+            if (isset($filters[$code])) {
+                $paginatedClients = $paginatedClients->where($code, '=', true);
+            }
         }
 
         return $paginatedClients
