@@ -108,4 +108,49 @@ class ClientController extends Controller
 
         return true;
     }
+
+    public function exportRegistered(Request $request)
+    {
+        $filename = 'camping.csv';
+        $clients = $this->clientRepository->findAllRegisteredClients();
+
+        $headers = [
+            'Content-type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename=$filename",
+            'Pragma' => 'no-cache',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Expires' => '0',
+        ];
+
+        $columns = ['Imię i nazwisko', 'Data przyjazdu', 'Data wyjazdu', 'Ilość osób'];
+
+        $callback = function () use ($clients, $columns) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, $columns);
+
+            /** @var Client $client */
+            foreach ($clients as $client) {
+                $row['name'] = $client->name;
+                $row['arrival_date'] = $client->arrival_date;
+                $row['departure_date'] = $client->departure_date;
+                $row['people_count'] = 0;
+
+                foreach ($client->clientItems as $clientItem) {
+                    if ('Osoby' === $clientItem->serviceCategory?->name) {
+                        $row['people_count'] += $clientItem->count;
+                    }
+                }
+
+                fputcsv($file, [
+                    $row['name'],
+                    $row['arrival_date'],
+                    $row['departure_date'],
+                    $row['people_count'], ]);
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
 }
