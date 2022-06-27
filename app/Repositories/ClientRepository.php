@@ -40,4 +40,20 @@ class ClientRepository extends BaseRepository
             ->paginate(10)
             ->appends(Request::except('page'));
     }
+
+    public function findAllRegisteredClients()
+    {
+        return $this->model->replicate()
+            ->where(function ($query) {
+                return $query
+                    ->where('cash_register', '=', true)
+                    ->orWhere('terminal', '=', true)
+                    ->orWhere('voucher', '=', true)
+                    ->orWhere('invoice', '=', true);
+            })
+            ->where('unregistered', '=', false)
+            ->whereNotNull('arrival_date')
+            ->whereNotNull('departure_date')
+            ->get();
+    }
 }

@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'admin.user'], function () {
     Route::get('/clients', [ClientController::class, 'getMultiple']);
+    Route::get('/clients/export-registered', [ClientController::class, 'exportRegistered']);
     Route::get('/clients/{id}', [ClientController::class, 'get']);
     Route::post('/clients', [ClientController::class, 'add']);
     Route::post('/clients/{id}/settle', [ClientController::class, 'settle']);
