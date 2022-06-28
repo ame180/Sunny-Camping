@@ -2,9 +2,11 @@
 
 namespace App\Repositories;
 
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Pagination\AbstractPaginator;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 abstract class BaseRepository
@@ -36,12 +38,17 @@ abstract class BaseRepository
         $model->save();
     }
 
-    public function paginate(int $perPage = null, string $sort = null): LengthAwarePaginator
+    public function paginate(int $perPage = null, string $sort = null): AbstractPaginator
     {
         if (isset($sort) && Schema::hasColumn($this->model->getTable(), $sort)) {
             return $this->model->orderBy($sort)->paginate($perPage);
         }
 
         return $this->model->paginate($perPage);
+    }
+
+    public function getQueryBuilder(): Builder
+    {
+        return DB::table($this->model->getTable());
     }
 }

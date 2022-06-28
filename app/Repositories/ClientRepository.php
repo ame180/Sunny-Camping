@@ -3,6 +3,8 @@
 namespace App\Repositories;
 
 use App\Models\Client;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use Request;
 
 class ClientRepository extends BaseRepository
@@ -12,9 +14,9 @@ class ClientRepository extends BaseRepository
         parent::__construct(Client::class);
     }
 
-    public function paginatedSearch(array $filters = [])
+    public function paginatedSearch(array $filters = []): LengthAwarePaginator
     {
-        $paginatedClients = $this->model->replicate();
+        $paginatedClients = $this->model;
 
         if (isset($filters['query'])) {
             $searchQuery = $filters['query'];
@@ -41,9 +43,9 @@ class ClientRepository extends BaseRepository
             ->appends(Request::except('page'));
     }
 
-    public function findAllRegisteredClients()
+    public function findAllRegisteredClients(): Collection
     {
-        return $this->model->replicate()
+        return $this->model
             ->where(function ($query) {
                 return $query
                     ->where('cash_register', '=', true)
@@ -54,6 +56,13 @@ class ClientRepository extends BaseRepository
             ->where('unregistered', '=', false)
             ->whereNotNull('arrival_date')
             ->whereNotNull('departure_date')
+            ->get();
+    }
+
+    public function findAllClientNames(): Collection
+    {
+        return $this->getQueryBuilder()
+            ->select('name')
             ->get();
     }
 }

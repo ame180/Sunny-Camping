@@ -34,7 +34,10 @@
                     <option value="settled">Rozliczono</option>
                 </select>
                 <input v-model="filters.query" type="text" class="form-control form-control-sm m-1" name="query"
-                       placeholder="Szukaj">
+                       list="client-names" placeholder="Szukaj">
+                <datalist id="client-names">
+                    <option v-for="name in clientNames" :value="name">{{ name }}</option>
+                </datalist>
                 <button type="submit" class="btn btn-primary btn-sm m-1">Szukaj</button>
             </div>
         </form>
@@ -119,7 +122,7 @@
 import SettleModal from "./SettleModal";
 
 export default {
-    props: ['clients', 'filters'],
+    props: ['clients', 'filters', 'clientNames'],
     methods:
         {
             showSettleModal(client) {
