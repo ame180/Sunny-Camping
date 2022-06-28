@@ -22,12 +22,14 @@ class AdminController extends Controller
     public function clients(Request $request)
     {
         $paginatedClients = $this->clientRepository->paginatedSearch($request->query());
+        $clientNames = $this->clientRepository->findAllClientNames()->map(fn ($item) => $item->name)->sort()->values();
 
         return view('admin.clients', [
             'page' => 'clients',
             'pagination' => $paginatedClients->links(),
             'clients' => $paginatedClients->toJson(),
             'filters' => collect($request->query())->toJson(),
+            'clientNames' => $clientNames->toJson(),
         ]);
     }
 
