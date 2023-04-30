@@ -27,6 +27,8 @@
                            class="form-check-input m-1" value="true">
                     <label for="invoice" class="form-check-label">F</label>
                 </div>
+                <input v-model="filters.departure_date" name="departure_date" type="date"
+                       class="form-control form-control-sm m-1" placeholder="Data odjazdu">
                 <select v-model="filters.status" name="status" type="select"
                         class="form-control form-control-sm m-1">
                     <option value="">Wszystkie</option>
