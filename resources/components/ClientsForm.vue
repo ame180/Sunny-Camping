@@ -154,7 +154,8 @@ export default {
             items: [],
             isNameInvalid: false,
             price: 0,
-            climate_price: 0
+            climate_price: 0,
+            submitting: false
         }
     },
     mounted() {
@@ -228,6 +229,12 @@ export default {
             this.categories[categoryId].addedItems.splice(itemId, 1);
         },
         submitClientForm() {
+            if (this.submitting) {
+                console.log('Already submitting');
+                return false;
+            }
+            console.log('Submitting...');
+
             if (!this.client.name) {
                 this.isNameInvalid = true;
                 window.scrollTo(0, 0);
@@ -246,6 +253,7 @@ export default {
                 this.client.client_items = this.client.client_items.concat(category.addedItems);
             }, this);
 
+            this.submitting = true;
             if (this.mode === 'POST') {
                 request = axios.post(baseUrl + '/api/clients', this.client);
             } else {
@@ -255,6 +263,7 @@ export default {
                 window.location.href = baseUrl + '/admin/clients';
             }, () => {
                 alert("Coś poszło nie tak! Upewnij się że wpisane dane są poprawne!");
+                this.submitting = false;
             });
         },
         getDays() {
