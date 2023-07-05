@@ -92,7 +92,7 @@ class Client extends BaseModel
             $price += $itemPrice;
         }
 
-        return floor($price);
+        return round($price, 2);
     }
 
     public function getPricePerDayAttribute(): float
@@ -110,11 +110,13 @@ class Client extends BaseModel
         $price = 0;
         foreach ($clientItems as $clientItem) {
             if ($clientItem->serviceCategory && 'Klimatyczne' == $clientItem->serviceCategory->name) {
-                $price += $clientItem->price * $clientItem->count;
+                $itemPrice = $clientItem->price * $clientItem->count;
+                $itemPrice *= $clientItem->days ?? $this->days;
+                $price += $itemPrice;
             }
         }
 
-        return $price * $this->days;
+        return round($price, 2);
     }
 
     public function getDaysAttribute(): int
