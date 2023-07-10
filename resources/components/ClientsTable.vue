@@ -33,6 +33,11 @@
                     <option value="unsettled">Nierozliczono</option>
                     <option value="settled">Rozliczono</option>
                 </select>
+                <select v-model="filters.token_number" name="token_number" type="select"
+                        class="form-control form-control-sm m-1">
+                    <option value="">Wszystkie</option>
+                    <option v-for="tokenNumber in assignedTokens" :value="tokenNumber">{{ tokenNumber }}</option>
+                </select>
                 <input v-model="filters.query" type="text" class="form-control form-control-sm m-1" name="query"
                        list="client-names" placeholder="Szukaj">
                 <datalist id="client-names">
@@ -49,7 +54,7 @@
                     <div class="col p-2">
                         <div class="row">
                             <div class="col-12 col-sm">
-                                <b>#{{ client.id }} {{ client.name }}</b>
+                                <b>#{{ client.id }} {{ client.name }} {{ client.token_number ? '[' + client.token_number + ']' : '' }}</b>
                             </div>
                             <div class="col-12 col-sm text-left text-sm-right">
                                 <b v-if="client.status === 'settled'">Rozliczono</b>
@@ -122,7 +127,7 @@
 import SettleModal from "./SettleModal";
 
 export default {
-    props: ['clients', 'filters', 'clientNames'],
+    props: ['clients', 'filters', 'clientNames', 'assignedTokens'],
     methods:
         {
             showSettleModal(client) {
@@ -181,6 +186,7 @@ export default {
             },
         },
     mounted() {
+        console.log(this.assignedTokens);
         axios.get(baseUrl + '/api/categories?service_id=1')
             .then((response) => {
                 this.categories = response.data;

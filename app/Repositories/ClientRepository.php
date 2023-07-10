@@ -31,6 +31,10 @@ class ClientRepository extends BaseRepository
             $paginatedClients = $paginatedClients->where('status', '=', $filters['status']);
         }
 
+        if (isset($filters['token_number'])) {
+            $paginatedClients = $paginatedClients->where('token_number', '=', $filters['token_number']);
+        }
+
         foreach (['unregistered', 'cash_register', 'terminal', 'voucher', 'invoice'] as $code) {
             if (isset($filters[$code])) {
                 $paginatedClients = $paginatedClients->where($code, '=', true);
@@ -63,6 +67,15 @@ class ClientRepository extends BaseRepository
     {
         return $this->getQueryBuilder()
             ->select('name')
+            ->get();
+    }
+
+    public function findAllAssignedTokens(): Collection
+    {
+        return $this->getQueryBuilder()
+            ->select('token_number')
+            ->distinct()
+            ->whereNotNull('token_number')
             ->get();
     }
 }

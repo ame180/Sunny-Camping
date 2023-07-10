@@ -23,6 +23,7 @@ class AdminController extends Controller
     {
         $paginatedClients = $this->clientRepository->paginatedSearch($request->query());
         $clientNames = $this->clientRepository->findAllClientNames()->map(fn ($item) => $item->name)->sort()->values();
+        $assignedTokens = $this->clientRepository->findAllAssignedTokens()->map(fn ($item) => $item->token_number)->sort()->values();
 
         return view('admin.clients', [
             'page' => 'clients',
@@ -30,6 +31,7 @@ class AdminController extends Controller
             'clients' => $paginatedClients->toJson(),
             'filters' => collect($request->query())->toJson(),
             'clientNames' => $clientNames->toJson(),
+            'assignedTokens' => $assignedTokens->toJson(),
         ]);
     }
 

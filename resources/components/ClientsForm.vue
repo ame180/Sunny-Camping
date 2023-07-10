@@ -44,6 +44,11 @@
                    class="form-control form-control-sm">
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
+            <label for="token_number">Token</label>
+            <input id="token_number" v-model="client.token_number" name="token_number" type="number"
+                   class="form-control form-control-sm">
+        </div>
+        <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="status">Status</label>
             <select id="status" v-model="client.status" type="select"
                  class="form-control form-control-sm">
