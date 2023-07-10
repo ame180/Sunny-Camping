@@ -26,7 +26,7 @@ class AdminController extends Controller
 
         return view('admin.clients', [
             'page' => 'clients',
-            'pagination' => $paginatedClients->links(),
+            'pagination' => $paginatedClients->onEachSide(0)->links(),
             'clients' => $paginatedClients->toJson(),
             'filters' => collect($request->query())->toJson(),
             'clientNames' => $clientNames->toJson(),
