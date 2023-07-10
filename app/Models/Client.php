@@ -47,6 +47,7 @@ use Illuminate\Support\Carbon;
  *
  * @property float $climate_paid
  * @property float $climate_price
+ * @property int|null $token_number
  *
  * @method static Builder|Client whereClimatePaid($value)
  */
