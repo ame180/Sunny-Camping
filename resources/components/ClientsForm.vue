@@ -56,6 +56,16 @@
                 <option value="settled">Rozliczono</option>
             </select>
         </div>
+        <div class="col-6 col-sm-4 col-md-3 form-group">
+            <label for="sector">Sektor</label>
+            <input id="sector" v-model="client.sector" name="sector" type="text" placeholder="Sektor"
+                   class="form-control form-control-sm">
+        </div>
+        <div class="col-6 col-sm-4 col-md-3 form-group">
+            <label for="car_registration">Rejestracja</label>
+            <input id="car_registration" v-model="client.car_registration" name="car_registration" type="text" placeholder="Rejestracja"
+               class="form-control form-control-sm">
+        </div>
         <div class="col-12">
             <div class="form-check-inline">
                 <input id="unregistered" v-model="client.unregistered" type="checkbox"
@@ -235,10 +245,8 @@ export default {
         },
         submitClientForm() {
             if (this.submitting) {
-                console.log('Already submitting');
                 return false;
             }
-            console.log('Submitting...');
 
             if (!this.client.name) {
                 this.isNameInvalid = true;
