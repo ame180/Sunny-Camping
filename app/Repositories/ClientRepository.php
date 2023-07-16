@@ -23,6 +23,7 @@ class ClientRepository extends BaseRepository
             $paginatedClients = $paginatedClients->where(function ($query) use ($searchQuery) {
                 return $query
                     ->where('name', 'LIKE', "%$searchQuery%")
+                    ->orWhere('car_registration', 'LIKE', "%$searchQuery%")
                     ->orWhere('id', '=', "$searchQuery");
             });
         }
