@@ -49,7 +49,7 @@
             <h1 class="text-yellow">Słoneczny Camping</h1>
             <p>
                 Wicie to atrakcyjna miejscowość turystyczna środkowego wybrzeża bałtyku. Leży między Darłówkiem a
-                Jarosławcem, ma róœnież bezpośrednim dostępem do dzikiego jeziora Kopań. Słoneczny Camping usytuowany
+                Jarosławcem, ma również bezpośredni dostęp do dzikiego jeziora Kopań. Słoneczny Camping usytuowany
                 jest w odległości 200 metrów od morza i około 800 metrów od jeziora.
             </p>
         </div>
