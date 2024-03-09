@@ -3,6 +3,8 @@
 namespace App\Repositories;
 
 use App\Models\Client;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use Request;
 
 class ClientRepository extends BaseRepository
@@ -12,26 +14,73 @@ class ClientRepository extends BaseRepository
         parent::__construct(Client::class);
     }
 
-    public function paginatedSearch(?string $query = null, ?string $status = null)
+    public function paginatedSearch(array $filters = []): LengthAwarePaginator
     {
-        $paginatedClients = $this->model->replicate();
+        $paginatedClients = $this->model;
 
-        if ($query) {
-            $searchQuery = $query;
+        if (isset($filters['query'])) {
+            $searchQuery = $filters['query'];
             $paginatedClients = $paginatedClients->where(function ($query) use ($searchQuery) {
                 return $query
                     ->where('name', 'LIKE', "%$searchQuery%")
+                    ->orWhere('car_registration', 'LIKE', "%$searchQuery%")
                     ->orWhere('id', '=', "$searchQuery");
             });
         }
 
-        if ($status) {
-            $paginatedClients = $paginatedClients->where('status', '=', $status);
+        if (isset($filters['status'])) {
+            $paginatedClients = $paginatedClients->where('status', '=', $filters['status']);
+        }
+
+        if (isset($filters['departure_date'])) {
+            $paginatedClients = $paginatedClients->where('departure_date', '=', $filters['departure_date']);
+        }
+
+        if (isset($filters['token_number'])) {
+            $paginatedClients = $paginatedClients->where('token_number', '=', $filters['token_number']);
+        }
+
+        foreach (['unregistered', 'cash_register', 'terminal', 'voucher', 'invoice'] as $code) {
+            if (isset($filters[$code])) {
+                $paginatedClients = $paginatedClients->where($code, '=', true);
+            }
         }
 
         return $paginatedClients
             ->orderBy('id', 'desc')
             ->paginate(10)
             ->appends(Request::except('page'));
+    }
+
+    public function findAllRegisteredClients(): Collection
+    {
+        return $this->model
+            ->where(function ($query) {
+                return $query
+                    ->where('cash_register', '=', true)
+                    ->orWhere('terminal', '=', true)
+                    ->orWhere('voucher', '=', true)
+                    ->orWhere('invoice', '=', true);
+            })
+            ->where('unregistered', '=', false)
+            ->whereNotNull('arrival_date')
+            ->whereNotNull('departure_date')
+            ->get();
+    }
+
+    public function findAllClientNames(): Collection
+    {
+        return $this->getQueryBuilder()
+            ->select('name')
+            ->get();
+    }
+
+    public function findAllAssignedTokens(): Collection
+    {
+        return $this->getQueryBuilder()
+            ->select('token_number')
+            ->distinct()
+            ->whereNotNull('token_number')
+            ->get();
     }
 }

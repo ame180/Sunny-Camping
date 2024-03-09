@@ -1,0 +1,26 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class AddCustomLetterCodesToClients extends Migration
+{
+    public function up()
+    {
+        Schema::table('clients', function (Blueprint $table) {
+            $table->boolean('unregistered')->default(false);
+            $table->boolean('cash_register')->default(false);
+            $table->boolean('terminal')->default(false);
+            $table->boolean('voucher')->default(false);
+            $table->boolean('invoice')->default(false);
+        });
+    }
+
+    public function down()
+    {
+        Schema::table('clients', function (Blueprint $table) {
+            $table->dropColumn(['unregistered', 'cash_register', 'terminal', 'voucher', 'invoice']);
+        });
+    }
+}

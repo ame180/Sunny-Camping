@@ -44,12 +44,54 @@
                    class="form-control form-control-sm">
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
+            <label for="token_number">Token</label>
+            <input id="token_number" v-model="client.token_number" name="token_number" type="number"
+                   class="form-control form-control-sm">
+        </div>
+        <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="status">Status</label>
-            <select id="status" v-model="client.status" name="paid" type="select"
+            <select id="status" v-model="client.status" type="select"
                  class="form-control form-control-sm">
               <option value="unsettled">Nierozliczono</option>
-              <option value="settled">Rozliczono</option>
+                <option value="settled">Rozliczono</option>
             </select>
+        </div>
+        <div class="col-6 col-sm-4 col-md-3 form-group">
+            <label for="sector">Sektor</label>
+            <input id="sector" v-model="client.sector" name="sector" type="text" placeholder="Sektor"
+                   class="form-control form-control-sm">
+        </div>
+        <div class="col-6 col-sm-4 col-md-3 form-group">
+            <label for="car_registration">Rejestracja</label>
+            <input id="car_registration" v-model="client.car_registration" name="car_registration" type="text" placeholder="Rejestracja"
+               class="form-control form-control-sm">
+        </div>
+        <div class="col-12">
+            <div class="form-check-inline">
+                <input id="unregistered" v-model="client.unregistered" type="checkbox"
+                       class="form-check-input">
+                <label for="unregistered" class="form-check-label">N</label>
+            </div>
+            <div class="form-check-inline">
+                <input id="cash-register" v-model="client.cash_register" type="checkbox"
+                       class="form-check-input">
+                <label for="cash-register" class="form-check-label">K</label>
+            </div>
+            <div class="form-check-inline">
+                <input id="terminal" v-model="client.terminal" type="checkbox"
+                       class="form-check-input">
+                <label for="terminal" class="form-check-label">T</label>
+            </div>
+            <div class="form-check-inline">
+                <input id="voucher" v-model="client.voucher" type="checkbox"
+                       class="form-check-input">
+                <label for="voucher" class="form-check-label">B</label>
+            </div>
+            <div class="form-check-inline">
+                <input id="invoice" v-model="client.invoice" type="checkbox"
+                       class="form-check-input">
+                <label for="invoice" class="form-check-label">F</label>
+            </div>
         </div>
         <div class="col-12 text-center">
             <div>
@@ -115,20 +157,20 @@ export default {
     data() {
         return {
             client: {
-                name: null,
-                arrival_date: null,
-                departure_date: null,
-                comment: null,
-                paid: null,
-                climate_paid: null,
                 discount: 0,
-                client_items: []
+                client_items: [],
+                unregistered: false,
+                cash_register: false,
+                terminal: false,
+                voucher: false,
+                invoice: false
             },
             categories: [],
             items: [],
             isNameInvalid: false,
             price: 0,
-            climate_price: 0
+            climate_price: 0,
+            submitting: false
         }
     },
     mounted() {
@@ -202,11 +244,18 @@ export default {
             this.categories[categoryId].addedItems.splice(itemId, 1);
         },
         submitClientForm() {
-            if (!this.client.name) {
-                this.isNameInvalid = true;
+            if (this.submitting) {
                 return false;
             }
+
+            if (!this.client.name) {
+                this.isNameInvalid = true;
+                window.scrollTo(0, 0);
+                return false;
+            }
+
             if (this.client.arrival_date && this.client.departure_date && new Date(this.client.arrival_date) >= new Date(this.client.departure_date)) {
+                window.scrollTo(0, 0);
                 alert("Data odjazdu musi być później od daty przyjazdu!");
                 return false;
             }
@@ -217,6 +266,7 @@ export default {
                 this.client.client_items = this.client.client_items.concat(category.addedItems);
             }, this);
 
+            this.submitting = true;
             if (this.mode === 'POST') {
                 request = axios.post(baseUrl + '/api/clients', this.client);
             } else {
@@ -226,6 +276,7 @@ export default {
                 window.location.href = baseUrl + '/admin/clients';
             }, () => {
                 alert("Coś poszło nie tak! Upewnij się że wpisane dane są poprawne!");
+                this.submitting = false;
             });
         },
         getDays() {

@@ -2,13 +2,49 @@
     <div>
         <form class="d-flex justify-content-end" method="get" action="">
             <div class="form-inline mb-2">
+                <div class="form-check-inline">
+                    <input name="unregistered" v-model="filters.unregistered" type="checkbox"
+                           class="form-check-input m-1" value="true">
+                    <label for="unregistered" class="form-check-label">N</label>
+                </div>
+                <div class="form-check-inline">
+                    <input name="cash_register" v-model="filters.cash_register" type="checkbox"
+                           class="form-check-input m-1" value="true">
+                    <label for="cash_register" class="form-check-label">K</label>
+                </div>
+                <div class="form-check-inline">
+                    <input name="terminal" v-model="filters.terminal" type="checkbox"
+                           class="form-check-input m-1" value="true">
+                    <label for="terminal" class="form-check-label">T</label>
+                </div>
+                <div class="form-check-inline">
+                    <input name="voucher" v-model="filters.voucher" type="checkbox"
+                           class="form-check-input m-1" value="true">
+                    <label for="voucher" class="form-check-label">B</label>
+                </div>
+                <div class="form-check-inline">
+                    <input name="invoice" v-model="filters.invoice" type="checkbox"
+                           class="form-check-input m-1" value="true">
+                    <label for="invoice" class="form-check-label">F</label>
+                </div>
+                <input v-model="filters.departure_date" name="departure_date" type="date"
+                       class="form-control form-control-sm m-1" placeholder="Data odjazdu">
                 <select v-model="filters.status" name="status" type="select"
                         class="form-control form-control-sm m-1">
                     <option value="">Wszystkie</option>
                     <option value="unsettled">Nierozliczono</option>
                     <option value="settled">Rozliczono</option>
                 </select>
-                <input v-model="filters.query" type="text" class="form-control form-control-sm m-1" name="query" placeholder="Szukaj">
+                <select v-model="filters.token_number" name="token_number" type="select"
+                        class="form-control form-control-sm m-1">
+                    <option value="">Wszystkie</option>
+                    <option v-for="tokenNumber in assignedTokens" :value="tokenNumber">{{ tokenNumber }}</option>
+                </select>
+                <input v-model="filters.query" type="text" class="form-control form-control-sm m-1" name="query"
+                       list="client-names" placeholder="Szukaj">
+                <datalist id="client-names">
+                    <option v-for="name in clientNames" :value="name">{{ name }}</option>
+                </datalist>
                 <button type="submit" class="btn btn-primary btn-sm m-1">Szukaj</button>
             </div>
         </form>
@@ -20,10 +56,11 @@
                     <div class="col p-2">
                         <div class="row">
                             <div class="col-12 col-sm">
-                                <b>#{{ client.id }} {{ client.name }}</b>
+                                <b>#{{ client.id }} {{ client.name }} {{ client.token_number ? '[' + client.token_number + ']' : '' }}</b>
                             </div>
-                            <div class="col-12 col-sm text-left text-sm-right" v-if="client.status === 'settled'">
-                                <b>Rozliczono</b>
+                            <div class="col-12 col-sm text-left text-sm-right">
+                                <b v-if="client.status === 'settled'">Rozliczono</b>
+                                <b v-if="client.unregistered === 1">N</b><b v-if="client.cash_register === 1">K</b><b v-if="client.terminal === 1">T</b><b v-if="client.voucher === 1">B</b><b v-if="client.invoice === 1">F</b>
                             </div>
                         </div>
                         <div>
@@ -92,7 +129,7 @@
 import SettleModal from "./SettleModal";
 
 export default {
-    props: ['clients', 'filters'],
+    props: ['clients', 'filters', 'clientNames', 'assignedTokens'],
     methods:
         {
             showSettleModal(client) {
@@ -151,10 +188,10 @@ export default {
             },
         },
     mounted() {
+        console.log(this.assignedTokens);
         axios.get(baseUrl + '/api/categories?service_id=1')
             .then((response) => {
                 this.categories = response.data;
-                console.log(this.categories);
             });
         this.clients.data.forEach(function (client) {
             this.groupItems(client)
