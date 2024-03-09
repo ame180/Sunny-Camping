@@ -32,6 +32,10 @@ class ClientRepository extends BaseRepository
             $paginatedClients = $paginatedClients->where('status', '=', $filters['status']);
         }
 
+        if (isset($filters['departure_date'])) {
+            $paginatedClients = $paginatedClients->where('departure_date', '=', $filters['departure_date']);
+        }
+
         if (isset($filters['token_number'])) {
             $paginatedClients = $paginatedClients->where('token_number', '=', $filters['token_number']);
         }
