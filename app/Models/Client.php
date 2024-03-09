@@ -45,8 +45,8 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Client whereUpdatedAt($value)
  * @mixin Eloquent
  *
- * @property float $climate_paid
- * @property float $climate_price
+ * @property float    $climate_paid
+ * @property float    $climate_price
  * @property int|null $token_number
  *
  * @method static Builder|Client whereClimatePaid($value)
