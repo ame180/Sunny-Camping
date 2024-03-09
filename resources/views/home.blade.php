@@ -16,22 +16,22 @@
             <div class="collapse navbar-collapse justify-content-center" id="menu">
                 <ul class="navbar-nav text-left">
                     <li class="nav-item p-0 mx-2">
-                        <a class="nav-link" href="#onas">O nas</a>
+                        <a class="nav-link" href="#onas">{{ __('homepage.nav.about') }}</a>
                     </li>
                     <li class="nav-item p-0 mx-2">
-                        <a class="nav-link" href="#pole">Pole namiotowe</a>
+                        <a class="nav-link" href="#pole">{{ __('homepage.nav.campsite') }}</a>
                     </li>
                     <li class="nav-item p-0 mx-2">
-                        <a class="nav-link" href="#domki">Domki</a>
+                        <a class="nav-link" href="#domki">{{ __('homepage.nav.bungalows') }}</a>
                     </li>
                     <li class="nav-item p-0 mx-2">
-                        <a class="nav-link" href="#faq">FAQ</a>
+                        <a class="nav-link" href="#faq">{{ __('homepage.nav.faq') }}</a>
                     </li>
                     <li class="nav-item p-0 mx-2">
-                        <a class="nav-link" href="#cennik">Cennik</a>
+                        <a class="nav-link" href="#cennik">{{ __('homepage.nav.prices') }}</a>
                     </li>
                     <li class="nav-item p-0 mx-2">
-                        <a class="nav-link" href="#kontakt">Kontakt</a>
+                        <a class="nav-link" href="#kontakt">{{ __('homepage.nav.contact') }}</a>
                     </li>
                 </ul>
             </div>
@@ -46,11 +46,9 @@
 @section('about')
     <div id="onas" class="section">
         <div class="container">
-            <h1 class="text-yellow">Słoneczny Camping</h1>
+            <h1 class="text-yellow">{{ __('homepage.sections.about.title') }}</h1>
             <p>
-                Wicie to atrakcyjna miejscowość turystyczna środkowego wybrzeża bałtyku. Leży między Darłówkiem a
-                Jarosławcem, ma również bezpośredni dostęp do dzikiego jeziora Kopań. Słoneczny Camping usytuowany
-                jest w odległości 200 metrów od morza i około 800 metrów od jeziora.
+                {{ __('homepage.sections.about.content') }}
             </p>
         </div>
     </div>
@@ -59,12 +57,9 @@
 @section('campsite')
     <div id="pole" class="section" style="background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url({{mix('images/pole.jpg')}}) no-repeat center; background-size: cover">
         <div class="rooms_content container">
-            <h1 class="text-white">Pole namiotowe</h1>
+            <h1 class="text-white">{{ __('homepage.sections.campsite.title') }}</h1>
             <p>
-                Na terenie campingu znajdują się nowoczesne, murowane sanitariaty, osobno dla kobiet oraz mężczyzn.
-                W sanitariatach są bezpłatne prysznice z ciepłą wodą, umywalnie i toalety. Udostępniamy także specjalne
-                miejsce do zmywania naczyń oraz do opróżniania pojemników z fekaliami. Pole namiotowe jest podzielone
-                żywopłotem na sektory, każdy z dostępem do prądu.
+                {{ __('homepage.sections.campsite.content') }}
             </p>
         </div>
     </div>
@@ -73,12 +68,9 @@
 @section('bungalows')
     <div id="domki" class="section">
         <div class="container">
-            <h1 class="text-yellow">Domki</h1>
+            <h1 class="text-yellow">{{ __('homepage.sections.bungalows.title') }}</h1>
             <p>
-                Przy domku znajduje się taras oraz parking dla samochodu. W domku na parterze jest pokój z aneksem
-                kuchennym oraz toaleta z prysznicem. W aneksie kuchennym jest lodówka, kuchenka elektryczna i
-                zlewozmywak, a w pokoju stół oraz kanapa dwuosobowa. Na piętrze znajduje się sypialnia wyposażona
-                w dwa łóżka jednoosobowe, z możliwością połączenia. Domek jest przeznaczony dla maksymalnie 4 osób.
+                {{ __('homepage.sections.bungalows.content') }}
             </p>
         </div>
     </div>
@@ -87,18 +79,13 @@
 @section('faq')
     <div id="faq" class="section bg-dark-grey">
         <div class="container">
-            <h1 class="text-white mb-4">FAQ</h1>
-            <p class="mb-4">
-                P: Czy możemy zarezerwować miejsce?<br>
-                O: Ze względu na specyfikę wypoczynku na campingu, nie rezerwujemy miejsc. Goście często przedłużają
-                pobyt,
-                przez co rezerwacje prowadziłyby do wielu niekomfortowych sytuacji zarówno dla nas jak i gości.
-            </p>
-
-            <p>
-                P: Czy istnieje możliwość kontaktu mailowego lub SMS?<br>
-                O: Nie, wszelkie informacje przekazujemy tylko poprzez kontakt telefoniczny.
-            </p>
+            <h1 class="text-white mb-4">{{ __('homepage.sections.faq.title') }}</h1>
+            @foreach(Lang::get('homepage.sections.faq.content') as $faq)
+                <p class="mb-4">
+                    {{ $faq['q'] }}<br>
+                    {{ $faq['a'] }}
+                </p>
+            @endforeach
         </div>
     </div>
 @endsection
@@ -159,11 +146,9 @@
 @section('contact')
     <div id="kontakt" class="section">
         <div class="container">
-            <h1 class="text-yellow">Kontakt</h1>
+            <h1 class="text-yellow">{{ __('homepage.sections.contact.title') }}</h1>
             <p>
-                W celu uzyskania szczegółowych informacji, sprawdzenia dostępności noclegu lub dokonania
-                rezerwacji (tylko w przypadku domków!)
-                zapraszamy do kontaktu telefonicznego.<br><br>
+                {{ __('homepage.sections.faq.contect') }}<br><br>
             </p>
             <i class="fa fa-map-marker" aria-hidden="true"></i>
             <span class="pl-1">
