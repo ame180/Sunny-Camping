@@ -1,6 +1,7 @@
 @import '~bootstrap/scss/bootstrap';
 @import '~vue-js-modal/dist/styles.css';
 @import "./admin/fonts.css";
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 
 
 $yellow: #ffc42d;
@@ -8,27 +9,22 @@ $light-grey: #aaaaaa;
 $dark-grey: #141414;
 
 @font-face {
-    font-family: 'Berlin Sans';
-    src: url('../fonts/BRLNSR.ttf');
-}
-
-@font-face {
-    font-family: 'Berlin Sans';
-    font-weight: bold;
-    src: url('../fonts/BRLNSDB.ttf');
+    font-family: 'Nunito', sans-serif;
+    font-style: normal;
 }
 
 body {
-    font-family: 'Berlin Sans', sans-serif;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
 }
 
 h1 {
     text-transform: uppercase;
-    font-weight: bold;
+    font-weight: 900;
 }
 
 p {
-    letter-spacing: 1.5px;
+    letter-spacing: 0.5px;
     color: $light-grey;
 }
 
@@ -52,6 +48,7 @@ p {
     .nav-item > .nav-link {
         color: $yellow;
         font-size: 19px;
+        font-weight: 750;
         text-transform: uppercase;
         transition: 0.4s;
     }
