@@ -56,7 +56,7 @@
                     <div class="col p-2">
                         <div class="row">
                             <div class="col-12 col-sm">
-                                <b>#{{ client.id }} {{ client.name }} {{ client.token_number ? '[' + client.token_number + ']' : '' }}</b>
+                                <b>{{ getClientHeader(client) }}</b>
                             </div>
                             <div class="col-12 col-sm text-left text-sm-right">
                                 <b v-if="client.status === 'settled'">Rozliczono</b>
@@ -129,9 +129,14 @@
 import SettleModal from "./SettleModal";
 
 export default {
-    props: ['clients', 'filters', 'clientNames', 'assignedTokens'],
+    props: ['clients', 'filters', 'clientNames', 'assignedTokens', 'page', 'totalClientCount'],
     methods:
         {
+            getClientHeader(client) {
+                return '#' + client.id + ' ' + client.name + ' '
+                    + (client.token_number ? '[' + client.token_number + ']' : '')
+                    + (client.sector ? '[' + client.sector + ']' : '');
+            },
             showSettleModal(client) {
                 this.$modal.show(SettleModal,
                     {
