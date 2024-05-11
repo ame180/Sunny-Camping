@@ -48,7 +48,7 @@
                 <button type="submit" class="btn btn-primary btn-sm m-1">Szukaj</button>
             </div>
         </form>
-        <div class="row border" v-for="client in clients.data" type="button" :data-target="'#collapse-' + client.id"
+        <div class="row border-bottom" :class="{'border-top': index === 0}" v-for="(client, index) in clients.data" type="button" :data-target="'#collapse-' + client.id"
              data-toggle="collapse"
              aria-expanded="false" :aria-controls="'collapse-' + client.id">
             <div class="col-12">
@@ -92,39 +92,43 @@
                     </div>
                     <v-dialog></v-dialog>
                 </div>
-                <div class="collapse row border-top p-3" :id="'collapse-' + client.id">
-                    <div class="col-12 col-sm-6 col-lg-3 mb-1" v-for="category in categories">
-                        <div>
-                            <b>{{ category.name }}</b>
-                            <div v-for="item in client.client_items"
-                                 v-if="item.service_category && item.service_category.name === category.name">
-                                {{ item.count }} x {{ item.name }} {{ item.price }} zł
+                <div class="collapse row border-top" :id="'collapse-' + client.id">
+                    <div class="col-12">
+                        <div class="row p-3">
+                            <div class="col-12 col-sm-6 col-lg-3 mb-1" v-for="category in categories">
+                                <div>
+                                    <b>{{ category.name }}</b>
+                                    <div v-for="item in client.client_items"
+                                         v-if="item.service_category && item.service_category.name === category.name">
+                                        {{ item.count }} x {{ item.name }} {{ item.price }} zł
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-12 mt-2" v-if="client.car_registration || client.comment">
-                        <div v-if="client.car_registration">
-                            <b>Rejestracja: </b>{{ client.car_registration }}
-                        </div>
-                        <div v-if="client.comment">
-                            <b>Komentarz: </b>{{ client.comment }}
-                        </div>
-                    </div>
-                    <div class="col-12 mt-2">
-                        <div>
-                            <b>Suma: {{ client.price }} zł <span v-if="client.paid > 0">(zapłacono {{
-                                    client.paid
-                                }} zł)</span></b>
-                        </div>
-                        <div>
-                            <b>Klimatyczne: {{ client.climate_price }} zł <span
-                                v-if="client.climate_paid > 0">(zapłacono {{ client.climate_paid }} zł)</span></b>
-                        </div>
-                        <div>
-                            <b>Razem: {{ client.price + client.climate_price }} zł <span
-                                v-if="client.paid + client.climate_paid> 0">(zapłacono {{
-                                    client.paid + client.climate_paid
-                                }} zł)</span></b>
+                            <div class="col-12 mt-2" v-if="client.car_registration || client.comment">
+                                <div v-if="client.car_registration">
+                                    <b>Rejestracja: </b>{{ client.car_registration }}
+                                </div>
+                                <div v-if="client.comment">
+                                    <b>Komentarz: </b>{{ client.comment }}
+                                </div>
+                            </div>
+                            <div class="col-12 mt-2">
+                                <div>
+                                    <b>Suma: {{ client.price }} zł <span v-if="client.paid > 0">(zapłacono {{
+                                            client.paid
+                                        }} zł)</span></b>
+                                </div>
+                                <div>
+                                    <b>Klimatyczne: {{ client.climate_price }} zł <span
+                                        v-if="client.climate_paid > 0">(zapłacono {{ client.climate_paid }} zł)</span></b>
+                                </div>
+                                <div>
+                                    <b>Razem: {{ client.price + client.climate_price }} zł <span
+                                        v-if="client.paid + client.climate_paid> 0">(zapłacono {{
+                                            client.paid + client.climate_paid
+                                        }} zł)</span></b>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
