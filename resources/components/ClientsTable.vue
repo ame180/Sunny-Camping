@@ -102,6 +102,14 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-12 mt-2" v-if="client.car_registration || client.comment">
+                        <div v-if="client.car_registration">
+                            <b>Rejestracja: </b>{{ client.car_registration }}
+                        </div>
+                        <div v-if="client.comment">
+                            <b>Komentarz: </b>{{ client.comment }}
+                        </div>
+                    </div>
                     <div class="col-12 mt-2">
                         <div>
                             <b>Suma: {{ client.price }} zł <span v-if="client.paid > 0">(zapłacono {{
