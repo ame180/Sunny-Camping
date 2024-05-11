@@ -21,8 +21,8 @@
                    class="form-control form-control-sm">
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
-            <label for="comment">Komentarz</label>
-            <input id="comment" v-model="client.comment" name="comment" type="text" placeholder="Komentarz"
+            <label for="car_registration">Rejestracja</label>
+            <input id="car_registration" v-model="client.car_registration" name="car_registration" type="text" placeholder="Rejestracja"
                    class="form-control form-control-sm">
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
@@ -62,9 +62,9 @@
                    class="form-control form-control-sm">
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
-            <label for="car_registration">Rejestracja</label>
-            <input id="car_registration" v-model="client.car_registration" name="car_registration" type="text" placeholder="Rejestracja"
-               class="form-control form-control-sm">
+            <label for="comment">Komentarz</label>
+            <input id="comment" v-model="client.comment" name="comment" type="text" placeholder="Komentarz"
+                   class="form-control form-control-sm">
         </div>
         <div class="col-12">
             <div class="form-check-inline">
