@@ -3,6 +3,8 @@
 namespace App\Repositories;
 
 use App\Models\Client;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Request;
@@ -14,9 +16,18 @@ class ClientRepository extends BaseRepository
         parent::__construct(Client::class);
     }
 
+    public function createBaseQuery(): Builder
+    {
+        return $this->model->where(function(Builder $query) {
+            return $query
+                ->whereYear('arrival_date', '=', Carbon::now()->year)
+                ->orWhereNull('arrival_date');
+        });
+    }
+
     public function paginatedSearch(array $filters = []): LengthAwarePaginator
     {
-        $paginatedClients = $this->model;
+        $paginatedClients = $this->createBaseQuery();
 
         if (isset($filters['query'])) {
             $searchQuery = $filters['query'];
@@ -52,9 +63,9 @@ class ClientRepository extends BaseRepository
             ->appends(Request::except('page'));
     }
 
-    public function findAllRegisteredClients(): Collection
+    public function findCurrentRegisteredClients(): Collection
     {
-        return $this->model
+        return $this->createBaseQuery()
             ->where(function ($query) {
                 return $query
                     ->where('cash_register', '=', true)
@@ -68,16 +79,16 @@ class ClientRepository extends BaseRepository
             ->get();
     }
 
-    public function findAllClientNames(): Collection
+    public function findCurrentClientNames(): Collection
     {
-        return $this->getQueryBuilder()
+        return $this->createBaseQuery()
             ->select('name')
             ->get();
     }
 
-    public function findAllAssignedTokens(): Collection
+    public function findCurrentAssignedTokens(): Collection
     {
-        return $this->getQueryBuilder()
+        return $this->createBaseQuery()
             ->select('token_number')
             ->distinct()
             ->whereNotNull('token_number')

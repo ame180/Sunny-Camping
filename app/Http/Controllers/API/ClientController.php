@@ -112,7 +112,7 @@ class ClientController extends Controller
     public function exportRegistered(Request $request)
     {
         $filename = 'camping.csv';
-        $clients = $this->clientRepository->findAllRegisteredClients();
+        $clients = $this->clientRepository->findCurrentRegisteredClients();
 
         $headers = [
             'Content-type' => 'text/csv',
