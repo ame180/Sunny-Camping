@@ -1,5 +1,5 @@
 <template>
-    <div class="row border-bottom" :class="{'border-top': index === 0}" type="button" :data-target="'#collapse-' + client.id"
+    <div class="row border" :class="{'border-top-0': index !== 0}" type="button" :data-target="'#collapse-' + client.id"
          data-toggle="collapse"
          aria-expanded="false" :aria-controls="'collapse-' + client.id">
         <div class="col-12">
