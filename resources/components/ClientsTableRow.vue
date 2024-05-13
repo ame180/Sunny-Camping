@@ -41,7 +41,6 @@
                         </div>
                     </div>
                 </div>
-                <v-dialog></v-dialog>
             </div>
             <div class="collapse row border-top" :id="'collapse-' + client.id">
                 <div class="col-12">
