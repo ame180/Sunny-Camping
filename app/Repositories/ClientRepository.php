@@ -16,9 +16,9 @@ class ClientRepository extends BaseRepository
         parent::__construct(Client::class);
     }
 
-    public function createBaseQuery(): Builder
+    public function getCurrentSeasonBaseQuery(): Builder
     {
-        return $this->model->where(function(Builder $query) {
+        return $this->model->where(function (Builder $query) {
             return $query
                 ->whereYear('arrival_date', '=', Carbon::now()->year)
                 ->orWhereNull('arrival_date');
@@ -27,7 +27,7 @@ class ClientRepository extends BaseRepository
 
     public function paginatedSearch(array $filters = []): LengthAwarePaginator
     {
-        $paginatedClients = $this->createBaseQuery();
+        $paginatedClients = $this->getCurrentSeasonBaseQuery();
 
         if (isset($filters['query'])) {
             $searchQuery = $filters['query'];
@@ -65,7 +65,7 @@ class ClientRepository extends BaseRepository
 
     public function findCurrentRegisteredClients(): Collection
     {
-        return $this->createBaseQuery()
+        return $this->getCurrentSeasonBaseQuery()
             ->where(function ($query) {
                 return $query
                     ->where('cash_register', '=', true)
@@ -81,14 +81,14 @@ class ClientRepository extends BaseRepository
 
     public function findCurrentClientNames(): Collection
     {
-        return $this->createBaseQuery()
+        return $this->getCurrentSeasonBaseQuery()
             ->select('name')
             ->get();
     }
 
     public function findCurrentAssignedTokens(): Collection
     {
-        return $this->createBaseQuery()
+        return $this->getCurrentSeasonBaseQuery()
             ->select('token_number')
             ->distinct()
             ->whereNotNull('token_number')
