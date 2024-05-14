@@ -22,8 +22,8 @@ class AdminController extends Controller
     public function clients(Request $request)
     {
         $paginatedClients = $this->clientRepository->paginatedSearch($request->query());
-        $clientNames = $this->clientRepository->findAllClientNames()->map(fn ($item) => $item->name)->sort()->values();
-        $assignedTokens = $this->clientRepository->findAllAssignedTokens()->map(fn ($item) => $item->token_number)->sort()->values();
+        $clientNames = $this->clientRepository->findCurrentClientNames()->map(fn ($item) => $item->name)->sort()->values();
+        $assignedTokens = $this->clientRepository->findCurrentAssignedTokens()->map(fn ($item) => $item->token_number)->sort()->values();
 
         return view('admin.clients', [
             'page' => 'clients',
