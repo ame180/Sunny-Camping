@@ -49,10 +49,11 @@
             </div>
         </form>
         <clients-table-row
-            v-for="(client, index) in clients.data"
+            v-for="(client, index) in clientsList"
             :client="client"
             :index="index"
             :categories="categories"
+            :delete-client="deleteClient"
             v-bind:key="client.id"
         ></clients-table-row>
         <v-dialog></v-dialog>
@@ -79,6 +80,13 @@ export default {
                     }
                 }
             },
+            deleteClient: function (id) {
+                axios.delete(baseUrl + '/api/clients/' + id)
+                    .then(() => {
+                        let deleteIndex = this.clientsList.findIndex(client => client.id === id);
+                        this.clientsList.splice(deleteIndex, 1);
+                    });
+            },
         },
     mounted() {
         axios.get(baseUrl + '/api/categories?service_id=1')
@@ -91,6 +99,7 @@ export default {
     },
     data: function () {
         return {
+            clientsList: this.clients.data,
             categories: null,
         }
     }

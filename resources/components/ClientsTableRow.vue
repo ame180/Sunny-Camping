@@ -93,7 +93,8 @@ export default {
     props: {
         client: Object,
         index: Number,
-        categories: Array
+        categories: Array,
+        deleteClient: Function,
     },
     methods: {
         getClientHeader(client) {
@@ -136,12 +137,6 @@ export default {
                     }
                 ]
             })
-        },
-        deleteClient: function (id) {
-            axios.delete(baseUrl + '/api/clients/' + id)
-                .then(() => {
-                    window.location.reload()
-                });
         },
     }
 }
