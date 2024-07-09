@@ -2,7 +2,6 @@ import Vue from 'vue';
 
 window.Vue = Vue;
 window._ = require('lodash');
-window.VueApexCharts = require('vue-apexcharts');
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
