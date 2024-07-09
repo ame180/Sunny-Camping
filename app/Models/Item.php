@@ -18,7 +18,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  *
- * @method static ItemFactory factory(...$parameters)
+ * @method static ItemFactory  factory(...$parameters)
  * @method static Builder|Item newModelQuery()
  * @method static Builder|Item newQuery()
  * @method static Builder|Item query()
@@ -28,6 +28,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Item whereName($value)
  * @method static Builder|Item wherePrice($value)
  * @method static Builder|Item whereUpdatedAt($value)
+ *
  * @mixin Eloquent
  *
  * @property int $service_category_id

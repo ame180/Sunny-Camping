@@ -21,7 +21,7 @@ use Illuminate\Support\Carbon;
  * @property Collection|Item[] $categoryItems
  * @property int|null          $category_items_count
  *
- * @method static ServiceCategoryFactory factory(...$parameters)
+ * @method static ServiceCategoryFactory  factory(...$parameters)
  * @method static Builder|ServiceCategory newModelQuery()
  * @method static Builder|ServiceCategory newQuery()
  * @method static Builder|ServiceCategory query()
@@ -30,6 +30,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|ServiceCategory whereName($value)
  * @method static Builder|ServiceCategory whereServiceId($value)
  * @method static Builder|ServiceCategory whereUpdatedAt($value)
+ *
  * @mixin Eloquent
  *
  * @property Collection|\App\Models\Item[] $serviceCategoryItems

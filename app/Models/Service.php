@@ -21,6 +21,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Service whereId($value)
  * @method static Builder|Service whereName($value)
  * @method static Builder|Service whereUpdatedAt($value)
+ *
  * @mixin Eloquent
  */
 class Service extends BaseModel

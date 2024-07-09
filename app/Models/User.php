@@ -23,10 +23,11 @@ use Illuminate\Notifications\Notifiable;
  * @property DatabaseNotificationCollection|DatabaseNotification[] $notifications
  * @property int|null                                              $notifications_count
  *
- * @method static UserFactory factory(...$parameters)
+ * @method static UserFactory  factory(...$parameters)
  * @method static Builder|User newModelQuery()
  * @method static Builder|User newQuery()
  * @method static Builder|User query()
+ *
  * @mixin Eloquent
  *
  * @property int                                                                 $id

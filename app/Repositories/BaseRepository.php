@@ -23,7 +23,7 @@ abstract class BaseRepository
         return $this->model->all($columns);
     }
 
-    public function find(int $id): Model | null
+    public function find(int $id): ?Model
     {
         return $this->model->find($id);
     }
@@ -38,7 +38,7 @@ abstract class BaseRepository
         $model->save();
     }
 
-    public function paginate(int $perPage = null, string $sort = null): AbstractPaginator
+    public function paginate(?int $perPage = null, ?string $sort = null): AbstractPaginator
     {
         if (isset($sort) && Schema::hasColumn($this->model->getTable(), $sort)) {
             return $this->model->orderBy($sort)->paginate($perPage);
