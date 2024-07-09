@@ -28,7 +28,7 @@ jobs:
     - name: Install LTS Node.js
       run: |
         curl -L https://raw.githubusercontent.com/tj/n/master/bin/n -o n
-        sudo bash n v16
+        sudo bash n v20
     - name: Copy .env
       run: php -r "copy('.env.example', '.env');"
     - name: Install PHP Dependencies
