@@ -8,4 +8,6 @@ npm run dev
 
 php artisan migrate
 
+service cron start
+
 php-fpm
