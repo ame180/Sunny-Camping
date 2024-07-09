@@ -4,9 +4,6 @@ namespace Database\Factories;
 
 class ItemFactory extends \Illuminate\Database\Eloquent\Factories\Factory
 {
-    /**
-     * {@inheritdoc}
-     */
     public function definition()
     {
         return [

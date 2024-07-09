@@ -7,7 +7,6 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
-use Request;
 
 class ClientRepository extends BaseRepository
 {
@@ -60,7 +59,7 @@ class ClientRepository extends BaseRepository
         return $paginatedClients
             ->orderBy('id', 'desc')
             ->paginate(10)
-            ->appends(Request::except('page'));
+            ->appends(\Request::except('page'));
     }
 
     public function findCurrentRegisteredClients(): Collection

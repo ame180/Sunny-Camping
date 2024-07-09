@@ -22,7 +22,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  *
- * @method static ClientItemFactory factory(...$parameters)
+ * @method static ClientItemFactory  factory(...$parameters)
  * @method static Builder|ClientItem newModelQuery()
  * @method static Builder|ClientItem newQuery()
  * @method static Builder|ClientItem query()
@@ -35,9 +35,10 @@ use Illuminate\Support\Carbon;
  * @method static Builder|ClientItem wherePrice($value)
  * @method static Builder|ClientItem whereServiceId($value)
  * @method static Builder|ClientItem whereUpdatedAt($value)
+ *
  * @mixin Eloquent
  *
- * @property \App\Models\ServiceCategory $serviceCategory
+ * @property ServiceCategory $serviceCategory
  *
  * @method static Builder|ClientItem whereServiceCategoryId($value)
  *

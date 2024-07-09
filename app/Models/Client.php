@@ -29,7 +29,7 @@ use Illuminate\Support\Carbon;
  * @property float                   $price
  * @property float                   $price_per_day
  *
- * @method static ClientFactory factory(...$parameters)
+ * @method static ClientFactory  factory(...$parameters)
  * @method static Builder|Client newModelQuery()
  * @method static Builder|Client newQuery()
  * @method static Builder|Client query()
@@ -43,6 +43,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Client wherePaid($value)
  * @method static Builder|Client whereStatus($value)
  * @method static Builder|Client whereUpdatedAt($value)
+ *
  * @mixin Eloquent
  *
  * @property float    $climate_paid

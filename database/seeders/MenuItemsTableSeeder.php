@@ -280,7 +280,7 @@ class MenuItemsTableSeeder extends Seeder
     /**
      * @throws \Exception
      */
-    private function tryToSeedMenu(array $menu, MenuItem $ParentMenu = null): MenuItem
+    private function tryToSeedMenu(array $menu, ?MenuItem $ParentMenu = null): MenuItem
     {
         $mainData = [];
         foreach ($menu as $keyElement => $valueElements) {

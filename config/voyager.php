@@ -42,7 +42,7 @@ return [
     */
 
     'models' => [
-        //'namespace' => 'App\\',
+        // 'namespace' => 'App\\',
     ],
 
     /*
@@ -112,7 +112,7 @@ return [
         'locales' => [
             'pl',
             'en',
-            //'pt',
+            // 'pt',
         ],
     ],
 
@@ -189,7 +189,7 @@ return [
     ],
 
     'additional_js' => [
-        //'js/custom.js',
+        // 'js/custom.js',
     ],
 
     'googlemaps' => [
@@ -221,7 +221,7 @@ return [
 
     'media' => [
         // The allowed mimetypes to be uploaded through the media-manager.
-        'allowed_mimetypes' => '*', //All types can be uploaded
+        'allowed_mimetypes' => '*', // All types can be uploaded
         /*
         'allowed_mimetypes' => [
           'image/jpeg',
@@ -231,7 +231,7 @@ return [
           'video/mp4',
         ],
         */
-        //Path for media-manager. Relative to the filesystem.
+        // Path for media-manager. Relative to the filesystem.
         'path' => '/',
         'show_folders' => true,
         'allow_upload' => true,
