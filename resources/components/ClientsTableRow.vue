@@ -64,19 +64,19 @@
                         </div>
                         <div class="col-12 mt-2">
                             <div>
-                                <b>Suma: {{ client.price }} zł <span v-if="client.paid > 0">(zapłacono {{
-                                        client.paid
-                                    }} zł)</span></b>
+                                <b>Suma: {{ client.price }} zł <span v-if="client.paid > 0">
+                                    (pozostało {{ Math.max(0, client.price - client.paid) }} zł)
+                                </span></b>
                             </div>
                             <div>
-                                <b>Klimatyczne: {{ client.climate_price }} zł <span
-                                    v-if="client.climate_paid > 0">(zapłacono {{ client.climate_paid }} zł)</span></b>
+                                <b>Klimatyczne: {{ client.climate_price }} zł <span v-if="client.climate_paid > 0">
+                                    (pozostało {{ Math.max(0, client.climate_price - client.climate_paid) }} zł)
+                                </span></b>
                             </div>
                             <div>
-                                <b>Razem: {{ client.price + client.climate_price }} zł <span
-                                    v-if="client.paid + client.climate_paid> 0">(zapłacono {{
-                                        client.paid + client.climate_paid
-                                    }} zł)</span></b>
+                                <b>Razem: {{ client.price + client.climate_price }} zł <span v-if="client.paid + client.climate_paid> 0">
+                                    (pozostało {{ Math.max(0, client.price + client.climate_price - client.paid - client.climate_paid) }} zł)
+                                </span></b>
                             </div>
                         </div>
                     </div>

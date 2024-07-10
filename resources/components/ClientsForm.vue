@@ -95,13 +95,19 @@
         </div>
         <div class="col-12 text-center">
             <div>
-                <b>Suma: {{ price }} zł <span v-if="client.paid > 0">(zapłacono {{ client.paid }} zł)</span></b>
+                <b>Suma: {{ price }} zł <span v-if="client.paid > 0">
+                    (pozostało {{ Math.max(0, price - client.paid) }} zł)
+                </span></b>
             </div>
             <div>
-                <b>Klimatyczne: {{ climate_price }} zł <span v-if="client.climate_paid > 0">(zapłacono {{ client.climate_paid }} zł)</span></b>
+                <b>Klimatyczne: {{ climate_price }} zł <span v-if="client.climate_paid > 0">
+                    (pozostało {{ Math.max(0, climate_price - client.climate_paid) }} zł)
+                </span></b>
             </div>
             <div>
-                <b>Razem: {{ price + climate_price }} zł <span v-if="client.paid + client.climate_paid> 0">(zapłacono {{ client.paid + client.climate_paid }} zł)</span></b>
+                <b>Razem: {{ price + climate_price }} zł <span v-if="client.paid + client.climate_paid> 0">
+                    (pozostało {{ Math.max(0, price + climate_price - client.paid - client.climate_paid) }} zł)
+                </span></b>
             </div>
         </div>
         <div class="col-12">
@@ -152,6 +158,7 @@
 </template>
 
 <script>
+
 export default {
     props: ['mode', 'id'],
     data() {
