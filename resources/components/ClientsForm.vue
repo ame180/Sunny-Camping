@@ -158,7 +158,6 @@
 </template>
 
 <script>
-import {toNumber} from "lodash/lang";
 
 export default {
     props: ['mode', 'id'],
