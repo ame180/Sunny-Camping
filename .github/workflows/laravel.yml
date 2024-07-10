@@ -29,14 +29,16 @@ jobs:
       run: |
         curl -L https://raw.githubusercontent.com/tj/n/master/bin/n -o n
         sudo bash n v20
+    - name: Install Yarn
+      run: sudo npm install -g yarn
     - name: Copy .env
       run: php -r "copy('.env.example', '.env');"
     - name: Install PHP Dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
     - name: Install Node.js Dependencies
-      run: npm ci
+      run: yarn install
     - name: Compile assets
-      run: npm run dev
+      run: yarn dev
     - name: Check if the code fits Coding Standards
       run: php bin/php-cs-fixer fix --dry-run --stop-on-violation --using-cache=no
     - name: Directory Permissions
