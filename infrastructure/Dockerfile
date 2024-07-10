@@ -4,7 +4,7 @@ FROM php:8.3-fpm
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Install NodeJS
-RUN curl -L https://raw.githubusercontent.com/tj/n/master/bin/n -o n && bash n v16
+RUN curl -L https://raw.githubusercontent.com/tj/n/master/bin/n -o n && bash n v20
 
 # Install Packages
 RUN apt-get update && apt-get install -y mariadb-client git zip python3 cron && apt-get clean
