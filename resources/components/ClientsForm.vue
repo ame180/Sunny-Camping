@@ -35,8 +35,16 @@
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="paid">Zapłacono</label>
-            <input id="paid" v-model="client.paid" name="paid" type="number" placeholder="0"
-                   class="form-control form-control-sm">
+            <input
+                id="paid"
+                v-model="client.paid"
+                name="paid"
+                type="number"
+                placeholder="0"
+                class="form-control form-control-sm"
+                :class="{ 'is-invalid': isSettledWithoutPaid }"
+                @input="isSettledWithoutPaid = false"
+            >
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="climate_paid">Klimatyczne</label>
@@ -50,11 +58,19 @@
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="status">Status</label>
-            <select id="status" v-model="client.status" type="select"
-                 class="form-control form-control-sm">
-              <option value="unsettled">Nierozliczono</option>
+            <select
+                id="status"
+                class="form-control form-control-sm"
+                v-model="client.status"
+                :class="{ 'is-invalid': isSettledWithoutPaid }"
+                @change="isSettledWithoutPaid = false"
+            >
+                <option value="unsettled">Nierozliczono</option>
                 <option value="settled">Rozliczono</option>
             </select>
+            <div class="invalid-feedback">
+                Nie można wybrać "Rozliczono" bez wpisania zapłaconej ilości!
+            </div>
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="sector">Sektor</label>
@@ -177,7 +193,8 @@ export default {
             isNameInvalid: false,
             price: 0,
             climate_price: 0,
-            submitting: false
+            submitting: false,
+            isSettledWithoutPaid: false
         }
     },
     mounted() {
@@ -257,6 +274,13 @@ export default {
 
             if (!this.client.name) {
                 this.isNameInvalid = true;
+                window.scrollTo(0, 0);
+                return false;
+            }
+
+            if (this.client.status === 'settled' && !this.client.paid)
+            {
+                this.isSettledWithoutPaid = true;
                 window.scrollTo(0, 0);
                 return false;
             }
