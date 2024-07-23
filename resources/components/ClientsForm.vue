@@ -2,10 +2,15 @@
     <div id="client-form" class="row mt-4">
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="name">Imię i nazwisko</label>
-            <input id="name" v-model="client.name" :class="{ 'is-invalid': isNameInvalid }" @input="isNameInvalid = false" @blur="client.name = trim(client.name)"
-                   name="name"
-                   type="text" placeholder="Imię i nazwisko"
-                   class="form-control form-control-sm">
+            <input
+                id="name"
+                v-model.trim="client.name"
+                :class="{ 'is-invalid': isNameInvalid }"
+                @input="isNameInvalid = false"
+                name="name"
+                type="text" placeholder="Imię i nazwisko"
+                class="form-control form-control-sm"
+            >
             <div class="invalid-feedback">
                 Imię i nazwisko muszą być podane!
             </div>
@@ -22,26 +27,46 @@
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="car_registration">Rejestracja</label>
-            <input id="car_registration" v-model="client.car_registration" name="car_registration" type="text" placeholder="Rejestracja"
-                   class="form-control form-control-sm">
+            <input
+                id="car_registration"
+                v-model.trim="client.car_registration"
+                name="car_registration"
+                type="text"
+                placeholder="Rejestracja"
+                class="form-control form-control-sm"
+            >
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="discount">Rabat</label>
             <select id="discount" v-model="client.discount" name="discount" class="custom-select custom-select-sm">
-                <option value="0">0%</option>
-                <option value="5">5%</option>
-                <option value="10">10%</option>
+                <option :value="0">0%</option>
+                <option :value="5">5%</option>
+                <option :value="10">10%</option>
             </select>
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="paid">Zapłacono</label>
-            <input id="paid" v-model="client.paid" name="paid" type="number" placeholder="0"
-                   class="form-control form-control-sm">
+            <input
+                id="paid"
+                v-model.number="client.paid"
+                name="paid"
+                type="number"
+                placeholder="0"
+                class="form-control form-control-sm"
+                :class="{ 'is-invalid': isSettledWithoutPaid }"
+                @input="isSettledWithoutPaid = false"
+            >
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="climate_paid">Klimatyczne</label>
-            <input id="climate_paid" v-model="client.climate_paid" name="paid" type="number" placeholder="0"
-                   class="form-control form-control-sm">
+            <input
+                id="climate_paid"
+                v-model.number="client.climate_paid"
+                name="paid"
+                type="number"
+                placeholder="0"
+                class="form-control form-control-sm"
+            >
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="token_number">Token</label>
@@ -50,11 +75,19 @@
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="status">Status</label>
-            <select id="status" v-model="client.status" type="select"
-                 class="form-control form-control-sm">
-              <option value="unsettled">Nierozliczono</option>
+            <select
+                id="status"
+                class="form-control form-control-sm"
+                v-model="client.status"
+                :class="{ 'is-invalid': isSettledWithoutPaid }"
+                @change="isSettledWithoutPaid = false"
+            >
+                <option value="unsettled">Nierozliczono</option>
                 <option value="settled">Rozliczono</option>
             </select>
+            <div class="invalid-feedback">
+                Nie można wybrać "Rozliczono" bez wpisania zapłaconej ilości!
+            </div>
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="sector">Sektor</label>
@@ -63,8 +96,14 @@
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="comment">Komentarz</label>
-            <input id="comment" v-model="client.comment" name="comment" type="text" placeholder="Komentarz"
-                   class="form-control form-control-sm">
+            <input
+                id="comment"
+                v-model.trim="client.comment"
+                name="comment"
+                type="text"
+                placeholder="Komentarz"
+                class="form-control form-control-sm"
+            >
         </div>
         <div class="col-12">
             <div class="form-check-inline">
@@ -177,7 +216,8 @@ export default {
             isNameInvalid: false,
             price: 0,
             climate_price: 0,
-            submitting: false
+            submitting: false,
+            isSettledWithoutPaid: false
         }
     },
     mounted() {
@@ -257,6 +297,13 @@ export default {
 
             if (!this.client.name) {
                 this.isNameInvalid = true;
+                window.scrollTo(0, 0);
+                return false;
+            }
+
+            if (this.client.status === 'settled' && !this.client.paid)
+            {
+                this.isSettledWithoutPaid = true;
                 window.scrollTo(0, 0);
                 return false;
             }
