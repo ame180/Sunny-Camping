@@ -4,7 +4,6 @@ use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
-use TCG\Voyager\Facades\Voyager;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,7 +23,6 @@ Route::get('/welcome', function () {
 });
 
 Route::group(['prefix' => 'admin'], function () {
-    Voyager::routes();
     Route::group(['middleware' => 'admin.user'], function () {
         Route::prefix('/clients')->group(function () {
             Route::get('/add-client', [ClientController::class, 'addClient']);

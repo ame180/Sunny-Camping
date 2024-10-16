@@ -12,15 +12,17 @@ use Illuminate\Support\Carbon;
 /**
  * App\Models\ClientItem.
  *
- * @property int         $id
- * @property int         $service_id
- * @property int         $service_category_id
- * @property int         $client_id
- * @property string      $name
- * @property float       $price
- * @property int         $count
+ * @property int $id
+ * @property int $service_id
+ * @property int $service_category_id
+ * @property int $client_id
+ * @property string $name
+ * @property float $price
+ * @property int $count
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property ServiceCategory $serviceCategory
+ * @property int|null $days
  *
  * @method static ClientItemFactory  factory(...$parameters)
  * @method static Builder|ClientItem newModelQuery()
@@ -35,16 +37,10 @@ use Illuminate\Support\Carbon;
  * @method static Builder|ClientItem wherePrice($value)
  * @method static Builder|ClientItem whereServiceId($value)
  * @method static Builder|ClientItem whereUpdatedAt($value)
+ * @method static Builder|ClientItem whereServiceCategoryId($value)
+ * @method static Builder|ClientItem whereDays($value)
  *
  * @mixin Eloquent
- *
- * @property ServiceCategory $serviceCategory
- *
- * @method static Builder|ClientItem whereServiceCategoryId($value)
- *
- * @property int|null $days
- *
- * @method static Builder|ClientItem whereDays($value)
  */
 class ClientItem extends BaseModel
 {
