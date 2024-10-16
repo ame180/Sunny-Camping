@@ -9,6 +9,7 @@ class RemoveVoyagerTables extends Migration
     public function up(): void
     {
         Schema::disableForeignKeyConstraints();
+        Schema::dropIfExists('categories');
         Schema::dropIfExists('data_rows');
         Schema::dropIfExists('data_types');
         Schema::dropIfExists('menu_items');
