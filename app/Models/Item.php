@@ -11,13 +11,13 @@ use Illuminate\Support\Carbon;
 /**
  * App\Models\Item.
  *
- * @property int $id
- * @property string $category_id
- * @property string $name
- * @property float $price
+ * @property int         $id
+ * @property string      $category_id
+ * @property string      $name
+ * @property float       $price
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property int $service_category_id
+ * @property int         $service_category_id
  *
  * @method static ItemFactory  factory(...$parameters)
  * @method static Builder|Item newModelQuery()

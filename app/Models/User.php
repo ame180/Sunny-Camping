@@ -21,15 +21,15 @@ use Illuminate\Notifications\Notifiable;
  * App\Models\User.
  *
  * @property DatabaseNotificationCollection|DatabaseNotification[] $notifications
- * @property int|null $notifications_count
- * @property int $id
- * @property string $name
- * @property string $email
- * @property string|null $password
- * @property string $remember_token
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property mixed $locale
+ * @property int|null                                              $notifications_count
+ * @property int                                                   $id
+ * @property string                                                $name
+ * @property string                                                $email
+ * @property string|null                                           $password
+ * @property string                                                $remember_token
+ * @property \Illuminate\Support\Carbon|null                       $created_at
+ * @property \Illuminate\Support\Carbon|null                       $updated_at
+ * @property mixed                                                 $locale
  *
  * @method static UserFactory  factory(...$parameters)
  * @method static Builder|User newModelQuery()

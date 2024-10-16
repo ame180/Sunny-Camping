@@ -12,17 +12,17 @@ use Illuminate\Support\Carbon;
 /**
  * App\Models\ClientItem.
  *
- * @property int $id
- * @property int $service_id
- * @property int $service_category_id
- * @property int $client_id
- * @property string $name
- * @property float $price
- * @property int $count
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
+ * @property int             $id
+ * @property int             $service_id
+ * @property int             $service_category_id
+ * @property int             $client_id
+ * @property string          $name
+ * @property float           $price
+ * @property int             $count
+ * @property Carbon|null     $created_at
+ * @property Carbon|null     $updated_at
  * @property ServiceCategory $serviceCategory
- * @property int|null $days
+ * @property int|null        $days
  *
  * @method static ClientItemFactory  factory(...$parameters)
  * @method static Builder|ClientItem newModelQuery()

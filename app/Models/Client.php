@@ -13,31 +13,31 @@ use Illuminate\Support\Carbon;
 /**
  * App\Models\Client.
  *
- * @property int $id
- * @property string $name
- * @property string|null $arrival_date
- * @property string|null $departure_date
- * @property string|null $comment
- * @property int $discount
- * @property float $paid
- * @property string $status
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
+ * @property int                     $id
+ * @property string                  $name
+ * @property string|null             $arrival_date
+ * @property string|null             $departure_date
+ * @property string|null             $comment
+ * @property int                     $discount
+ * @property float                   $paid
+ * @property string                  $status
+ * @property Carbon|null             $created_at
+ * @property Carbon|null             $updated_at
  * @property Collection|ClientItem[] $clientItems
- * @property int|null $client_items_count
- * @property int $days
- * @property float $price
- * @property float $price_per_day
- * @property float $climate_paid
- * @property float $climate_price
- * @property int|null $token_number
- * @property int $unregistered
- * @property int $cash_register
- * @property int $terminal
- * @property int $voucher
- * @property int $invoice
- * @property string|null $sector
- * @property string|null $car_registration
+ * @property int|null                $client_items_count
+ * @property int                     $days
+ * @property float                   $price
+ * @property float                   $price_per_day
+ * @property float                   $climate_paid
+ * @property float                   $climate_price
+ * @property int|null                $token_number
+ * @property int                     $unregistered
+ * @property int                     $cash_register
+ * @property int                     $terminal
+ * @property int                     $voucher
+ * @property int                     $invoice
+ * @property string|null             $sector
+ * @property string|null             $car_registration
  *
  * @method static ClientFactory  factory(...$parameters)
  * @method static Builder|Client newModelQuery()
