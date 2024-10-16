@@ -23,7 +23,10 @@ Route::get('/welcome', function () {
 });
 
 Route::group(['prefix' => 'admin'], function () {
-    Route::group(['middleware' => 'admin.user'], function () {
+    Route::get('/login', fn () => view('login'))->name('login');
+    Route::post('/login', [AdminController::class, 'authenticate']);
+    Route::post('/logout', [AdminController::class, 'logout'])->name('logout');
+    Route::group(['middleware' => 'auth'], function () {
         Route::prefix('/clients')->group(function () {
             Route::get('/add-client', [ClientController::class, 'addClient']);
             Route::get('/edit/{id}', [ClientController::class, 'edit'])->name('admin.clients.edit');
