@@ -31,6 +31,7 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('/add-client', [ClientController::class, 'addClient']);
             Route::get('/edit/{id}', [ClientController::class, 'edit'])->name('admin.clients.edit');
         });
+        Route::get('/', fn () => redirect()->route('admin.dashboard'));
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
         Route::get('/clients', [AdminController::class, 'clients'])->name('admin.clients');
         Route::get('/bills', [AdminController::class, 'bills']);

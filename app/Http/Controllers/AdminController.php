@@ -47,7 +47,7 @@ class AdminController extends Controller
 
     public function dashboard()
     {
-        return view('admin.dashboard', ['page' => 'dashboard']);
+        return view('admin.dashboard');
     }
 
     public function clients(Request $request)
@@ -57,17 +57,11 @@ class AdminController extends Controller
         $assignedTokens = $this->clientRepository->findCurrentAssignedTokens()->map(fn ($item) => $item->token_number)->sort()->values();
 
         return view('admin.clients', [
-            'page' => 'clients',
             'pagination' => $paginatedClients->onEachSide(0)->links(),
             'clients' => $paginatedClients->toJson(),
             'filters' => collect($request->query())->toJson(),
             'clientNames' => $clientNames->toJson(),
             'assignedTokens' => $assignedTokens->toJson(),
         ]);
-    }
-
-    public function bills()
-    {
-        return view('admin.bills', ['page' => 'bills']);
     }
 }
