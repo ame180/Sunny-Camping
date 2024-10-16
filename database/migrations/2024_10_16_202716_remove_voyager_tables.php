@@ -24,9 +24,7 @@ class RemoveVoyagerTables extends Migration
         Schema::dropIfExists('user_roles');
         Schema::table('users', function (Blueprint $table) {
             $table->dropForeign('users_role_id_foreign');
-            $table->dropColumn('role_id');
-            $table->dropColumn('avatar');
-            $table->dropColumn('settings');
+            $table->dropColumn(['role_id', 'avatar', 'settings']);
         });
         Schema::enableForeignKeyConstraints();
     }
