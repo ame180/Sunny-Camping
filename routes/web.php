@@ -4,7 +4,6 @@ use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
-use TCG\Voyager\Facades\Voyager;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,12 +23,15 @@ Route::get('/welcome', function () {
 });
 
 Route::group(['prefix' => 'admin'], function () {
-    Voyager::routes();
-    Route::group(['middleware' => 'admin.user'], function () {
+    Route::get('/login', fn () => view('login'))->name('login');
+    Route::post('/login', [AdminController::class, 'authenticate']);
+    Route::post('/logout', [AdminController::class, 'logout'])->name('logout');
+    Route::group(['middleware' => 'auth'], function () {
         Route::prefix('/clients')->group(function () {
             Route::get('/add-client', [ClientController::class, 'addClient']);
             Route::get('/edit/{id}', [ClientController::class, 'edit'])->name('admin.clients.edit');
         });
+        Route::get('/', fn () => redirect()->route('admin.dashboard'));
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
         Route::get('/clients', [AdminController::class, 'clients'])->name('admin.clients');
         Route::get('/bills', [AdminController::class, 'bills']);

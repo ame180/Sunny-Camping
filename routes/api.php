@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['middleware' => 'admin.user'], function () {
+Route::group(['middleware' => 'auth'], function () {
     Route::get('/clients', [ClientController::class, 'getMultiple']);
     Route::get('/clients/export-registered', [ClientController::class, 'exportRegistered']);
     Route::get('/clients/{id}', [ClientController::class, 'get']);
@@ -25,6 +25,6 @@ Route::group(['middleware' => 'admin.user'], function () {
     Route::delete('/clients/{id}', [ClientController::class, 'delete']);
 });
 
-Route::group(['middleware' => 'admin.user'], function () {
+Route::group(['middleware' => 'auth'], function () {
     Route::get('/categories', [CategoryController::class, 'getMultiple']);
 });

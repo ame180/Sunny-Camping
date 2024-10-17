@@ -28,6 +28,16 @@ use Illuminate\Support\Carbon;
  * @property int                     $days
  * @property float                   $price
  * @property float                   $price_per_day
+ * @property float                   $climate_paid
+ * @property float                   $climate_price
+ * @property int|null                $token_number
+ * @property int                     $unregistered
+ * @property int                     $cash_register
+ * @property int                     $terminal
+ * @property int                     $voucher
+ * @property int                     $invoice
+ * @property string|null             $sector
+ * @property string|null             $car_registration
  *
  * @method static ClientFactory  factory(...$parameters)
  * @method static Builder|Client newModelQuery()
@@ -43,23 +53,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Client wherePaid($value)
  * @method static Builder|Client whereStatus($value)
  * @method static Builder|Client whereUpdatedAt($value)
- *
- * @mixin Eloquent
- *
- * @property float    $climate_paid
- * @property float    $climate_price
- * @property int|null $token_number
- *
  * @method static Builder|Client whereClimatePaid($value)
- *
- * @property int         $unregistered
- * @property int         $cash_register
- * @property int         $terminal
- * @property int         $voucher
- * @property int         $invoice
- * @property string|null $sector
- * @property string|null $car_registration
- *
  * @method static Builder|Client whereCarRegistration($value)
  * @method static Builder|Client whereCashRegister($value)
  * @method static Builder|Client whereInvoice($value)
@@ -68,6 +62,8 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Client whereTokenNumber($value)
  * @method static Builder|Client whereUnregistered($value)
  * @method static Builder|Client whereVoucher($value)
+ *
+ * @mixin Eloquent
  */
 class Client extends BaseModel
 {

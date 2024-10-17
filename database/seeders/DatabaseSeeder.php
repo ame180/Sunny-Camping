@@ -3,12 +3,9 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use TCG\Voyager\Traits\Seedable;
 
 class DatabaseSeeder extends Seeder
 {
-    use Seedable;
-
     protected $seedersPath = __DIR__ . '/';
 
     /**
@@ -23,8 +20,7 @@ class DatabaseSeeder extends Seeder
             ServiceCategorySeeder::class,
             ItemSeeder::class,
             ServiceSeeder::class,
+            UsersTableSeeder::class,
         ]);
-        $this->seed(VoyagerDatabaseSeeder::class);
-        $this->seed(UsersTableSeeder::class);
     }
 }
