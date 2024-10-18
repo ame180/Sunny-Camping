@@ -38,6 +38,8 @@ use Illuminate\Support\Carbon;
  * @property int                     $invoice
  * @property string|null             $sector
  * @property string|null             $car_registration
+ * @property string|null             $postcode
+ * @property string|null             $country
  *
  * @method static ClientFactory  factory(...$parameters)
  * @method static Builder|Client newModelQuery()
@@ -62,6 +64,8 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Client whereTokenNumber($value)
  * @method static Builder|Client whereUnregistered($value)
  * @method static Builder|Client whereVoucher($value)
+ * @method static Builder|Client wherePostcode($value)
+ * @method static Builder|Client whereCountry($value)
  *
  * @mixin Eloquent
  */
