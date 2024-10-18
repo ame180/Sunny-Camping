@@ -16,14 +16,24 @@
             </div>
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
-            <label for="arrival_date">Data przyjazdu</label>
-            <input id="arrival_date" v-model="client.arrival_date" name="arrival_date" type="date"
-                   class="form-control form-control-sm">
+            <label for="postcode">Kod pocztowy</label>
+            <input
+                id="postcode"
+                v-model.trim="client.postcode"
+                name="postcode"
+                type="text"
+                class="form-control form-control-sm"
+            >
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
-            <label for="departure_date">Data odjazdu</label>
-            <input id="departure_date" v-model="client.departure_date" name="departure_date" type="date"
-                   class="form-control form-control-sm">
+            <label for="country">Kraj</label>
+            <input
+                id="country"
+                v-model.trim="client.country"
+                name="country"
+                type="text"
+                class="form-control form-control-sm"
+            >
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="car_registration">Rejestracja</label>
@@ -35,6 +45,16 @@
                 placeholder="Rejestracja"
                 class="form-control form-control-sm"
             >
+        </div>
+        <div class="col-6 col-sm-4 col-md-3 form-group">
+            <label for="arrival_date">Data przyjazdu</label>
+            <input id="arrival_date" v-model="client.arrival_date" name="arrival_date" type="date"
+                   class="form-control form-control-sm">
+        </div>
+        <div class="col-6 col-sm-4 col-md-3 form-group">
+            <label for="departure_date">Data odjazdu</label>
+            <input id="departure_date" v-model="client.departure_date" name="departure_date" type="date"
+                   class="form-control form-control-sm">
         </div>
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="discount">Rabat</label>
