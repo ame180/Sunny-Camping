@@ -388,7 +388,7 @@ export default {
                 }
             }, this)
 
-            this.price = Math.round(price);
+            this.price = Math.round(price * 100) / 100;
         },
         updateClimatePrice() {
             if (this.days === 0) {
@@ -412,7 +412,7 @@ export default {
                 }
             }, this)
 
-            this.climate_price = Math.round(price);
+            this.climate_price = Math.round(price * 100) / 100;
         }
     },
 }
