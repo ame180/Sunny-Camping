@@ -6,8 +6,6 @@ on:
       branch:
         description: 'Branch to deploy'
         required: false
-        # Defaults to the branch the workflow is run from
-        default: ${{ github.ref_name }}
 
 jobs:
   deploy:
@@ -21,7 +19,8 @@ jobs:
           username: ${{ secrets.VPS_SSH_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
-            BRANCH_NAME=${{ github.event.inputs.branch }}
+            # Use the input branch, or fall back to the current branch if input is empty
+            BRANCH_NAME=${{ github.event.inputs.branch || github.ref_name }}
             echo "--- Deploying branch: $BRANCH_NAME ---"
             
             # Navigate using the APP_DIR variable from GitHub settings
