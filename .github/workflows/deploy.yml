@@ -32,5 +32,5 @@ jobs:
             git pull origin $BRANCH_NAME
 
             # Rebuild and restart containers
-            docker-compose -f docker-compose-prod.yml down
-            docker-compose -f docker-compose-prod.yml up -d --build
+            docker compose -f docker-compose-prod.yml down
+            docker compose -f docker-compose-prod.yml up -d --build
