@@ -1,0 +1,37 @@
+name: Deploy to VPS
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to deploy'
+        required: false
+        # Defaults to the branch the workflow is run from
+        default: ${{ github.ref_name }}
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH and Deploy
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_SSH_HOST }}
+          username: ${{ secrets.VPS_SSH_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            BRANCH_NAME=${{ github.event.inputs.branch }}
+            echo "--- Deploying branch: $BRANCH_NAME ---"
+            
+            # Navigate using the APP_DIR variable from GitHub settings
+            cd ${{ vars.APP_DIR }}
+
+            # Fetch all remote branches and pull the specific one
+            git fetch origin
+            git checkout $BRANCH_NAME
+            git pull origin $BRANCH_NAME
+
+            # Rebuild and restart containers
+            docker-compose down
+            docker-compose up -d --build
