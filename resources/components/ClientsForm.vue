@@ -347,7 +347,10 @@ export default {
                 request = axios.put(baseUrl + '/api/clients/' + this.id, this.client);
             }
             request.then(() => {
-                window.location.href = baseUrl + '/admin/clients';
+                // Get preserved filters and redirect with them
+                const preservedFilters = this.getPreservedFilters();
+                const redirectUrl = this.buildFilteredClientsUrl(preservedFilters);
+                window.location.href = redirectUrl;
             }, () => {
                 alert("Coś poszło nie tak! Upewnij się że wpisane dane są poprawne!");
                 this.submitting = false;
@@ -413,6 +416,35 @@ export default {
             }, this)
 
             this.climate_price = Math.round(price * 100) / 100;
+        },
+        getPreservedFilters() {
+            // Get preserved filters from sessionStorage
+            const stored = sessionStorage.getItem('clientTableFilters');
+            if (stored) {
+                try {
+                    return JSON.parse(stored);
+                } catch (e) {
+                    console.warn('Failed to parse stored filters:', e);
+                }
+            }
+            return {};
+        },
+        buildFilteredClientsUrl(filters) {
+            // Build URL with preserved filters
+            const queryParams = new URLSearchParams();
+            
+            if (filters.unregistered) queryParams.append('unregistered', 'true');
+            if (filters.cash_register) queryParams.append('cash_register', 'true');
+            if (filters.terminal) queryParams.append('terminal', 'true');
+            if (filters.voucher) queryParams.append('voucher', 'true');
+            if (filters.invoice) queryParams.append('invoice', 'true');
+            if (filters.departure_date) queryParams.append('departure_date', filters.departure_date);
+            if (filters.status) queryParams.append('status', filters.status);
+            if (filters.token_number) queryParams.append('token_number', filters.token_number);
+            if (filters.query) queryParams.append('query', filters.query);
+            
+            const queryString = queryParams.toString();
+            return baseUrl + '/admin/clients' + (queryString ? '?' + queryString : '');
         }
     },
 }

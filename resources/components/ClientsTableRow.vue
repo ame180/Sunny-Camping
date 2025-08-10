@@ -23,7 +23,7 @@
                     <div class="row no-gutters text-center">
                         <div class="col-12 p-1">
                             <a class="btn btn-primary"
-                               :href="'clients/edit/' + client.id">
+                               :href="getEditUrl(client.id)">
                                 <i class="far fa-fw fa-sticky-note"></i>
                             </a>
                         </div>
@@ -101,6 +101,27 @@ export default {
             return '#' + client.id + ' ' + client.name + ' '
                 + (client.token_number ? '[' + client.token_number + ']' : '')
                 + (client.sector ? '[' + client.sector + ']' : '');
+        },
+        getEditUrl(clientId) {
+            // Store current filters and generate edit URL that will preserve filters on return
+            const filters = this.getStoredFilters();
+            sessionStorage.setItem('clientTableFilters', JSON.stringify(filters));
+            return 'clients/edit/' + clientId;
+        },
+        getStoredFilters() {
+            // Get current filters from parent component via URL or default
+            const urlParams = new URLSearchParams(window.location.search);
+            return {
+                unregistered: urlParams.get('unregistered') || '',
+                cash_register: urlParams.get('cash_register') || '',
+                terminal: urlParams.get('terminal') || '',
+                voucher: urlParams.get('voucher') || '',
+                invoice: urlParams.get('invoice') || '',
+                departure_date: urlParams.get('departure_date') || '',
+                status: urlParams.get('status') || '',
+                token_number: urlParams.get('token_number') || '',
+                query: urlParams.get('query') || ''
+            };
         },
         showSettleModal(client) {
             this.$modal.show(SettleModal,

@@ -87,6 +87,27 @@ export default {
                         this.clientsList.splice(deleteIndex, 1);
                     });
             },
+            storeCurrentFilters() {
+                // Store current filters in sessionStorage for filter preservation
+                sessionStorage.setItem('clientTableFilters', JSON.stringify(this.filters));
+            },
+            buildFilteredClientsUrl() {
+                // Build URL with current filters for navigation
+                const queryParams = new URLSearchParams();
+                
+                if (this.filters.unregistered) queryParams.append('unregistered', 'true');
+                if (this.filters.cash_register) queryParams.append('cash_register', 'true');
+                if (this.filters.terminal) queryParams.append('terminal', 'true');
+                if (this.filters.voucher) queryParams.append('voucher', 'true');
+                if (this.filters.invoice) queryParams.append('invoice', 'true');
+                if (this.filters.departure_date) queryParams.append('departure_date', this.filters.departure_date);
+                if (this.filters.status) queryParams.append('status', this.filters.status);
+                if (this.filters.token_number) queryParams.append('token_number', this.filters.token_number);
+                if (this.filters.query) queryParams.append('query', this.filters.query);
+                
+                const queryString = queryParams.toString();
+                return baseUrl + '/admin/clients' + (queryString ? '?' + queryString : '');
+            },
         },
     mounted() {
         axios.get(baseUrl + '/api/categories?service_id=1')
@@ -96,6 +117,9 @@ export default {
         this.clients.data.forEach(function (client) {
             this.groupItems(client)
         }, this);
+        
+        // Store current filters in sessionStorage for preservation when navigating away
+        this.storeCurrentFilters();
     },
     data: function () {
         return {
