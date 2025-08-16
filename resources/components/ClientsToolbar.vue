@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { appendFiltersToPath, parseFiltersFromSearch } from "../js/utils/clientsFilters";
+import { appendQueryParamsToPath, parseQueryParamsFromSearch } from "../js/utils/clientsQuery";
 
 export default {
     props: {
@@ -17,9 +17,9 @@ export default {
     },
     computed: {
         addClientHref() {
-            const filters = parseFiltersFromSearch(window.location.search);
+            const filters = parseQueryParamsFromSearch(window.location.search);
 
-            return appendFiltersToPath(this.basePath, filters);
+            return appendQueryParamsToPath(this.basePath, filters);
         }
     }
 }

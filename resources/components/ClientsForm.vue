@@ -217,7 +217,7 @@
 </template>
 
 <script>
-import { appendFiltersToPath, parseFiltersFromSearch } from "../js/utils/clientsFilters";
+import { appendQueryParamsToPath, parseQueryParamsFromSearch } from "../js/utils/clientsQuery";
 export default {
     props: ['mode', 'id'],
     data() {
@@ -347,8 +347,8 @@ export default {
                 request = axios.put(baseUrl + '/api/clients/' + this.id, this.client);
             }
             request.then(() => {
-                const filters = parseFiltersFromSearch(window.location.search);
-                window.location.href = appendFiltersToPath(baseUrl + '/admin/clients', filters);
+                const filters = parseQueryParamsFromSearch(window.location.search);
+                window.location.href = appendQueryParamsToPath(baseUrl + '/admin/clients', filters);
             }, () => {
                 alert("Coś poszło nie tak! Upewnij się że wpisane dane są poprawne!");
                 this.submitting = false;

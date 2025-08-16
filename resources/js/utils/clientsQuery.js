@@ -1,4 +1,5 @@
 const allowedKeys = [
+  'page',
   'unregistered',
   'cash_register',
   'terminal',
@@ -10,34 +11,34 @@ const allowedKeys = [
   'query'
 ];
 
-export function normalizeFilters(filters) {
+export function normalizeQueryParams(params) {
   const out = {};
   allowedKeys.forEach(k => {
-    const v = filters && filters[k];
+    const v = params && params[k];
     if (v !== undefined && v !== null && v !== '') out[k] = v;
   });
 
   return out;
 }
 
-export function filtersToQueryString(filters) {
-  const f = normalizeFilters(filters);
-  const params = new URLSearchParams();
+export function queryParamsToString(params) {
+  const f = normalizeQueryParams(params);
+  const p = new URLSearchParams();
   Object.keys(f).forEach(k => {
     const v = f[k];
-    if (v === true) params.append(k, 'true');
-    else params.append(k, String(v));
+    if (v === true) p.append(k, 'true');
+    else p.append(k, String(v));
   });
-  const qs = params.toString();
+  const qs = p.toString();
 
   return qs ? `?${qs}` : '';
 }
 
-export function appendFiltersToPath(path, filters) {
-  return `${path}${filtersToQueryString(filters)}`;
+export function appendQueryParamsToPath(path, params) {
+  return `${path}${queryParamsToString(params)}`;
 }
 
-export function parseFiltersFromSearch(search) {
+export function parseQueryParamsFromSearch(search) {
   const params = new URLSearchParams(search || '');
   const out = {};
   allowedKeys.forEach(k => {

@@ -88,7 +88,7 @@
 
 <script>
 import SettleModal from "./SettleModal.vue";
-import { appendFiltersToPath, parseFiltersFromSearch } from "../js/utils/clientsFilters";
+import { appendQueryParamsToPath, parseQueryParamsFromSearch } from "../js/utils/clientsQuery";
 
 export default {
     props: {
@@ -100,9 +100,9 @@ export default {
     computed: {
         editHref() {
             const base = '/admin/clients/edit/' + this.client.id;
-            const filters = parseFiltersFromSearch(window.location.search);
+            const filters = parseQueryParamsFromSearch(window.location.search);
 
-            return appendFiltersToPath(base, filters);
+            return appendQueryParamsToPath(base, filters);
         }
     },
 
