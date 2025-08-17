@@ -1,10 +1,7 @@
 @extends('layouts.admin')
 
 @section('options')
-    <div class="text-center">
-        <a class="btn btn-lg btn-primary m-1" href="clients/add-client">Dodaj klienta</a>
-        <a class="btn btn-lg btn-primary m-1" href="/api/clients/export-registered">Exportuj</a>
-    </div>
+    <clients-toolbar></clients-toolbar>
 @endsection
 
 @section('table')

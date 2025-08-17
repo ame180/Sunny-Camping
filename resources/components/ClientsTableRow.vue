@@ -23,7 +23,7 @@
                     <div class="row no-gutters text-center">
                         <div class="col-12 p-1">
                             <a class="btn btn-primary"
-                               :href="'clients/edit/' + client.id">
+                               :href="editHref">
                                 <i class="far fa-fw fa-sticky-note"></i>
                             </a>
                         </div>
@@ -88,6 +88,7 @@
 
 <script>
 import SettleModal from "./SettleModal.vue";
+import { appendQueryParamsToPath, parseQueryParamsFromSearch } from "../js/utils/clientsQuery";
 
 export default {
     props: {
@@ -96,6 +97,15 @@ export default {
         categories: Array,
         deleteClient: Function,
     },
+    computed: {
+        editHref() {
+            const base = '/admin/clients/edit/' + this.client.id;
+            const filters = parseQueryParamsFromSearch(window.location.search);
+
+            return appendQueryParamsToPath(base, filters);
+        }
+    },
+
     methods: {
         getClientHeader(client) {
             return '#' + client.id + ' ' + client.name + ' '
