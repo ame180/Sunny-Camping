@@ -374,7 +374,7 @@ export default {
                     category.addedItems.forEach(function(item) {
                         let item_price = item.price * item.count;
 
-                        if (category.name === 'Osoby') {
+                        if (category.discountable) {
                             item_price *= (100 - this.client.discount) / 100;
                         }
 

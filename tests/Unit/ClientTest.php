@@ -42,10 +42,10 @@ class ClientTest extends TestCase
     }
 
     /** @test */
-    public function getStayPriceClientWithStayPriceOf232232Returned(): void
+    public function getStayPriceWithDiscountableItemsDiscountedPriceReturned(): void
     {
         /** @var Client $client @noinspection PhpUndefinedMethodInspection */
-        $serviceCategory = ServiceCategory::factory()->create(['name' => 'Osoby']);
+        $serviceCategory = ServiceCategory::factory()->create(['discountable' => true]);
         $clientItem = ClientItem::factory()->create(['count' => 1, 'price' => 20]);
         $clientItem->serviceCategory()->associate($serviceCategory);
         $client = Client::factory()

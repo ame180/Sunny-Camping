@@ -22,6 +22,7 @@ use Illuminate\Support\Carbon;
  * @property int|null                      $category_items_count
  * @property Collection|\App\Models\Item[] $serviceCategoryItems
  * @property int|null                      $service_category_items_count
+ * @property bool                          $discountable
  *
  * @method static ServiceCategoryFactory  factory(...$parameters)
  * @method static Builder|ServiceCategory newModelQuery()

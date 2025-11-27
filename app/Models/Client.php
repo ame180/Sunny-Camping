@@ -102,7 +102,7 @@ class Client extends BaseModel
 
             $itemPrice = $clientItem->price * $clientItem->count;
 
-            if ('Osoby' === $clientItem->serviceCategory?->name) {
+            if ($clientItem->serviceCategory?->discountable) {
                 $itemPrice *= (100 - $this->discount) / 100;
             }
 
