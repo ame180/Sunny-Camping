@@ -21,6 +21,7 @@ class ItemSeeder extends Seeder
             ['service_category_id' => 3, 'name' => 'Duży', 'price' => 7],
             ['service_category_id' => 3, 'name' => 'Mały', 'price' => 5],
             ['service_category_id' => 4, 'name' => 'Prąd', 'price' => 12],
+            ['service_category_id' => 5, 'name' => 'Pranie', 'price' => 20],
         ]);
     }
 }

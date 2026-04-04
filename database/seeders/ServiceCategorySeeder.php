@@ -19,6 +19,7 @@ class ServiceCategorySeeder extends Seeder
             ['id' => 2, 'name' => 'Klimatyczne', 'service_id' => 1, 'created_at' => now(), 'updated_at' => now()],
             ['id' => 3, 'name' => 'Plac', 'service_id' => 1, 'created_at' => now(), 'updated_at' => now()],
             ['id' => 4, 'name' => 'Prąd', 'service_id' => 1, 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 5, 'name' => 'Dodatki', 'service_id' => 1, 'created_at' => now(), 'updated_at' => now()],
         ]);
     }
 }
