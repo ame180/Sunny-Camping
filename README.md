@@ -41,7 +41,7 @@ Deployment is now handled by the `Deploy` workflow in `.github/workflows/deploy.
 2. GitHub Actions installs frontend dependencies and compiles production assets.
 3. GitHub Actions builds immutable production images from `infrastructure/Dockerfile-prod`.
 4. Images are pushed to GitHub Container Registry as `ghcr.io/ame180/sunny-camping-app` and `ghcr.io/ame180/sunny-camping-nginx`.
-5. The workflow uploads a rendered `docker-compose-prod.yml` to the server and restarts services with `docker compose`.
+5. The workflow uploads a rendered `compose.yml` to the server and restarts services with `docker compose`.
 
 ### Required GitHub Environment Secrets
 
