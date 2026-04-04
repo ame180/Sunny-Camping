@@ -1,36 +1,138 @@
-name: Deploy to VPS
+name: Deploy
 
 on:
   workflow_dispatch:
     inputs:
-      branch:
-        description: 'Branch to deploy'
-        required: false
+      environment:
+        description: "Target environment"
+        type: choice
+        required: true
+        options:
+          - dev
+          - prod
+        default: dev
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: deploy-${{ inputs.environment }}
+  cancel-in-progress: true
 
 jobs:
-  deploy:
-    name: Deploy
+  build-and-push:
+    name: Build and Push Images
     runs-on: ubuntu-latest
+    outputs:
+      image_tag: ${{ steps.vars.outputs.tag }}
     steps:
-      - name: SSH and Deploy
-        uses: appleboy/ssh-action@v1.0.3
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          host: ${{ secrets.VPS_SSH_HOST }}
-          username: ${{ secrets.VPS_SSH_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
+          node-version: 20
+          cache: yarn
+
+      - name: Install Node.js dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Compile production assets
+        run: yarn production
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set deploy image tag
+        id: vars
+        run: |
+          if [ "${{ inputs.environment }}" = "prod" ]; then
+            TAG=latest
+          else
+            TAG=dev
+          fi
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Build and push app image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: infrastructure/Dockerfile-prod
+          target: app
+          push: true
+          cache-from: type=gha,scope=sunny-camping-app
+          cache-to: type=gha,mode=max,scope=sunny-camping-app
+          tags: |
+            ghcr.io/ame180/sunny-camping-app:${{ steps.vars.outputs.tag }}
+            ghcr.io/ame180/sunny-camping-app:sha-${{ github.sha }}
+
+      - name: Build and push nginx image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: infrastructure/Dockerfile-prod
+          target: nginx
+          push: true
+          cache-from: type=gha,scope=sunny-camping-nginx
+          cache-to: type=gha,mode=max,scope=sunny-camping-nginx
+          tags: |
+            ghcr.io/ame180/sunny-camping-nginx:${{ steps.vars.outputs.tag }}
+            ghcr.io/ame180/sunny-camping-nginx:sha-${{ github.sha }}
+
+      - name: Render deployment compose file
+        run: |
+          TAG="${{ steps.vars.outputs.tag }}"
+          sed \
+            -e "s#ghcr.io/ame180/sunny-camping-app:latest#ghcr.io/ame180/sunny-camping-app:${TAG}#g" \
+            -e "s#ghcr.io/ame180/sunny-camping-nginx:latest#ghcr.io/ame180/sunny-camping-nginx:${TAG}#g" \
+            docker-compose-prod.yml > compose.deploy.yml
+
+      - name: Upload compose artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: compose-file
+          path: compose.deploy.yml
+          retention-days: 1
+
+  deploy:
+    name: Deploy to ${{ inputs.environment }}
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Download compose artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: compose-file
+
+      - name: Upload compose file via SCP
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          source: "compose.deploy.yml"
+          target: "${{ secrets.APP_PATH }}/"
+          overwrite: true
+
+      - name: SSH and deploy
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
           script: |
-            # Use the input branch, or fall back to the current branch if input is empty
-            BRANCH_NAME=${{ github.event.inputs.branch || github.ref_name }}
-            echo "--- Deploying branch: $BRANCH_NAME ---"
-            
-            # Navigate using the APP_DIR variable from GitHub settings
-            cd ${{ vars.APP_DIR }}
-
-            # Fetch all remote branches and pull the specific one
-            git fetch origin
-            git checkout $BRANCH_NAME
-            git pull origin $BRANCH_NAME
-
-            # Rebuild and restart containers
-            docker compose -f docker-compose-prod.yml down
-            docker compose -f docker-compose-prod.yml up -d --build
+            set -euo pipefail
+            cd "${{ secrets.APP_PATH }}"
+            mv -f compose.deploy.yml docker-compose-prod.yml
+            docker compose -f docker-compose-prod.yml pull
+            docker compose -f docker-compose-prod.yml up -d --force-recreate

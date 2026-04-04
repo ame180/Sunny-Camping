@@ -1,0 +1,29 @@
+FROM php:8.3-fpm AS app
+
+WORKDIR /application
+
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Install runtime packages
+RUN apt-get update && apt-get install -y mariadb-client git zip python3 cron && apt-get clean
+
+# Install PHP extensions
+RUN docker-php-ext-install pdo pdo_mysql
+
+# Set up cron
+RUN touch /var/log/cron.log
+COPY ./infrastructure/crontab /etc/cron.d/crontab
+
+COPY . /application
+
+RUN composer install --no-dev --no-scripts --optimize-autoloader --no-interaction --no-progress --prefer-dist \
+    && chmod +x /application/infrastructure/entrypoint-prod.sh
+
+
+FROM nginx:1.21 AS nginx
+
+WORKDIR /application
+
+COPY --from=app /application/public /application/public
+COPY ./infrastructure/nginx/default.conf /etc/nginx/conf.d/default.conf

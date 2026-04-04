@@ -1,23 +1,22 @@
 services:
   php:
-    build:
-      context: .
-      dockerfile: infrastructure/Dockerfile
+    image: ghcr.io/ame180/sunny-camping-app:latest
+    env_file:
+      - .env
     volumes:
-      - .:/application
+      - app_storage:/application/storage
     working_dir: /application
-    entrypoint: "/bin/bash /application/infrastructure/entrypoint.sh"
+    entrypoint: "/bin/bash /application/infrastructure/entrypoint-prod.sh"
     ports:
       - 9000
 
   nginx:
-    image: nginx:1.21
+    image: ghcr.io/ame180/sunny-camping-nginx:latest
     working_dir: /application
     depends_on:
       - php
     volumes:
-      - .:/application
-      - ./infrastructure/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - app_storage:/application/storage:ro
     environment:
       - VIRTUAL_HOST=${APP_HOST}
       - LETSENCRYPT_HOST=${APP_HOST}
@@ -27,7 +26,6 @@ services:
   mysql:
     image: library/mariadb:10.5
     volumes:
-      - .:/application
       - dbdata:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
@@ -38,4 +36,5 @@ services:
       - 3306
 
 volumes:
+  app_storage:
   dbdata:
