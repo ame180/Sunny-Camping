@@ -217,7 +217,7 @@
 </template>
 
 <script>
-
+import { appendQueryParamsToPath, parseQueryParamsFromSearch } from "../js/utils/clientsQuery";
 export default {
     props: ['mode', 'id'],
     data() {
@@ -347,7 +347,8 @@ export default {
                 request = axios.put(baseUrl + '/api/clients/' + this.id, this.client);
             }
             request.then(() => {
-                window.location.href = baseUrl + '/admin/clients';
+                const filters = parseQueryParamsFromSearch(window.location.search);
+                window.location.href = appendQueryParamsToPath(baseUrl + '/admin/clients', filters);
             }, () => {
                 alert("Coś poszło nie tak! Upewnij się że wpisane dane są poprawne!");
                 this.submitting = false;
@@ -363,7 +364,7 @@ export default {
             return Math.round(diff / day);
         },
         updatePrice() {
-            if (this.days === 0) {
+            if (this.getDays() === 0) {
                 return 0;
             }
 
@@ -388,10 +389,10 @@ export default {
                 }
             }, this)
 
-            this.price = Math.round(price);
+            this.price = Math.round(price * 100) / 100;
         },
         updateClimatePrice() {
-            if (this.days === 0) {
+            if (this.getDays() === 0) {
                 return 0;
             }
 
@@ -412,8 +413,8 @@ export default {
                 }
             }, this)
 
-            this.climate_price = Math.round(price);
-        }
+            this.climate_price = Math.round(price * 100) / 100;
+    }
     },
 }
 </script>
