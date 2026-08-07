@@ -52,15 +52,22 @@ class BackupDatabase extends Command
      */
     public function handle(): int
     {
+        putenv('MYSQL_PWD=' . env('DB_PASSWORD'));
         exec(sprintf(
-            'mysqldump -h %s -u %s -p%s %s',
-            env('DB_HOST'),
-            env('DB_USERNAME'),
-            env('DB_PASSWORD'),
-            env('DB_DATABASE'),
-        ), $output);
+            'mysqldump --skip-ssl -h %s -u %s %s',
+            escapeshellarg(env('DB_HOST')),
+            escapeshellarg(env('DB_USERNAME')),
+            escapeshellarg(env('DB_DATABASE')),
+        ), $output, $exitCode);
 
-        $objectKey = sprintf('db-%s.sqlite', Carbon::now()->format('Y-m-d'));
+        if ($exitCode !== 0) {
+            Log::error('mysqldump failed', ['exitCode' => $exitCode]);
+            $this->output->error('mysqldump failed with exit code ' . $exitCode);
+
+            return static::FAILURE;
+        }
+
+        $objectKey = sprintf('db-%s.sql', Carbon::now()->format('Y-m-d'));
         $objectBody = implode("\n", $output);
         try {
             if ($this->s3->doesObjectExist($this->bucket, $objectKey)) {
