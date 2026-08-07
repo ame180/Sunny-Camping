@@ -27,7 +27,7 @@ class AdminController extends Controller
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
 
-            return redirect()->intended(route('admin.clients'));
+            return redirect()->intended(route('admin.clients', ['departure_date' => now()->toDateString()]));
         }
 
         return back()->withErrors([
