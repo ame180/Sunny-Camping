@@ -60,7 +60,7 @@ class BackupDatabase extends Command
             escapeshellarg(env('DB_DATABASE')),
         ), $output, $exitCode);
 
-        if ($exitCode !== 0) {
+        if (0 !== $exitCode) {
             Log::error('mysqldump failed', ['exitCode' => $exitCode]);
             $this->output->error('mysqldump failed with exit code ' . $exitCode);
 
