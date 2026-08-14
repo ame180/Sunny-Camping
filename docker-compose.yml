@@ -9,6 +9,9 @@ services:
       - .:/application
     working_dir: /application
     entrypoint: "/bin/bash /application/infrastructure/entrypoint.sh"
+    depends_on:
+      mysql:
+        condition: service_healthy
     ports:
       - "9000:9000"
 
@@ -33,6 +36,12 @@ services:
       - MYSQL_DATABASE=${DB_DATABASE}
       - MYSQL_USER=${DB_USERNAME}
       - MYSQL_PASSWORD=${DB_PASSWORD}
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      start_period: 10s
+      interval: 10s
+      timeout: 5s
+      retries: 3
     ports:
       - "3306:3306"
 

@@ -7,8 +7,10 @@ services:
       - app_storage:/application/storage
     working_dir: /application
     entrypoint: "/bin/bash /application/infrastructure/entrypoint-prod.sh"
-    ports:
-      - 9000
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: unless-stopped
 
   nginx:
     image: ghcr.io/ame180/sunny-camping-nginx:latest
@@ -20,8 +22,7 @@ services:
     environment:
       - VIRTUAL_HOST=${APP_HOST}
       - LETSENCRYPT_HOST=${APP_HOST}
-    ports:
-      - 80
+    restart: unless-stopped
 
   mysql:
     image: library/mariadb:10.5
@@ -32,8 +33,13 @@ services:
       - MYSQL_DATABASE=${DB_DATABASE}
       - MYSQL_USER=${DB_USERNAME}
       - MYSQL_PASSWORD=${DB_PASSWORD}
-    ports:
-      - 3306
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      start_period: 10s
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
 
 volumes:
   app_storage:
