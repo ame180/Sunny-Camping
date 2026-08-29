@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/clients', [ClientController::class, 'getMultiple']);
     Route::get('/clients/export-registered', [ClientController::class, 'exportRegistered']);
+    Route::get('/clients/suggestions', [ClientController::class, 'suggestions']);
     Route::get('/clients/{id}', [ClientController::class, 'get']);
     Route::post('/clients', [ClientController::class, 'add']);
     Route::post('/clients/{id}/settle', [ClientController::class, 'settle']);

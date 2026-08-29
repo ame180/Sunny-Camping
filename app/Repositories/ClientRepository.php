@@ -85,6 +85,50 @@ class ClientRepository extends BaseRepository
             ->get();
     }
 
+    public function findNameSuggestions(string $searchQuery, int $limit = 20): Collection
+    {
+        return $this->getQueryBuilder()
+            ->select('name', 'postcode', 'country')
+            ->where(function ($query) use ($searchQuery) {
+                return $this->applyNameWordPrefixMatch($query, $searchQuery);
+            })
+            ->where(function ($query) {
+                return $query
+                    ->where(function ($located) {
+                        return $this->applyHasLocation($located, 'clients');
+                    })
+                    ->orWhereNotExists(function ($exists) {
+                        return $exists
+                            ->selectRaw('1')
+                            ->from('clients as located')
+                            ->whereColumn('located.name', 'clients.name')
+                            ->where(function ($located) {
+                                return $this->applyHasLocation($located, 'located');
+                            });
+                    });
+            })
+            ->groupBy('name', 'postcode', 'country')
+            ->orderByRaw('(name LIKE ?) DESC', ["$searchQuery%"])
+            ->orderByRaw('MAX(id) DESC')
+            ->limit($limit)
+            ->get();
+    }
+
+    private function applyNameWordPrefixMatch($query, string $searchQuery)
+    {
+        return $query
+            ->where('name', 'LIKE', "$searchQuery%")
+            ->orWhere('name', 'LIKE', "% $searchQuery%")
+            ->orWhere('name', 'LIKE', "%-$searchQuery%");
+    }
+
+    private function applyHasLocation($query, string $table)
+    {
+        return $query
+            ->where("$table.postcode", '<>', '')
+            ->orWhere("$table.country", '<>', '');
+    }
+
     public function findCurrentAssignedTokens(): Collection
     {
         return $this->getCurrentSeasonBaseQuery()
