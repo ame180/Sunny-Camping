@@ -12,8 +12,26 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/127.0.0.1/9000"]
+      start_period: 300s
+      interval: 10s
+      timeout: 5s
+      retries: 3
     ports:
       - "9000:9000"
+
+  scheduler:
+    build:
+      context: .
+      dockerfile: infrastructure/Dockerfile
+    volumes:
+      - .:/application
+    working_dir: /application
+    entrypoint: ["php", "artisan", "schedule:work"]
+    depends_on:
+      php:
+        condition: service_healthy
 
   nginx:
     image: nginx:1.21
