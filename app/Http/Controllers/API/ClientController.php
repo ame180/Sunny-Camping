@@ -33,6 +33,17 @@ class ClientController extends Controller
         return $this->clientRepository->paginate($request->get('per_page'), $request->get('sort'));
     }
 
+    public function suggestions(Request $request)
+    {
+        $searchQuery = trim((string) $request->query('query', ''));
+
+        if (mb_strlen($searchQuery) < 2) {
+            return response()->json([]);
+        }
+
+        return response()->json($this->clientRepository->findNameSuggestions($searchQuery));
+    }
+
     public function add(Request $request)
     {
         $client = new Client();

@@ -2,7 +2,15 @@
     <div id="client-form" class="row mt-4">
         <div class="col-6 col-sm-4 col-md-3 form-group">
             <label for="name">Imię i nazwisko</label>
+            <client-name-input
+                v-if="mode === 'POST'"
+                :value="client.name"
+                :invalid="isNameInvalid"
+                @input="onNameInput"
+                @select="applySuggestion"
+            />
             <input
+                v-else
                 id="name"
                 v-model.trim="client.name"
                 :class="{ 'is-invalid': isNameInvalid }"
@@ -11,7 +19,7 @@
                 type="text" placeholder="Imię i nazwisko"
                 class="form-control form-control-sm"
             >
-            <div class="invalid-feedback">
+            <div :class="{ 'd-block': isNameInvalid }" class="invalid-feedback">
                 Imię i nazwisko muszą być podane!
             </div>
         </div>
@@ -218,11 +226,16 @@
 
 <script>
 import { appendQueryParamsToPath, parseQueryParamsFromSearch } from "../js/utils/clientsQuery";
+import ClientNameInput from "./ClientNameInput.vue";
 export default {
+    components: {ClientNameInput},
     props: ['mode', 'id'],
     data() {
         return {
             client: {
+                name: null,
+                postcode: null,
+                country: null,
                 discount: 0,
                 client_items: [],
                 unregistered: false,
@@ -298,6 +311,25 @@ export default {
         }
     },
     methods: {
+        onNameInput(name) {
+            this.client.name = name;
+
+            if (name) {
+                this.isNameInvalid = false;
+            }
+        },
+        applySuggestion(suggestion) {
+            this.client.name = suggestion.name;
+            this.isNameInvalid = false;
+
+            if (suggestion.postcode) {
+                this.client.postcode = suggestion.postcode;
+            }
+
+            if (suggestion.country) {
+                this.client.country = suggestion.country;
+            }
+        },
         trim(input) {
             if (input) return input.trim();
             return null;
