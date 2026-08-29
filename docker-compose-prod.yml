@@ -10,6 +10,27 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/127.0.0.1/9000"]
+      start_period: 30s
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+
+  scheduler:
+    image: ghcr.io/ame180/sunny-camping-app:latest
+    env_file:
+      - .env
+    volumes:
+      - app_storage:/application/storage
+    working_dir: /application
+    entrypoint: ["php", "artisan", "schedule:work"]
+    depends_on:
+      mysql:
+        condition: service_healthy
+      php:
+        condition: service_healthy
     restart: unless-stopped
 
   nginx:
