@@ -4,13 +4,13 @@ namespace Tests\Feature;
 
 use App\Models\Client;
 use App\Models\User;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\TestResponse;
 use Tests\TestCase;
 
 class ClientSuggestionsTest extends TestCase
 {
-    use DatabaseTransactions;
+    use RefreshDatabase;
 
     private const FIXTURE_SURNAME = 'Zzzsuggest';
     private const SUGGESTIONS_URL = '/api/clients/suggestions';
