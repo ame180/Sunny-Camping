@@ -28,6 +28,11 @@ inside the main container, to fill the database with example data.
 
 ### Testing
 
+Tests run against the `mysql-test` container, which keeps its data in memory and recreates the
+`sunnycamping_testing` database on every start. The suite migrates it from scratch on each run, so the
+development database is never touched and no setup is needed beyond `docker compose up`. Test
+configuration lives in `.env.testing`.
+
 - To run application tests, run `php artisan test`
 - To run style tests, run `php bin/php-cs-fixer fix --dry-run`
 
