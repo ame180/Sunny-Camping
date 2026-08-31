@@ -6,6 +6,7 @@
 2. Copy `.env.example` to `.env`
 3. Run `docker-compose build`
 4. Add `127.0.0.1 sunnycamping.local` to your `hosts` file
+5. Run `git config core.hooksPath scripts/git-hooks` to enable the git hooks
 
 ## Usage
 
@@ -27,6 +28,11 @@ inside the main container, to fill the database with example data.
 - To fix style, run `php bin/php-cs-fixer fix`
 
 ### Testing
+
+Tests run against the `mysql-test` container, which keeps its data in memory and recreates the
+`sunnycamping_testing` database on every start. The suite migrates it from scratch on each run, so the
+development database is never touched and no setup is needed beyond `docker compose up`. Test
+configuration lives in `.env.testing`.
 
 - To run application tests, run `php artisan test`
 - To run style tests, run `php bin/php-cs-fixer fix --dry-run`

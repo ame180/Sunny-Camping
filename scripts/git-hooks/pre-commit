@@ -1,0 +1,14 @@
+#!/bin/bash
+
+RED="\033[41m"
+NC="\033[49m"
+
+scripts/git-hooks/php-cs-fixer.sh
+CS_FIXER_STATUS=$?
+
+if [ $CS_FIXER_STATUS -ne 0 ]; then
+  echo -e "${RED}--> COMMIT ABORTED - You need to re-stage your files and commit again${NC}"
+  exit 1
+fi
+
+exit 0

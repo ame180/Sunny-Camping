@@ -7,13 +7,13 @@ namespace Tests\Unit;
 use App\Models\ServiceCategory;
 use App\Repositories\ServiceCategoryRepository;
 use Database\Factories\ServiceCategoryFactory;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\App;
 use Tests\TestCase;
 
 class CategoryTest extends TestCase
 {
-    use DatabaseTransactions;
+    use RefreshDatabase;
 
     private ServiceCategoryRepository $serviceCategoryRepository;
 

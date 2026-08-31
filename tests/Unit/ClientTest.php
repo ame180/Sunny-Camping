@@ -6,10 +6,13 @@ use App\Models\Client;
 use App\Models\ClientItem;
 use App\Models\ServiceCategory;
 use App\Validators\ClientPersistenceValidator;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ClientTest extends TestCase
 {
+    use RefreshDatabase;
+
     private ClientPersistenceValidator $clientPersistenceValidator;
 
     public function setUp(): void
