@@ -6,6 +6,7 @@
 2. Copy `.env.example` to `.env`
 3. Run `docker-compose build`
 4. Add `127.0.0.1 sunnycamping.local` to your `hosts` file
+5. Run `git config core.hooksPath scripts/git-hooks` to enable the git hooks
 
 ## Usage
 
