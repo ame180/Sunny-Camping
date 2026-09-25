@@ -100,17 +100,26 @@ export default {
     },
     methods: {
         fetchReport() {
+            const requestedYear = this.year;
             this.failed = false;
-            axios.get(baseUrl + this.endpoint, { params: { year: this.year } })
+            axios.get(baseUrl + this.endpoint, { params: { year: requestedYear } })
                 .then(({ data }) => {
+                    if (requestedYear !== this.year) {
+                        return;
+                    }
+
                     const keys = data.series.map((row) => row.key);
-                    const keptKeys = this.selectedKeys.filter((key) => keys.includes(key));
+                    const keptKeys = this.allSelected ? [] : this.selectedKeys.filter((key) => keys.includes(key));
 
                     this.series = data.series;
                     this.selectedKeys = keptKeys.length > 0 ? keptKeys : keys;
                     this.loaded = true;
                 })
                 .catch(() => {
+                    if (requestedYear !== this.year) {
+                        return;
+                    }
+
                     this.failed = true;
                 });
         },
