@@ -137,7 +137,7 @@ class ClientController extends Controller
 
         $callback = function () use ($clients, $columns) {
             $file = fopen('php://output', 'w');
-            fputcsv($file, $columns);
+            fputcsv($file, $columns, escape: '\\');
 
             /** @var Client $client */
             foreach ($clients as $client) {
@@ -156,7 +156,7 @@ class ClientController extends Controller
                     $row['name'],
                     $row['arrival_date'],
                     $row['departure_date'],
-                    $row['people_count'], ]);
+                    $row['people_count'], ], escape: '\\');
             }
 
             fclose($file);
