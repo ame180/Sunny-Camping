@@ -9,6 +9,7 @@
         </div>
         <report-widget title="Przychód wg kategorii" endpoint="/api/reports/revenue" :year="year" unit="currency"></report-widget>
         <report-widget title="Płatności wg rodzaju" endpoint="/api/reports/payments" :year="year" unit="currency"></report-widget>
+        <report-widget title="Goście wg kraju" endpoint="/api/reports/guests" :year="year" unit="count"></report-widget>
     </div>
 </template>
 

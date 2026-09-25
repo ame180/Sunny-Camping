@@ -35,4 +35,5 @@ Route::group(['middleware' => 'auth', 'prefix' => 'reports'], function () {
     Route::get('/years', [ReportController::class, 'years']);
     Route::get('/revenue', [ReportController::class, 'revenue']);
     Route::get('/payments', [ReportController::class, 'payments']);
+    Route::get('/guests', [ReportController::class, 'guests']);
 });
