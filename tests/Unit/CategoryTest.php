@@ -9,6 +9,7 @@ use App\Repositories\ServiceCategoryRepository;
 use Database\Factories\ServiceCategoryFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\App;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class CategoryTest extends TestCase
@@ -23,7 +24,7 @@ class CategoryTest extends TestCase
         $this->serviceCategoryRepository = App::make(ServiceCategoryRepository::class);
     }
 
-    /** @test */
+    #[Test]
     public function allByServiceCategoryWithItemsCategoryWithItemsReturned(): void
     {
         /** @var ServiceCategoryFactory $ServiceCategoryFactory */

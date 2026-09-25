@@ -2,11 +2,12 @@
 
 namespace Tests\Feature;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class RoutesTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function adminDashboardGetRedirectThenSuccess()
     {
         $this->withoutMix();
@@ -17,7 +18,7 @@ class RoutesTest extends TestCase
         $response->assertRedirect('/admin/login');
     }
 
-    /** @test */
+    #[Test]
     public function clientsTableGetSuccess()
     {
         $this->withoutMix();
@@ -25,7 +26,7 @@ class RoutesTest extends TestCase
         $response->assertRedirect('/admin/login');
     }
 
-    /** @test */
+    #[Test]
     public function billsPageGetSuccess()
     {
         $this->withoutMix();
@@ -33,7 +34,7 @@ class RoutesTest extends TestCase
         $response->assertRedirect('/admin/login');
     }
 
-    /** @test */
+    #[Test]
     public function clientsAddFormGetSuccess()
     {
         $this->withoutMix();
@@ -41,7 +42,7 @@ class RoutesTest extends TestCase
         $response->assertRedirect('/admin/login');
     }
 
-    /** @test */
+    #[Test]
     public function clientsEditFormGetNonexistentClientNotFound()
     {
         $this->withoutMix();
@@ -49,7 +50,7 @@ class RoutesTest extends TestCase
         $response->assertRedirect('/admin/login');
     }
 
-    /** @test */
+    #[Test]
     public function apiCategoryAllByServiceGetSuccess()
     {
         $this->withoutMix();
