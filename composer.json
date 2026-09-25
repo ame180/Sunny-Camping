@@ -11,7 +11,7 @@
         "php": "~8.3.0",
         "aws/aws-sdk-php": "^3.398",
         "guzzlehttp/guzzle": "^7.15",
-        "laravel/framework": "^9.52",
+        "laravel/framework": "^10.48",
         "laravel/tinker": "^3.0"
     },
     "require-dev": {
@@ -19,9 +19,9 @@
         "fakerphp/faker": "^1.24",
         "friendsofphp/php-cs-fixer": "^3.95",
         "mockery/mockery": "^1.6.15",
-        "nunomaduro/collision": "^6.1",
-        "phpunit/phpunit": "^9.6.37",
-        "spatie/laravel-ignition": "^1.0"
+        "nunomaduro/collision": "^7.0",
+        "phpunit/phpunit": "^10.5",
+        "spatie/laravel-ignition": "^2.0"
     },
     "config": {
         "bin-dir": "bin",
