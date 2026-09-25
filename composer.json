@@ -10,20 +10,18 @@
     "require": {
         "php": "~8.3.0",
         "aws/aws-sdk-php": "^3.398",
-        "fideloper/proxy": "^4.4",
-        "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.15",
-        "laravel/framework": "^8.83.29",
+        "laravel/framework": "^9.52",
         "laravel/tinker": "^3.0"
     },
     "require-dev": {
-        "barryvdh/laravel-ide-helper": "^2.9",
-        "facade/ignition": "^2.5",
+        "barryvdh/laravel-ide-helper": "^2.13",
         "fakerphp/faker": "^1.24",
         "friendsofphp/php-cs-fixer": "^3.95",
         "mockery/mockery": "^1.6.15",
-        "nunomaduro/collision": "^5.0",
-        "phpunit/phpunit": "^9.6.37"
+        "nunomaduro/collision": "^6.1",
+        "phpunit/phpunit": "^9.6.37",
+        "spatie/laravel-ignition": "^1.0"
     },
     "config": {
         "bin-dir": "bin",
