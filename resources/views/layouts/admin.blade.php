@@ -42,6 +42,12 @@
                             Klienci
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{ route('admin.dashboard') }}" class="nav-link {{ Route::is('admin.dashboard') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-chart-bar"></i>
+                            Raporty
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\ClientController;
 use App\Http\Controllers\API\CategoryController;
+use App\Http\Controllers\API\ReportController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,4 +29,9 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/categories', [CategoryController::class, 'getMultiple']);
+});
+
+Route::group(['middleware' => 'auth', 'prefix' => 'reports'], function () {
+    Route::get('/years', [ReportController::class, 'years']);
+    Route::get('/revenue', [ReportController::class, 'revenue']);
 });
