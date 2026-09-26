@@ -1,7 +1,6 @@
 <template>
-    <div class="row border" :class="{'border-top-0': index !== 0}" type="button" :data-bs-target="'#collapse-' + client.id"
-         data-bs-toggle="collapse"
-         aria-expanded="false" :aria-controls="'collapse-' + client.id">
+    <div class="row border" :class="{'border-top-0': index !== 0}" type="button" @click="toggleDetails"
+         :aria-expanded="expanded" :aria-controls="'collapse-' + client.id">
         <div class="col-12">
             <div class="row g-0">
                 <div class="col p-2">
@@ -10,7 +9,7 @@
                             <b>{{ getClientHeader(client) }}</b>
                         </div>
                         <div class="col-12 col-sm text-start text-sm-end">
-                            <b v-if="client.status === 'settled'">Rozliczono</b> <b v-if="client.unregistered === 1">N</b><b v-if="client.cash_register === 1">K</b><b v-if="client.terminal === 1">T</b><b v-if="client.voucher === 1">B</b><b v-if="client.invoice === 1">F</b>
+                            <b v-if="client.status === 'settled'">Rozliczono</b> <b v-if="client.unregistered">N</b><b v-if="client.cash_register">K</b><b v-if="client.terminal">T</b><b v-if="client.voucher">B</b><b v-if="client.invoice">F</b>
                         </div>
                     </div>
                     <div v-if="client.postcode || client.country">
@@ -25,20 +24,20 @@
                     <div class="row g-0 text-center">
                         <div class="col-12 p-1">
                             <a class="btn btn-primary"
-                               :href="editHref">
+                               :href="editHref" @click.stop>
                                 <i class="far fa-fw fa-note-sticky"></i>
                             </a>
                         </div>
                         <form @submit.prevent="showDeleteDialog(client.id)" method="POST" action=""
                               class="col-12 p-1 m-0">
-                            <button class="btn btn-danger">
+                            <button class="btn btn-danger" @click.stop>
                                 <i class="far fa-fw fa-trash-can"></i>
                             </button>
                         </form>
                     </div>
                 </div>
             </div>
-            <div class="collapse row border-top" :id="'collapse-' + client.id">
+            <div ref="details" class="collapse row border-top" :id="'collapse-' + client.id">
                 <div class="col-12">
                     <div class="row p-3">
                         <div class="col-12 col-sm-6 col-lg-3 mb-1" v-for="category in categories">
@@ -84,6 +83,7 @@
 </template>
 
 <script>
+import { Collapse } from "bootstrap";
 import { appendQueryParamsToPath, parseQueryParamsFromSearch } from "../js/utils/clientsQuery";
 
 export default {
@@ -92,6 +92,15 @@ export default {
         index: Number,
         categories: Array,
         deleteClient: Function,
+    },
+    data() {
+        return {
+            expanded: false,
+        }
+    },
+    mounted() {
+        this.$refs.details.addEventListener('show.bs.collapse', () => this.expanded = true);
+        this.$refs.details.addEventListener('hide.bs.collapse', () => this.expanded = false);
     },
     computed: {
         editHref() {
@@ -103,6 +112,9 @@ export default {
     },
 
     methods: {
+        toggleDetails() {
+            Collapse.getOrCreateInstance(this.$refs.details, { toggle: false }).toggle();
+        },
         getClientHeader(client) {
             return '#' + client.id + ' ' + client.name + ' '
                 + (client.token_number ? '[' + client.token_number + ']' : '')

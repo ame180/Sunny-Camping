@@ -41,20 +41,31 @@ class GuestsReportTest extends ReportTestCase
     }
 
     #[Test]
-    public function countrySpellingVariantsAreGroupedAndBlankIsMissing()
+    public function countrySpellingVariantsAreGroupedAndBlankCountsAsPoland()
     {
         $this->createGuest('Niemcy', '2025-07-01', '2025-07-05', 2);
         $this->createGuest(' niemcy ', '2025-07-01', '2025-07-05', 1);
+        $this->createGuest('Polska', '2025-07-01', '2025-07-05', 2);
         $this->createGuest(null, '2025-07-01', '2025-07-05', 4);
         $this->createGuest('  ', '2025-07-01', '2025-07-05', 1);
 
         $series = collect($this->getReport(self::GUESTS_URL)->json('series'));
 
-        $this->assertSame(['niemcy' => 'Niemcy', 'Brak' => 'Brak'], $series->pluck('label', 'key')->all());
+        $this->assertSame(['polska' => 'Polska', 'niemcy' => 'Niemcy'], $series->pluck('label', 'key')->all());
         $this->assertEquals(
-            ['niemcy' => $this->monthValues([7 => 3]), 'Brak' => $this->monthValues([7 => 5])],
+            ['polska' => $this->monthValues([7 => 7]), 'niemcy' => $this->monthValues([7 => 3])],
             $series->pluck('values', 'key')->all()
         );
+    }
+
+    #[Test]
+    public function blankCountryAloneIsLabelledPoland()
+    {
+        $this->createGuest(null, '2025-07-01', '2025-07-05', 2);
+
+        $series = collect($this->getReport(self::GUESTS_URL)->json('series'));
+
+        $this->assertSame(['polska' => 'Polska'], $series->pluck('label', 'key')->all());
     }
 
     #[Test]
@@ -63,11 +74,10 @@ class GuestsReportTest extends ReportTestCase
         foreach (['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'] as $index => $country) {
             $this->createGuest($country, '2025-07-01', '2025-07-05', 10 - $index);
         }
-        $this->createGuest(null, '2025-07-01', '2025-07-05', 1);
 
         $series = collect($this->getReport(self::GUESTS_URL)->json('series'));
 
-        $this->assertSame(['a', 'b', 'c', 'd', 'e', 'f', 'Inne', 'Brak'], $series->pluck('key')->all());
+        $this->assertSame(['a', 'b', 'c', 'd', 'e', 'f', 'Inne'], $series->pluck('key')->all());
         $this->assertEquals($this->monthValues([7 => 7]), $series->firstWhere('key', 'Inne')['values']);
     }
 
