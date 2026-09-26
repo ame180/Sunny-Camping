@@ -56,7 +56,6 @@
             :delete-client="deleteClient"
             v-bind:key="client.id"
         ></clients-table-row>
-        <v-dialog></v-dialog>
     </div>
 </template>
 

@@ -36,12 +36,6 @@
                                 <i class="far fa-fw fa-trash-alt"></i>
                             </button>
                         </form>
-                        <div class="col-12 p-1">
-                            <a @click="showSettleModal(client)"
-                               class="btn btn-warning text-light">
-                                <i class="fas fa-fw fa-dollar-sign"></i>
-                            </a>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -90,7 +84,6 @@
 </template>
 
 <script>
-import SettleModal from "./SettleModal.vue";
 import { appendQueryParamsToPath, parseQueryParamsFromSearch } from "../js/utils/clientsQuery";
 
 export default {
@@ -115,41 +108,10 @@ export default {
                 + (client.token_number ? '[' + client.token_number + ']' : '')
                 + (client.sector ? '[' + client.sector + ']' : '');
         },
-        showSettleModal(client) {
-            this.$modal.show(SettleModal,
-                {
-                    client: client,
-                    categories: this.categories,
-                },
-                {
-                    name: 'settle-modal',
-                    adaptive: true,
-                    reset: true,
-                    focusTrap: true,
-                    height: "auto",
-                    width: 400
-                });
-        },
         showDeleteDialog(id) {
-            this.$modal.show('dialog', {
-                title: 'Uwaga!',
-                text: 'Czy na pewno chcesz usunąć wpis #' + id + "?",
-                buttons: [
-                    {
-                        title: 'Nie',
-                        handler: () => {
-                            this.$modal.hide('dialog')
-                        }
-                    },
-                    {
-                        title: 'Tak',
-                        handler: () => {
-                            this.deleteClient(id);
-                            this.$modal.hide('dialog')
-                        }
-                    }
-                ]
-            })
+            if (window.confirm('Czy na pewno chcesz usunąć wpis #' + id + '?')) {
+                this.deleteClient(id);
+            }
         },
     }
 }

@@ -27,8 +27,7 @@
         "chart.js": "^4.5.1",
         "jquery": "^3.5.1",
         "popper.js": "^1.16.1",
-        "vue": "^2.6.11",
-        "vue-js-modal": "^2.0.0-rc.6"
+        "vue": "^2.6.11"
     },
     "resolutions": {
         "webpack": "~5.105.4"
