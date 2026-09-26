@@ -5,8 +5,7 @@
 1. Clone the repository
 2. Copy `.env.example` to `.env`
 3. Run `docker-compose build`
-4. Add `127.0.0.1 sunnycamping.local` to your `hosts` file
-5. Run `git config core.hooksPath scripts/git-hooks` to enable the git hooks
+4. Run `git config core.hooksPath scripts/git-hooks` to enable the git hooks
 
 ## Usage
 
@@ -15,13 +14,23 @@
 To start the project, run `docker-compose up -d`. This will automatically install dev dependencies
 and compile assets for dev environment.
 
-Now, to access the main application container (`php-fpm`), run `docker-compose exec php-fpm bash`, and to
-access the website, connect to `sunnycamping.local`.
+Now, to access the main application container (`php`), run `docker-compose exec php bash`, and to
+access the website, open `http://localhost`.
 
 If you're running the project for the first time, you should run `php artisan db:seed`
 inside the main container, to fill the database with example data.
 
-*All the commands below are supposed to run inside the `php-fpm` container.*
+*All the commands below are supposed to run inside the `php` container.*
+
+### Frontend assets
+
+Node and Yarn live in the `php` container. Run every `yarn` command there, never on the host: `node_modules`
+is shared through the bind mount, and an install on the host replaces the container's native binaries (and
+vice versa).
+
+- To start the Vite dev server with hot reload, run `docker compose exec php yarn dev`. While it runs, pages load
+  assets from `http://localhost:5173`; stopping it switches back to the built assets.
+- To build assets once, run `docker compose exec php yarn build`. This also runs on every container start.
 
 ### Useful commands
 
