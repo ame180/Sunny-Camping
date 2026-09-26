@@ -27,13 +27,13 @@
                         <div class="col-12 p-1">
                             <a class="btn btn-primary"
                                :href="editHref">
-                                <i class="far fa-fw fa-sticky-note"></i>
+                                <i class="far fa-fw fa-note-sticky"></i>
                             </a>
                         </div>
                         <form @submit.prevent="showDeleteDialog(client.id)" method="POST" action=""
                               class="col-12 p-1 m-0">
                             <button class="btn btn-danger">
-                                <i class="far fa-fw fa-trash-alt"></i>
+                                <i class="far fa-fw fa-trash-can"></i>
                             </button>
                         </form>
                     </div>
