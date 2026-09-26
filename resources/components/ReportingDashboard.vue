@@ -1,9 +1,9 @@
 <template>
     <div>
         <div class="d-flex align-items-center mb-3">
-            <h1 class="h3 mb-0 mr-3">Raporty</h1>
-            <label for="report-year" class="sr-only">Rok</label>
-            <select id="report-year" v-model.number="year" class="form-control form-control-sm w-auto">
+            <h1 class="h3 mb-0 me-3">Raporty</h1>
+            <label for="report-year" class="visually-hidden">Rok</label>
+            <select id="report-year" v-model.number="year" class="form-select form-select-sm w-auto">
                 <option v-for="availableYear in years" :key="availableYear" :value="availableYear">{{ availableYear }}</option>
             </select>
         </div>

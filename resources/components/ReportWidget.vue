@@ -16,7 +16,7 @@
                         v-for="row in series"
                         :key="row.key"
                         type="button"
-                        class="btn btn-sm btn-light border mr-1 mb-1 report-chip"
+                        class="btn btn-sm btn-light border me-1 mb-1 report-chip"
                         :class="{ 'report-chip-off': !selectedKeys.includes(row.key) }"
                         :aria-pressed="selectedKeys.includes(row.key) ? 'true' : 'false'"
                         @click="toggle(row.key)"
