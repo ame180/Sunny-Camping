@@ -31,11 +31,11 @@ use Illuminate\Support\Carbon;
  * @property float                   $climate_paid
  * @property float                   $climate_price
  * @property int|null                $token_number
- * @property int                     $unregistered
- * @property int                     $cash_register
- * @property int                     $terminal
- * @property int                     $voucher
- * @property int                     $invoice
+ * @property bool                    $unregistered
+ * @property bool                    $cash_register
+ * @property bool                    $terminal
+ * @property bool                    $voucher
+ * @property bool                    $invoice
  * @property string|null             $sector
  * @property string|null             $car_registration
  * @property string|null             $postcode
@@ -79,6 +79,13 @@ class Client extends BaseModel
     protected $guarded = ['price', 'price_per_day', 'days', 'climate_price'];
     protected $appends = ['price', 'price_per_day', 'days', 'climate_price'];
     protected $with = ['clientItems'];
+    protected $casts = [
+        'unregistered' => 'boolean',
+        'cash_register' => 'boolean',
+        'terminal' => 'boolean',
+        'voucher' => 'boolean',
+        'invoice' => 'boolean',
+    ];
 
     protected array $defaults = [
         'discount' => 0,

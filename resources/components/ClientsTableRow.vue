@@ -9,7 +9,7 @@
                             <b>{{ getClientHeader(client) }}</b>
                         </div>
                         <div class="col-12 col-sm text-start text-sm-end">
-                            <b v-if="client.status === 'settled'">Rozliczono</b> <b v-if="client.unregistered === 1">N</b><b v-if="client.cash_register === 1">K</b><b v-if="client.terminal === 1">T</b><b v-if="client.voucher === 1">B</b><b v-if="client.invoice === 1">F</b>
+                            <b v-if="client.status === 'settled'">Rozliczono</b> <b v-if="client.unregistered">N</b><b v-if="client.cash_register">K</b><b v-if="client.terminal">T</b><b v-if="client.voucher">B</b><b v-if="client.invoice">F</b>
                         </div>
                     </div>
                     <div v-if="client.postcode || client.country">
