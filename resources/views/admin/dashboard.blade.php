@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 
 @section('main')
-    <div id="app">
+    <div class="container">
+        <reporting-dashboard></reporting-dashboard>
     </div>
 @endsection

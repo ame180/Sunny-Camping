@@ -129,6 +129,27 @@ class ClientRepository extends BaseRepository
             ->orWhere("$table.country", '<>', '');
     }
 
+    public function findSettledDepartingInYear(int $year): Collection
+    {
+        return $this->model
+            ->with('clientItems.serviceCategory')
+            ->where('status', '=', Client::STATUS_SETTLED)
+            ->whereYear('departure_date', '=', $year)
+            ->get();
+    }
+
+    public function findSettledDepartureYears(): Collection
+    {
+        return $this->getQueryBuilder()
+            ->selectRaw('YEAR(departure_date) as year')
+            ->where('status', '=', Client::STATUS_SETTLED)
+            ->whereNotNull('departure_date')
+            ->distinct()
+            ->orderByDesc('year')
+            ->pluck('year')
+            ->map(fn ($year) => (int) $year);
+    }
+
     public function findCurrentAssignedTokens(): Collection
     {
         return $this->getCurrentSeasonBaseQuery()
