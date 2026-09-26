@@ -40,7 +40,7 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Compile production assets
-        run: yarn production
+        run: yarn build
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3

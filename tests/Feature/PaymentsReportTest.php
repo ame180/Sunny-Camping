@@ -13,7 +13,7 @@ class PaymentsReportTest extends ReportTestCase
     #[Test]
     public function unauthenticatedRequestRedirectsToLogin()
     {
-        $this->withoutMix();
+        $this->withoutVite();
         $response = $this->get(self::PAYMENTS_URL);
 
         $response->assertRedirect('/admin/login');

@@ -40,6 +40,7 @@ const MINIMUM_QUERY_LENGTH = 2;
 
 export default {
     props: ['value', 'invalid'],
+    emits: ['input', 'select'],
     data() {
         return {
             suggestions: [],

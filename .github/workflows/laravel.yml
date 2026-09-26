@@ -54,7 +54,7 @@ jobs:
     - name: Install Node.js Dependencies
       run: yarn install
     - name: Compile assets
-      run: yarn dev
+      run: yarn build
     - name: Check if the code fits Coding Standards
       run: php bin/php-cs-fixer fix --dry-run --stop-on-violation --using-cache=no
     - name: Directory Permissions

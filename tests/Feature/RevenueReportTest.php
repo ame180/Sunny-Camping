@@ -12,7 +12,7 @@ class RevenueReportTest extends ReportTestCase
     #[Test]
     public function unauthenticatedRequestRedirectsToLogin()
     {
-        $this->withoutMix();
+        $this->withoutVite();
         $response = $this->get(self::REVENUE_URL);
 
         $response->assertRedirect('/admin/login');

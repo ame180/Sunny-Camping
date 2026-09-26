@@ -45,10 +45,11 @@
                         <div class="col-12 col-sm-6 col-lg-3 mb-1" v-for="category in categories">
                             <div>
                                 <b>{{ category.name }}</b>
-                                <div v-for="item in client.client_items"
-                                     v-if="item.service_category && item.service_category.id === category.id">
-                                    {{ item.count }} x {{ item.name }} {{ item.price }} zł
-                                </div>
+                                <template v-for="item in client.client_items">
+                                    <div v-if="item.service_category && item.service_category.id === category.id">
+                                        {{ item.count }} x {{ item.name }} {{ item.price }} zł
+                                    </div>
+                                </template>
                             </div>
                         </div>
                         <div class="col-12 mt-2" v-if="client.car_registration || client.comment">

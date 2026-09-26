@@ -337,7 +337,7 @@ export default {
         addItem(categoryId, item) {
             item.id = null;
             item.count = 1;
-            this.categories[categoryId].addedItems.push(Vue.util.extend({}, item));
+            this.categories[categoryId].addedItems.push({...item});
         },
         deleteItem(categoryId, itemId) {
             this.categories[categoryId].addedItems.splice(itemId, 1);

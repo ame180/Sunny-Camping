@@ -28,7 +28,7 @@ class ClientSuggestionsTest extends TestCase
     #[Test]
     public function unauthenticatedRequestRedirectsToLogin()
     {
-        $this->withoutMix();
+        $this->withoutVite();
         $response = $this->get(self::SUGGESTIONS_URL . '?query=' . self::FIXTURE_SURNAME);
 
         $response->assertRedirect('/admin/login');
