@@ -44,7 +44,7 @@ jobs:
     - name: Install LTS Node.js
       run: |
         curl -L https://raw.githubusercontent.com/tj/n/master/bin/n -o n
-        sudo bash n v20
+        sudo bash n v24
     - name: Install Yarn
       run: sudo npm install -g yarn
     - name: Copy .env
