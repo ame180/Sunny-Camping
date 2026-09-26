@@ -2,14 +2,15 @@
 
 namespace Tests\Feature;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class RoutesTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function adminDashboardGetRedirectThenSuccess()
     {
-        $this->withoutMix();
+        $this->withoutVite();
         $response = $this->get('/admin/');
         $response->assertRedirect('/admin/login');
 
@@ -17,42 +18,42 @@ class RoutesTest extends TestCase
         $response->assertRedirect('/admin/login');
     }
 
-    /** @test */
+    #[Test]
     public function clientsTableGetSuccess()
     {
-        $this->withoutMix();
+        $this->withoutVite();
         $response = $this->get('/admin/clients');
         $response->assertRedirect('/admin/login');
     }
 
-    /** @test */
+    #[Test]
     public function billsPageGetSuccess()
     {
-        $this->withoutMix();
+        $this->withoutVite();
         $response = $this->get('/admin/bills');
         $response->assertRedirect('/admin/login');
     }
 
-    /** @test */
+    #[Test]
     public function clientsAddFormGetSuccess()
     {
-        $this->withoutMix();
+        $this->withoutVite();
         $response = $this->get('/admin/clients/add-client');
         $response->assertRedirect('/admin/login');
     }
 
-    /** @test */
+    #[Test]
     public function clientsEditFormGetNonexistentClientNotFound()
     {
-        $this->withoutMix();
+        $this->withoutVite();
         $response = $this->get('/admin/clients/edit/-1');
         $response->assertRedirect('/admin/login');
     }
 
-    /** @test */
+    #[Test]
     public function apiCategoryAllByServiceGetSuccess()
     {
-        $this->withoutMix();
+        $this->withoutVite();
         $response = $this->get('/api/categories?service_id=0');
         $response->assertRedirect('/admin/login');
     }

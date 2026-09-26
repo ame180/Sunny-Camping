@@ -1,17 +1,16 @@
 <template>
-    <div class="row border" :class="{'border-top-0': index !== 0}" type="button" :data-target="'#collapse-' + client.id"
-         data-toggle="collapse"
+    <div class="row border" :class="{'border-top-0': index !== 0}" type="button" :data-bs-target="'#collapse-' + client.id"
+         data-bs-toggle="collapse"
          aria-expanded="false" :aria-controls="'collapse-' + client.id">
         <div class="col-12">
-            <div class="row no-gutters">
+            <div class="row g-0">
                 <div class="col p-2">
                     <div class="row">
                         <div class="col-12 col-sm">
                             <b>{{ getClientHeader(client) }}</b>
                         </div>
-                        <div class="col-12 col-sm text-left text-sm-right">
-                            <b v-if="client.status === 'settled'">Rozliczono</b>
-                            <b v-if="client.unregistered === 1">N</b><b v-if="client.cash_register === 1">K</b><b v-if="client.terminal === 1">T</b><b v-if="client.voucher === 1">B</b><b v-if="client.invoice === 1">F</b>
+                        <div class="col-12 col-sm text-start text-sm-end">
+                            <b v-if="client.status === 'settled'">Rozliczono</b> <b v-if="client.unregistered === 1">N</b><b v-if="client.cash_register === 1">K</b><b v-if="client.terminal === 1">T</b><b v-if="client.voucher === 1">B</b><b v-if="client.invoice === 1">F</b>
                         </div>
                     </div>
                     <div v-if="client.postcode || client.country">
@@ -22,26 +21,20 @@
                         {{ client.departure_date ? client.departure_date : '?' }}
                     </div>
                 </div>
-                <div class="col-3 col-sm-2 border-left">
-                    <div class="row no-gutters text-center">
+                <div class="col-3 col-sm-2 border-start d-flex flex-column justify-content-center">
+                    <div class="row g-0 text-center">
                         <div class="col-12 p-1">
                             <a class="btn btn-primary"
                                :href="editHref">
-                                <i class="far fa-fw fa-sticky-note"></i>
+                                <i class="far fa-fw fa-note-sticky"></i>
                             </a>
                         </div>
                         <form @submit.prevent="showDeleteDialog(client.id)" method="POST" action=""
                               class="col-12 p-1 m-0">
                             <button class="btn btn-danger">
-                                <i class="far fa-fw fa-trash-alt"></i>
+                                <i class="far fa-fw fa-trash-can"></i>
                             </button>
                         </form>
-                        <div class="col-12 p-1">
-                            <a @click="showSettleModal(client)"
-                               class="btn btn-warning text-light">
-                                <i class="fas fa-fw fa-dollar-sign"></i>
-                            </a>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -51,10 +44,11 @@
                         <div class="col-12 col-sm-6 col-lg-3 mb-1" v-for="category in categories">
                             <div>
                                 <b>{{ category.name }}</b>
-                                <div v-for="item in client.client_items"
-                                     v-if="item.service_category && item.service_category.id === category.id">
-                                    {{ item.count }} x {{ item.name }} {{ item.price }} zł
-                                </div>
+                                <template v-for="item in client.client_items">
+                                    <div v-if="item.service_category && item.service_category.id === category.id">
+                                        {{ item.count }} x {{ item.name }} {{ item.price }} zł
+                                    </div>
+                                </template>
                             </div>
                         </div>
                         <div class="col-12 mt-2" v-if="client.car_registration || client.comment">
@@ -90,7 +84,6 @@
 </template>
 
 <script>
-import SettleModal from "./SettleModal.vue";
 import { appendQueryParamsToPath, parseQueryParamsFromSearch } from "../js/utils/clientsQuery";
 
 export default {
@@ -115,41 +108,10 @@ export default {
                 + (client.token_number ? '[' + client.token_number + ']' : '')
                 + (client.sector ? '[' + client.sector + ']' : '');
         },
-        showSettleModal(client) {
-            this.$modal.show(SettleModal,
-                {
-                    client: client,
-                    categories: this.categories,
-                },
-                {
-                    name: 'settle-modal',
-                    adaptive: true,
-                    reset: true,
-                    focusTrap: true,
-                    height: "auto",
-                    width: 400
-                });
-        },
         showDeleteDialog(id) {
-            this.$modal.show('dialog', {
-                title: 'Uwaga!',
-                text: 'Czy na pewno chcesz usunąć wpis #' + id + "?",
-                buttons: [
-                    {
-                        title: 'Nie',
-                        handler: () => {
-                            this.$modal.hide('dialog')
-                        }
-                    },
-                    {
-                        title: 'Tak',
-                        handler: () => {
-                            this.deleteClient(id);
-                            this.$modal.hide('dialog')
-                        }
-                    }
-                ]
-            })
+            if (window.confirm('Czy na pewno chcesz usunąć wpis #' + id + '?')) {
+                this.deleteClient(id);
+            }
         },
     }
 }

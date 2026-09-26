@@ -35,16 +35,16 @@ jobs:
           --health-retries=3
 
     steps:
-    - uses: shivammathur/setup-php@b7d1d9c9a92d8d8463ce36d7f60da34d461724f8
+    - uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
       with:
-        php-version: '8.3'
+        php-version: '8.5'
     - uses: actions/checkout@v2
     - name: Install packages
       run: sudo apt-get update && sudo apt-get install -y python3
     - name: Install LTS Node.js
       run: |
         curl -L https://raw.githubusercontent.com/tj/n/master/bin/n -o n
-        sudo bash n v20
+        sudo bash n v24
     - name: Install Yarn
       run: sudo npm install -g yarn
     - name: Copy .env
@@ -54,7 +54,7 @@ jobs:
     - name: Install Node.js Dependencies
       run: yarn install
     - name: Compile assets
-      run: yarn dev
+      run: yarn build
     - name: Check if the code fits Coding Standards
       run: php bin/php-cs-fixer fix --dry-run --stop-on-violation --using-cache=no
     - name: Directory Permissions

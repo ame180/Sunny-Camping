@@ -7,6 +7,7 @@ use App\Models\ClientItem;
 use App\Models\ServiceCategory;
 use App\Validators\ClientPersistenceValidator;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class ClientTest extends TestCase
@@ -21,14 +22,14 @@ class ClientTest extends TestCase
         $this->clientPersistenceValidator = $this->app->make(ClientPersistenceValidator::class);
     }
 
-    /** @test */
+    #[Test]
     public function validateModelValidClientTrueReturned(): void
     {
         $client = Client::factory()->make();
         $this->assertTrue($this->clientPersistenceValidator->isValid($client));
     }
 
-    /** @test */
+    #[Test]
     public function validateModelClientWithoutNameFalseReturned()
     {
         $client = Client::factory()->make();
@@ -36,7 +37,7 @@ class ClientTest extends TestCase
         $this->assertFalse($this->clientPersistenceValidator->isValid($client));
     }
 
-    /** @test */
+    #[Test]
     public function validateModelClientWithDepartureBeforeOrAtArrivalFalseReturned()
     {
         $client = Client::factory()->make();
@@ -44,7 +45,7 @@ class ClientTest extends TestCase
         $this->assertFalse($this->clientPersistenceValidator->isValid($client));
     }
 
-    /** @test */
+    #[Test]
     public function getStayPriceClientWithStayPriceOf232232Returned(): void
     {
         /** @var Client $client @noinspection PhpUndefinedMethodInspection */
@@ -65,7 +66,7 @@ class ClientTest extends TestCase
         $this->assertEquals(232, $client->price);
     }
 
-    /** @test */
+    #[Test]
     public function fillModelValidClientAllCustomPropertiesAccessible(): void
     {
         $client = Client::factory()->make();

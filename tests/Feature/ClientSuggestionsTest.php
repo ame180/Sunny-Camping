@@ -6,6 +6,8 @@ use App\Models\Client;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\TestResponse;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class ClientSuggestionsTest extends TestCase
@@ -23,16 +25,16 @@ class ClientSuggestionsTest extends TestCase
         $this->user = User::factory()->create();
     }
 
-    /** @test */
+    #[Test]
     public function unauthenticatedRequestRedirectsToLogin()
     {
-        $this->withoutMix();
+        $this->withoutVite();
         $response = $this->get(self::SUGGESTIONS_URL . '?query=' . self::FIXTURE_SURNAME);
 
         $response->assertRedirect('/admin/login');
     }
 
-    /** @test */
+    #[Test]
     public function queryMatchingNothingReturnsEmptyList()
     {
         $response = $this->getSuggestions(self::FIXTURE_SURNAME);
@@ -41,7 +43,7 @@ class ClientSuggestionsTest extends TestCase
         $response->assertExactJson([]);
     }
 
-    /** @test */
+    #[Test]
     public function suggestionResponseExposesOnlyNamePostcodeCountry()
     {
         $this->createFixtureClient(['postcode' => '00-950', 'country' => 'Polska']);
@@ -58,11 +60,8 @@ class ClientSuggestionsTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider queryLengthCases
-     */
+    #[Test]
+    #[DataProvider('queryLengthCases')]
     public function queriesAreAcceptedOnlyWhenTrimmedToAtLeastTwoCharacters(string $searchQuery, int $expectedCount)
     {
         $this->createFixtureClient(['name' => 'Zz ' . self::FIXTURE_SURNAME]);
@@ -80,7 +79,7 @@ class ClientSuggestionsTest extends TestCase
         ];
     }
 
-    /** @test */
+    #[Test]
     public function repeatStaysWithSamePostcodeCollapseToOneSuggestion()
     {
         $this->createFixtureClient(['postcode' => '00-950']);
@@ -92,7 +91,7 @@ class ClientSuggestionsTest extends TestCase
         $this->assertSame('00-950', $suggestions[0]['postcode']);
     }
 
-    /** @test */
+    #[Test]
     public function mostRecentStayIsSuggestedFirst()
     {
         $this->createFixtureClient(['postcode' => '00-950']);
@@ -105,7 +104,7 @@ class ClientSuggestionsTest extends TestCase
         $this->assertSame('00-950', $suggestions[1]['postcode']);
     }
 
-    /** @test */
+    #[Test]
     public function clientsFromPastSeasonsAreSuggested()
     {
         $this->createFixtureClient([
@@ -120,7 +119,7 @@ class ClientSuggestionsTest extends TestCase
         $this->assertSame('80-180', $suggestions[0]['postcode']);
     }
 
-    /** @test */
+    #[Test]
     public function nameWithNoPostcodeOrCountryAnywhereIsStillSuggested()
     {
         $this->createFixtureClient(['postcode' => null, 'country' => null]);
@@ -133,11 +132,8 @@ class ClientSuggestionsTest extends TestCase
         $this->assertNull($suggestions[0]['country']);
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider locationVariants
-     */
+    #[Test]
+    #[DataProvider('locationVariants')]
     public function bareRowIsSuppressedWhenSameNameHasLocationElsewhere(?string $postcode, ?string $country)
     {
         $this->createFixtureClient(['postcode' => null, 'country' => null]);
@@ -159,7 +155,7 @@ class ClientSuggestionsTest extends TestCase
         ];
     }
 
-    /** @test */
+    #[Test]
     public function suppressionAppliesPerNameOnly()
     {
         $this->createFixtureClient(['postcode' => null, 'country' => null]);
@@ -174,7 +170,7 @@ class ClientSuggestionsTest extends TestCase
         $this->assertContains('Anna ' . self::FIXTURE_SURNAME, $names);
     }
 
-    /** @test */
+    #[Test]
     public function suppressionHoldsWhenSuppressingRowFallsOutsideReturnedPage()
     {
         $suppressedName = 'Old ' . self::FIXTURE_SURNAME;
@@ -194,7 +190,7 @@ class ClientSuggestionsTest extends TestCase
         $this->assertCount(0, $bareRows);
     }
 
-    /** @test */
+    #[Test]
     public function suggestionsAreLimitedToTwenty()
     {
         foreach (range(1, 21) as $offset) {
@@ -206,7 +202,7 @@ class ClientSuggestionsTest extends TestCase
         $this->assertCount(20, $suggestions);
     }
 
-    /** @test */
+    #[Test]
     public function namesAreMatchedAtWordBoundariesOnly()
     {
         $this->createFixtureClient(['name' => self::FIXTURE_SURNAME . ' First']);
@@ -223,7 +219,7 @@ class ClientSuggestionsTest extends TestCase
         $this->assertNotContains('Prefix' . self::FIXTURE_SURNAME . ' Jan', $names);
     }
 
-    /** @test */
+    #[Test]
     public function namePrefixMatchesOutrankMoreRecentWordMatches()
     {
         $this->createFixtureClient(['name' => self::FIXTURE_SURNAME . ' Older']);

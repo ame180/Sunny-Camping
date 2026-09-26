@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 
 @section('main')
-    <div id="app">
+    <div class="container">
+        <div data-vue-component="reporting-dashboard"></div>
     </div>
 @endsection

@@ -1,10 +1,10 @@
-FROM php:8.3-fpm
+FROM php:8.5-fpm
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Install NodeJS
-RUN curl -L https://raw.githubusercontent.com/tj/n/master/bin/n -o n && bash n v20
+RUN curl -L https://raw.githubusercontent.com/tj/n/master/bin/n -o n && bash n v24
 RUN npm install --global yarn
 
 # Install Packages

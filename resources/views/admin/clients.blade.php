@@ -1,13 +1,12 @@
 @extends('layouts.admin')
 
 @section('options')
-    <clients-toolbar></clients-toolbar>
+    <div data-vue-component="clients-toolbar"></div>
 @endsection
 
 @section('table')
     <div id="clients-table" class="mt-2">
-        <clients-table :clients="{{ $clients }}" :filters="{{ $filters }}" :client-names="{{ $clientNames }}" :assigned-tokens="{{ $assignedTokens }}">
-        </clients-table>
+        <div data-vue-component="clients-table" data-props="{{ json_encode(['clients' => $clients, 'filters' => $filters, 'clientNames' => $clientNames, 'assignedTokens' => $assignedTokens]) }}"></div>
         <div class="mt-2">
             {!! $pagination !!}
         </div>

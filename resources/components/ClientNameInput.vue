@@ -34,10 +34,13 @@
 </template>
 
 <script>
+import debounce from 'lodash/debounce';
+
 const MINIMUM_QUERY_LENGTH = 2;
 
 export default {
     props: ['value', 'invalid'],
+    emits: ['input', 'select'],
     data() {
         return {
             suggestions: [],
@@ -47,7 +50,7 @@ export default {
     },
     created() {
         this.latestRequestId = 0;
-        this.fetchSuggestions = _.debounce(this.fetchSuggestionsNow, 200);
+        this.fetchSuggestions = debounce(this.fetchSuggestionsNow, 200);
     },
     methods: {
         onInput(event) {

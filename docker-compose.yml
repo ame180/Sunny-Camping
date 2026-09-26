@@ -20,6 +20,7 @@ services:
       retries: 3
     ports:
       - "9000:9000"
+      - "5173:5173"
 
   scheduler:
     build:

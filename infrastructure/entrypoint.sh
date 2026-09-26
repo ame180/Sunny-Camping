@@ -4,7 +4,7 @@ chmod -R 777 storage/
 
 composer install
 yarn install
-yarn dev
+yarn build
 
 php artisan migrate
 

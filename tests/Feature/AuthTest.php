@@ -2,22 +2,23 @@
 
 namespace Tests\Feature;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class AuthTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function apiWithoutUserRedirect()
     {
-        $this->withoutMix();
+        $this->withoutVite();
         $response = $this->get('/api/categories?service_id=0');
         $response->assertRedirect('/admin/login');
     }
 
-    /** @test */
+    #[Test]
     public function adminWithoutUserRedirect()
     {
-        $this->withoutMix();
+        $this->withoutVite();
         $response = $this->get('/admin/dashboard');
         $response->assertRedirect('admin/login');
     }

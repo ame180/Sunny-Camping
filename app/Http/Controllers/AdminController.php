@@ -58,10 +58,10 @@ class AdminController extends Controller
 
         return view('admin.clients', [
             'pagination' => $paginatedClients->onEachSide(0)->links(),
-            'clients' => $paginatedClients->toJson(),
-            'filters' => collect($request->query())->toJson(),
-            'clientNames' => $clientNames->toJson(),
-            'assignedTokens' => $assignedTokens->toJson(),
+            'clients' => $paginatedClients,
+            'filters' => $request->query(),
+            'clientNames' => $clientNames,
+            'assignedTokens' => $assignedTokens,
         ]);
     }
 }

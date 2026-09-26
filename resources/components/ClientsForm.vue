@@ -1,7 +1,7 @@
 <template>
     <div id="client-form" class="row mt-4">
-        <div class="col-6 col-sm-4 col-md-3 form-group">
-            <label for="name">Imię i nazwisko</label>
+        <div class="col-6 col-sm-4 col-md-3 mb-3">
+            <label for="name" class="form-label">Imię i nazwisko</label>
             <client-name-input
                 v-if="mode === 'POST'"
                 :value="client.name"
@@ -23,8 +23,8 @@
                 Imię i nazwisko muszą być podane!
             </div>
         </div>
-        <div class="col-6 col-sm-4 col-md-3 form-group">
-            <label for="postcode">Kod pocztowy</label>
+        <div class="col-6 col-sm-4 col-md-3 mb-3">
+            <label for="postcode" class="form-label">Kod pocztowy</label>
             <input
                 id="postcode"
                 v-model.trim="client.postcode"
@@ -33,8 +33,8 @@
                 class="form-control form-control-sm"
             >
         </div>
-        <div class="col-6 col-sm-4 col-md-3 form-group">
-            <label for="country">Kraj</label>
+        <div class="col-6 col-sm-4 col-md-3 mb-3">
+            <label for="country" class="form-label">Kraj</label>
             <input
                 id="country"
                 v-model.trim="client.country"
@@ -43,8 +43,8 @@
                 class="form-control form-control-sm"
             >
         </div>
-        <div class="col-6 col-sm-4 col-md-3 form-group">
-            <label for="car_registration">Rejestracja</label>
+        <div class="col-6 col-sm-4 col-md-3 mb-3">
+            <label for="car_registration" class="form-label">Rejestracja</label>
             <input
                 id="car_registration"
                 v-model.trim="client.car_registration"
@@ -54,26 +54,26 @@
                 class="form-control form-control-sm"
             >
         </div>
-        <div class="col-6 col-sm-4 col-md-3 form-group">
-            <label for="arrival_date">Data przyjazdu</label>
+        <div class="col-6 col-sm-4 col-md-3 mb-3">
+            <label for="arrival_date" class="form-label">Data przyjazdu</label>
             <input id="arrival_date" v-model="client.arrival_date" name="arrival_date" type="date"
                    class="form-control form-control-sm">
         </div>
-        <div class="col-6 col-sm-4 col-md-3 form-group">
-            <label for="departure_date">Data odjazdu</label>
+        <div class="col-6 col-sm-4 col-md-3 mb-3">
+            <label for="departure_date" class="form-label">Data odjazdu</label>
             <input id="departure_date" v-model="client.departure_date" name="departure_date" type="date"
                    class="form-control form-control-sm">
         </div>
-        <div class="col-6 col-sm-4 col-md-3 form-group">
-            <label for="discount">Rabat</label>
-            <select id="discount" v-model="client.discount" name="discount" class="custom-select custom-select-sm">
+        <div class="col-6 col-sm-4 col-md-3 mb-3">
+            <label for="discount" class="form-label">Rabat</label>
+            <select id="discount" v-model="client.discount" name="discount" class="form-select form-select-sm">
                 <option :value="0">0%</option>
                 <option :value="5">5%</option>
                 <option :value="10">10%</option>
             </select>
         </div>
-        <div class="col-6 col-sm-4 col-md-3 form-group">
-            <label for="paid">Zapłacono</label>
+        <div class="col-6 col-sm-4 col-md-3 mb-3">
+            <label for="paid" class="form-label">Zapłacono</label>
             <input
                 id="paid"
                 v-model.number="client.paid"
@@ -85,8 +85,8 @@
                 @input="isSettledWithoutPaid = false"
             >
         </div>
-        <div class="col-6 col-sm-4 col-md-3 form-group">
-            <label for="climate_paid">Klimatyczne</label>
+        <div class="col-6 col-sm-4 col-md-3 mb-3">
+            <label for="climate_paid" class="form-label">Klimatyczne</label>
             <input
                 id="climate_paid"
                 v-model.number="client.climate_paid"
@@ -96,16 +96,16 @@
                 class="form-control form-control-sm"
             >
         </div>
-        <div class="col-6 col-sm-4 col-md-3 form-group">
-            <label for="token_number">Token</label>
+        <div class="col-6 col-sm-4 col-md-3 mb-3">
+            <label for="token_number" class="form-label">Token</label>
             <input id="token_number" v-model="client.token_number" name="token_number" type="number"
                    class="form-control form-control-sm">
         </div>
-        <div class="col-6 col-sm-4 col-md-3 form-group">
-            <label for="status">Status</label>
+        <div class="col-6 col-sm-4 col-md-3 mb-3">
+            <label for="status" class="form-label">Status</label>
             <select
                 id="status"
-                class="form-control form-control-sm"
+                class="form-select form-select-sm"
                 v-model="client.status"
                 :class="{ 'is-invalid': isSettledWithoutPaid }"
                 @change="isSettledWithoutPaid = false"
@@ -117,13 +117,13 @@
                 Nie można wybrać "Rozliczono" bez wpisania zapłaconej ilości!
             </div>
         </div>
-        <div class="col-6 col-sm-4 col-md-3 form-group">
-            <label for="sector">Sektor</label>
+        <div class="col-6 col-sm-4 col-md-3 mb-3">
+            <label for="sector" class="form-label">Sektor</label>
             <input id="sector" v-model="client.sector" name="sector" type="text" placeholder="Sektor"
                    class="form-control form-control-sm">
         </div>
-        <div class="col-6 col-sm-4 col-md-3 form-group">
-            <label for="comment">Komentarz</label>
+        <div class="col-6 col-sm-4 col-md-3 mb-3">
+            <label for="comment" class="form-label">Komentarz</label>
             <input
                 id="comment"
                 v-model.trim="client.comment"
@@ -134,27 +134,27 @@
             >
         </div>
         <div class="col-12">
-            <div class="form-check-inline">
+            <div class="form-check form-check-inline">
                 <input id="unregistered" v-model="client.unregistered" type="checkbox"
                        class="form-check-input">
                 <label for="unregistered" class="form-check-label">N</label>
             </div>
-            <div class="form-check-inline">
+            <div class="form-check form-check-inline">
                 <input id="cash-register" v-model="client.cash_register" type="checkbox"
                        class="form-check-input">
                 <label for="cash-register" class="form-check-label">K</label>
             </div>
-            <div class="form-check-inline">
+            <div class="form-check form-check-inline">
                 <input id="terminal" v-model="client.terminal" type="checkbox"
                        class="form-check-input">
                 <label for="terminal" class="form-check-label">T</label>
             </div>
-            <div class="form-check-inline">
+            <div class="form-check form-check-inline">
                 <input id="voucher" v-model="client.voucher" type="checkbox"
                        class="form-check-input">
                 <label for="voucher" class="form-check-label">B</label>
             </div>
-            <div class="form-check-inline">
+            <div class="form-check form-check-inline">
                 <input id="invoice" v-model="client.invoice" type="checkbox"
                        class="form-check-input">
                 <label for="invoice" class="form-check-label">F</label>
@@ -186,27 +186,27 @@
                         <a v-for="item in category.service_category_items" :key="item.id" @click="addItem(index, item)"
                            class="btn btn-primary mx-1">{{ item.name }}</a>
                     </div>
-                    <div class="row no-gutters" v-for="(item, itemIndex) in category.addedItems">
+                    <div class="row g-0" v-for="(item, itemIndex) in category.addedItems">
                         <div class="col-12 col-md-2 d-flex justify-content-md-center align-items-md-center">
                             <b>{{ item.name }}</b>
                         </div>
-                        <div class="col-3 col-md-2 px-1 px-md-2 form-group">
-                            <label>Cena</label>
+                        <div class="col-3 col-md-2 px-1 px-md-2 mb-3">
+                            <label class="form-label">Cena</label>
                             <input v-model="item.price" type="number"
                                    class="form-control form-control-sm">
                         </div>
-                        <div class="col-3 col-md-2 px-1 px-md-2 form-group">
-                            <label>Ilość</label>
+                        <div class="col-3 col-md-2 px-1 px-md-2 mb-3">
+                            <label class="form-label">Ilość</label>
                             <input v-model="item.count" type="number"
                                    class="form-control form-control-sm">
                         </div>
-                        <div class="col-3 col-md-2 px-1 px-md-2 form-group">
-                            <label>Dni</label>
+                        <div class="col-3 col-md-2 px-1 px-md-2 mb-3">
+                            <label class="form-label">Dni</label>
                             <input v-model="item.days" type="number"
                                    class="form-control form-control-sm">
                         </div>
-                        <div class="form-group px-1 px-md-2">
-                            <label>Usuń</label>
+                        <div class="col-auto mb-3 px-1 px-md-2">
+                            <label class="form-label">Usuń</label>
                             <div>
                                 <a class="btn btn-danger" @click="deleteItem(index, itemIndex)"><i class="fas fa-trash"></i></a>
                             </div>
@@ -337,7 +337,7 @@ export default {
         addItem(categoryId, item) {
             item.id = null;
             item.count = 1;
-            this.categories[categoryId].addedItems.push(Vue.util.extend({}, item));
+            this.categories[categoryId].addedItems.push({...item});
         },
         deleteItem(categoryId, itemId) {
             this.categories[categoryId].addedItems.splice(itemId, 1);

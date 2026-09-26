@@ -33,14 +33,14 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: yarn
 
       - name: Install Node.js dependencies
         run: yarn install --frozen-lockfile
 
       - name: Compile production assets
-        run: yarn production
+        run: yarn build
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3

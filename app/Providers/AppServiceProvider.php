@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Paginator::useBootstrap();
+        Paginator::useBootstrapFive();
         if (env('APP_HTTPS', false)) {
             \URL::forceScheme('https');
         }
