@@ -26,19 +26,37 @@ export default {
         unit: {
             type: String,
             default: 'currency'
+        },
+        firstMonth: {
+            type: Number,
+            default: 0
+        },
+        lastMonth: {
+            type: Number,
+            default: 11
+        }
+    },
+    computed: {
+        labels() {
+            return MONTH_LABELS.slice(this.firstMonth, this.lastMonth + 1);
         }
     },
     watch: {
         series() {
-            this.chart.data.datasets = this.datasets();
-            this.chart.update();
+            this.refresh();
+        },
+        firstMonth() {
+            this.refresh();
+        },
+        lastMonth() {
+            this.refresh();
         }
     },
     mounted() {
         this.chart = new Chart(this.$refs.canvas, {
             type: 'bar',
             data: {
-                labels: MONTH_LABELS,
+                labels: this.labels,
                 datasets: this.datasets()
             },
             options: {
@@ -73,10 +91,15 @@ export default {
         this.chart.destroy();
     },
     methods: {
+        refresh() {
+            this.chart.data.labels = this.labels;
+            this.chart.data.datasets = this.datasets();
+            this.chart.update();
+        },
         datasets() {
             return this.series.map((row) => ({
                 label: row.label,
-                data: row.values,
+                data: row.values.slice(this.firstMonth, this.lastMonth + 1),
                 backgroundColor: this.colors[row.key],
                 borderColor: '#ffffff',
                 borderWidth: { top: 2 },

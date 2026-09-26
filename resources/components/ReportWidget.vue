@@ -28,7 +28,13 @@
                         Wszystkie
                     </button>
                 </div>
-                <stacked-monthly-chart :series="visibleSeries" :colors="colors" :unit="unit"></stacked-monthly-chart>
+                <stacked-monthly-chart
+                    :series="visibleSeries"
+                    :colors="colors"
+                    :unit="unit"
+                    :first-month="monthRange.first"
+                    :last-month="monthRange.last"
+                ></stacked-monthly-chart>
             </template>
         </div>
     </div>
@@ -72,6 +78,16 @@ export default {
         },
         visibleSeries() {
             return this.series.filter((row) => this.selectedKeys.includes(row.key));
+        },
+        monthRange() {
+            const monthsWithData = [...Array(12).keys()]
+                .filter((month) => this.series.some((row) => row.values[month] !== 0));
+
+            if (monthsWithData.length === 0) {
+                return { first: 0, last: 11 };
+            }
+
+            return { first: monthsWithData[0], last: monthsWithData[monthsWithData.length - 1] };
         },
         allSelected() {
             return this.selectedKeys.length === this.series.length;
