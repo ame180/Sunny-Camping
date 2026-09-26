@@ -2,6 +2,6 @@
 
 @section('main')
     <div class="container">
-        <reporting-dashboard></reporting-dashboard>
+        <div data-vue-component="reporting-dashboard"></div>
     </div>
 @endsection

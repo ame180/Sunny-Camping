@@ -69,7 +69,7 @@ export default {
             }
         });
     },
-    beforeDestroy() {
+    beforeUnmount() {
         this.chart.destroy();
     },
     methods: {

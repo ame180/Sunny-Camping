@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('input')
-    <clients-form :id="{{ $id ?? 'null' }}" :mode="'{{ $mode }}'"></clients-form>
+    <div data-vue-component="clients-form" data-props="{{ json_encode(['id' => isset($id) ? (int) $id : null, 'mode' => $mode]) }}"></div>
 @endsection
 
 @section('main')

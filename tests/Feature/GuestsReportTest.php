@@ -21,7 +21,7 @@ class GuestsReportTest extends ReportTestCase
     #[Test]
     public function unauthenticatedRequestRedirectsToLogin()
     {
-        $this->withoutMix();
+        $this->withoutVite();
         $response = $this->get(self::GUESTS_URL);
 
         $response->assertRedirect('/admin/login');

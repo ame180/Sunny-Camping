@@ -44,7 +44,7 @@ jobs:
     - name: Install LTS Node.js
       run: |
         curl -L https://raw.githubusercontent.com/tj/n/master/bin/n -o n
-        sudo bash n v20
+        sudo bash n v24
     - name: Install Yarn
       run: sudo npm install -g yarn
     - name: Copy .env
@@ -54,7 +54,7 @@ jobs:
     - name: Install Node.js Dependencies
       run: yarn install
     - name: Compile assets
-      run: yarn dev
+      run: yarn build
     - name: Check if the code fits Coding Standards
       run: php bin/php-cs-fixer fix --dry-run --stop-on-violation --using-cache=no
     - name: Directory Permissions
