@@ -68,6 +68,7 @@ jobs:
           context: .
           file: infrastructure/Dockerfile-prod
           target: app
+          pull: true
           push: true
           cache-from: type=gha,scope=sunny-camping-app
           cache-to: type=gha,mode=max,scope=sunny-camping-app
