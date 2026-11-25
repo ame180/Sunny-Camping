@@ -18,10 +18,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/{year?}', [HomeController::class, 'home'])->where('year', '[0-9]+')->name('home');
 
-Route::get('/welcome', function () {
-    return view('welcome');
-});
-
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/login', fn () => view('login'))->name('login');
     Route::post('/login', [AdminController::class, 'authenticate']);

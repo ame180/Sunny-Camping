@@ -1,9 +1,12 @@
 {
-    "name": "laravel/laravel",
+    "name": "ame180/sunny-camping",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "description": "Management app for a small family campsite: guest register, billing and reports.",
     "keywords": [
-        "framework",
+        "campsite",
+        "camping",
+        "guest-register",
+        "billing",
         "laravel"
     ],
     "license": "MIT",
