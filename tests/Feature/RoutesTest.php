@@ -8,6 +8,18 @@ use Tests\TestCase;
 class RoutesTest extends TestCase
 {
     #[Test]
+    public function rootRedirectsToAdmin()
+    {
+        $this->get('/')->assertRedirect('/admin');
+    }
+
+    #[Test]
+    public function formerYearHomepageNotFound()
+    {
+        $this->get('/2024')->assertNotFound();
+    }
+
+    #[Test]
     public function adminDashboardGetRedirectThenSuccess()
     {
         $this->withoutVite();

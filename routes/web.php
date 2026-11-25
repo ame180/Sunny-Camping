@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/{year?}', [HomeController::class, 'home'])->where('year', '[0-9]+')->name('home');
+Route::redirect('/', '/admin');
 
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/login', fn () => view('login'))->name('login');
