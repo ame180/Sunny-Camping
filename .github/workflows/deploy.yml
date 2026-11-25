@@ -8,9 +8,8 @@ on:
         type: choice
         required: true
         options:
-          - dev
           - prod
-        default: dev
+        default: prod
 
 permissions:
   contents: read
@@ -54,13 +53,7 @@ jobs:
 
       - name: Set deploy image tag
         id: vars
-        run: |
-          if [ "${{ inputs.environment }}" = "prod" ]; then
-            TAG=latest
-          else
-            TAG=dev
-          fi
-          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+        run: echo "tag=latest" >> "$GITHUB_OUTPUT"
 
       - name: Build and push app image
         uses: docker/build-push-action@v6
