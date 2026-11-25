@@ -1,70 +1,18 @@
 # Sunny Camping
 
-## Installation
+Admin app for a small family campsite: guest register, billing and reports. Laravel 13 + Vue 3.
 
-1. Clone the repository
-2. Copy `.env.example` to `.env`
-3. Run `docker-compose build`
-4. Run `git config core.hooksPath scripts/git-hooks` to enable the git hooks
+## Development
 
-## Usage
+1. Copy `.env.example` to `.env`.
+2. `docker compose up -d` (installs dependencies and builds assets).
+3. `docker compose exec php php artisan db:seed` (first run only).
+4. `git config core.hooksPath scripts/git-hooks`
 
-### Starting the project
+The admin panel is at http://localhost/admin. Run `php` and `yarn` commands inside the `php` container, never on the host: `node_modules` is shared through the bind mount, and a host install replaces the container's native binaries. `yarn dev` serves assets with hot reload on port 5173.
 
-To start the project, run `docker-compose up -d`. This will automatically install dev dependencies
-and compile assets for dev environment.
+Tests: `php artisan test` (uses its own in-memory database container, no setup). Style: `php bin/php-cs-fixer fix`.
 
-Now, to access the main application container (`php`), run `docker-compose exec php bash`, and to
-access the website, open `http://localhost`.
+## Deployment
 
-If you're running the project for the first time, you should run `php artisan db:seed`
-inside the main container, to fill the database with example data.
-
-*All the commands below are supposed to run inside the `php` container.*
-
-### Frontend assets
-
-Node and Yarn live in the `php` container. Run every `yarn` command there, never on the host: `node_modules`
-is shared through the bind mount, and an install on the host replaces the container's native binaries (and
-vice versa).
-
-- To start the Vite dev server with hot reload, run `docker compose exec php yarn dev`. While it runs, pages load
-  assets from `http://localhost:5173`; stopping it switches back to the built assets.
-- To build assets once, run `docker compose exec php yarn build`. This also runs on every container start.
-
-### Useful commands
-
-- To fix style, run `php bin/php-cs-fixer fix`
-
-### Testing
-
-Tests run against the `mysql-test` container, which keeps its data in memory and recreates the
-`sunnycamping_testing` database on every start. The suite migrates it from scratch on each run, so the
-development database is never touched and no setup is needed beyond `docker compose up`. Test
-configuration lives in `.env.testing`.
-
-- To run application tests, run `php artisan test`
-- To run style tests, run `php bin/php-cs-fixer fix --dry-run`
-
-## Deployment (GitHub Actions)
-
-Deployment is now handled by the `Deploy` workflow in `.github/workflows/deploy.yml`.
-
-### Flow
-
-1. Run the workflow manually and choose the `dev` or `prod` environment.
-2. GitHub Actions installs frontend dependencies and compiles production assets.
-3. GitHub Actions builds immutable production images from `infrastructure/Dockerfile-prod`.
-4. Images are pushed to GitHub Container Registry as `ghcr.io/ame180/sunny-camping-app` and `ghcr.io/ame180/sunny-camping-nginx`.
-5. The workflow uploads a rendered `compose.yml` to the server and restarts services with `docker compose`.
-
-### Required GitHub Environment Secrets
-
-Set these secrets in each GitHub environment (`dev` and `prod`):
-
-- `SSH_HOST`
-- `SSH_USER`
-- `SSH_KEY`
-- `APP_PATH` (target directory on the server)
-
-Both environments can point to the same host while using different `APP_PATH` values.
+Run the Deploy workflow from `main`. It builds the images, pushes them to GHCR and redeploys over SSH. It needs the `prod` environment secrets `SSH_HOST`, `SSH_USER`, `SSH_KEY` and `APP_PATH`.
